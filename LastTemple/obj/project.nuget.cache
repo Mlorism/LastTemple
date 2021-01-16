@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "CzAiPyTJu2CiZ1C3s/nZ0FIdahssewmO3T7mQE94WixjwkHYbolD8G+mtwWM86ghg9yeW7MtEGtl1b2lAVC3Mg==",
+  "success": true,
+  "projectFilePath": "E:\\Repos\\LastTemple\\LastTemple\\LastTemple.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Marcin.000\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\Marcin.000\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.10\\microsoft.netcore.app.host.win-x64.3.1.10.nupkg.sha512"
+  ],
+  "logs": []
+}
