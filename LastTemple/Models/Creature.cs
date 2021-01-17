@@ -13,6 +13,8 @@ namespace LastTemple
 		public string Name { get; set; }
 		public CreatureTypeEnum Type { get; set; } // defines fighting style
 		public int Level { get; set; } // affects the number of experience points given to a winner
+		public int Experience { get; set; } // gained by defeating enemies and making major discoveries/events 
+		public int Supplies { get; set; } // used to travel to next location on map and during rest between battles
 		public bool Alive { get; set; }
 
 		#region Attributes
