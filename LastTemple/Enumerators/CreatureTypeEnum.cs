@@ -7,8 +7,9 @@ namespace LastTemple.Enumerators
 {
 	public enum CreatureTypeEnum
 	{
-		Hero,
-		Standard,
-		Magical
+		Hero, // Player character
+		Standard, // Non magical enemy
+		Magical, // Enemy fighting primary using spells
+		Hybrid // Special enemy using magic and standard attacks
 	}
 }

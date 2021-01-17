@@ -1,4 +1,5 @@
-﻿using LastTemple.Models;
+﻿using LastTemple.Enumerators;
+using LastTemple.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace LastTemple
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
+		public CreatureTypeEnum Type { get; set; }
 
 		#region Attributes
 		public int Strength { get; set; } // can be increased as the character level up
@@ -25,15 +27,15 @@ namespace LastTemple
 		public int ActionPoints { get; set; } // Derived from Speed
 		public int BaseDamage { get; set; } // Derived from Weapon
 		public int DogeChance { get; set; } // Derived from Agility
-		public int DamageResistance { get; set; } // Derived from Endurance
-		public int MagicResistance { get; set; } // Derived from Willpower
-		public int ArmorClass { get; set; } // Derived from equipped armor or natural hide/shell => property Armor
+		public int DamageResistance { get; set; } // Derived from Endurance and equipped armor or natural hide/shell => property Armor
+		public int MagicResistance { get; set; } // Derived from Willpower and equipped armor or natural hide/shell => property Armor
 		public int Initiative { get; set; } // Derived from Speed and Agility
 		#endregion
 
 		#region Inventory
 		public Weapon Weapon { get; set; }
 		public Armor Armor { get; set; }
+		public List<Spell> Spells { get; set; }
 		#endregion
 	}
 }

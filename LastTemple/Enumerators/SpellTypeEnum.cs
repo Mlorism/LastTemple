@@ -8,8 +8,9 @@ namespace LastTemple.Enumerators
 	public enum SpellTypeEnum
 	{
 		Offensive, // Damage enemy
-		Defensive, // Increase armor calass
-		Boost, // Increase temporary attributes or derived statistics
+		Defensive, // Increase armor class
+		Blessing, // Temporary increase attributes and derived statistics
+		Curse, // Temporary decrease attributes and derived statistics
 		Healing // Restore hit points
 	}
 }
