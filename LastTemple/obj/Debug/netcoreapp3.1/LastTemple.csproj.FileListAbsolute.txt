@@ -377,3 +377,4 @@ E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcore
 E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\LastTemple.MvcApplicationPartsAssemblyInfo.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Create\Creature.cshtml.g.cs

@@ -10,17 +10,17 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg mb-3 navbar-dark">
-            <div class="bg-info mx-auto">
+        <nav class="navbar navbar-expand-lg mb-1 navbar-dark">
+            <div class="d-flex mx-auto">
 
-                <a class="navbar-brand bg-danger" asp-area="" asp-page="/Index">LastTemple</a>
+                <a class="navbar-brand font-weight-bold" asp-area="" asp-page="/Index">Last Temple</a>
 
                 <button class="navbar-toggler bg-success" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse bg-warning">
+                <div class="collapse navbar-collapse">
                     <ul class="nav">
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-page="/Index">Home</a>
@@ -28,9 +28,29 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-page="/Index">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Index">Create</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" data-toggle="dropdown" role="button"
+                            aria-expanded="false" id="subMenu" aria-haspopup="true">
+                            Create</a>
+
+                            <div class="dropdown-menu" aria-labelledby="subMenu">
+                                <a class="dropdown-item" asp-area="" asp-page="/Create/Creature">Creature</a>
+                                <a class="dropdown-item" href="#">Weapon</a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="#">Armour</a>
+                                <a class="dropdown-item" href="#">Item</a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="#">Spell</a>                              
+                            </div>   
+
+
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-page="/Index">World</a>
                         </li>
