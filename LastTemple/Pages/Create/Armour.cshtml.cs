@@ -2,15 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LastTemple.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LastTemple.Pages.Create
 {
-    public class ArmourModel : PageModel
-    {
-        public void OnGet()
-        {
-        }
-    }
+	public class ArmourModel : PageModel
+	{
+		public Armor Armor { get; set; }
+		public void OnGet()
+		{
+
+		}
+	}
 }
