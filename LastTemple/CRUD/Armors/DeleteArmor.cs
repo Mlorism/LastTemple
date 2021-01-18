@@ -17,7 +17,13 @@ namespace LastTemple.CRUD
 
 		public async Task<bool> Delete(int id)
 		{
-			Armor item = _ctx.Armors.FirstOrDefault(x => x.Id == id);
+			Armor item = _ctx.Armors.Find(id);
+
+			if (item == null)
+			{
+				return false;
+			}
+
 			_ctx.Armors.Remove(item);
 			await _ctx.SaveChangesAsync();
 
