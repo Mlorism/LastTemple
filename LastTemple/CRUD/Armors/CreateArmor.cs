@@ -33,8 +33,5 @@ namespace LastTemple.CRUD
 			return true;
 		} // Create()
 
-
-
-
 	}
 }
