@@ -4,33 +4,60 @@
 }
 <p class="text-center font-weight-bold">Zarządzaj pancerzami</p>
 <div class="row" onload="test()">
-    <div class="col-6">
+    <div class="col-4">
         <img src="~/img/armor.png" class="img-thumbnail-dark" />
+    </div> 
+
+    <div class="col-4">
+        <table class="table text-light text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nazwa</th>
+                    <th scope="col">Odp. fiz.</th>
+                    <th scope="col">Odp. mag.</th>
+                </tr>               
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Armors)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.Name</td>
+                        <td>@item.DamageResistance</td>
+                        <td>@item.MagicResistance</td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
     </div>
-    <div class="col-6">
+
+    <div class="col-4">
         <form method="post">
 
             <div class="form-group">
                 <label>Nazwa</label>
-                <input type="text" class="form-control" />
+                <input type="text" class="form-control bg-secondary text-light" asp-for="Armor.Name"/>
                 <small>Długość od 5 do 20 znaków</small>
             </div>
 
             <div class="form-group">
                 <label>Odporność na obrażenia</label>
-                <input id="physical" class="mySlider" type="range" value="10" min="0" max="100" step="5" />
+                <input id="physical" class="mySlider" type="range" value="10" min="0" max="100" step="5" asp-for="Armor.DamageResistance"/>
                 <output>10</output>
             </div>
 
             <div class="form-text">
                 <label>Odporność na magię</label>              
-                <input id="magic" class="mySlider" type="range" value="10" min="0" max="50" step="5"/>                               
+                <input id="magic" class="mySlider" type="range" value="10" min="0" max="50" step="5" asp-for="Armor.MagicResistance"/>                               
                 <output>10</output>                
             </div>
 
             <div class="text-center">
-                <button class="btn btn-outline-success m-2">Zapisz</button>
-                <button class="btn btn-outline-warning m-2">Resetuj</button>
+                <button type="submit" class="btn btn-outline-success m-2">Zapisz</button>
+                <button type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
             </div>
         </form>
     

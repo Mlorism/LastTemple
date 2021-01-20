@@ -20,9 +20,11 @@ namespace LastTemple.Pages.Create
 
 		[BindProperty]
 		public Armor Armor { get; set; }
+		public IEnumerable<Armor> Armors { get; set; }
+		
 		public void OnGet()
 		{
-
+			Armors = new GetArmors(_ctx).Get();
 		}
 
 		public async Task<IActionResult> OnPost()
@@ -33,6 +35,7 @@ namespace LastTemple.Pages.Create
 			}
 
 			await new CreateArmor(_ctx).Create(Armor);
+			Armor = new Armor();
 			return Page();
 		}
 	}
