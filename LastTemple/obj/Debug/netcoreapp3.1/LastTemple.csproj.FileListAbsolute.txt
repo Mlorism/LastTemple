@@ -382,3 +382,4 @@ E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Create\Creatu
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Create\Weapon.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Create\Item.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Create\Spell.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Contribution.cshtml.g.cs

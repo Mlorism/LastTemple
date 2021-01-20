@@ -2,4 +2,76 @@
 @model LastTemple.Pages.Create.ArmourModel
 @{
 }
-<p>Armor</p>
+<p class="text-center font-weight-bold">Zarządzaj pancerzami</p>
+<div class="row" onload="test()">
+    <div class="col-6">
+        <img src="~/img/armor.png" class="img-thumbnail-dark" />
+    </div>
+    <div class="col-6">
+        <form method="post">
+
+            <div class="form-group">
+                <label>Nazwa</label>
+                <input type="text" class="form-control" />
+                <small>Długość od 5 do 20 znaków</small>
+            </div>
+
+            <div class="form-group">
+                <label>Odporność na obrażenia</label>
+                <input id="physical" class="mySlider" type="range" value="10" min="0" max="100" step="5" />
+                <output>10</output>
+            </div>
+
+            <div class="form-text">
+                <label>Odporność na magię</label>              
+                <input id="magic" class="mySlider" type="range" value="10" min="0" max="50" step="5"/>                               
+                <output>10</output>                
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-outline-success m-2">Zapisz</button>
+                <button class="btn btn-outline-warning m-2">Resetuj</button>
+            </div>
+        </form>
+    
+    </div>
+   
+    <script type="text/javascript">       
+
+        window.onload = setSlider("physical");
+        window.onload = setSlider("magic");
+
+        function setSlider(type) {
+            var slider = document.getElementById(type)          
+            var value = (slider.value - slider.min) / (slider.max - slider.min) * 100
+
+            if (type == "physical") {
+                slider.style.background = 'linear-gradient(to right, #FF6B6B 0%, #FF0000 ' + value + '%, #000 ' + value + '%, black 100%)'
+            }
+
+            else {
+                slider.style.background = 'linear-gradient(to right, #0000FF 0%, #6600CC ' + value + '%, #000 ' + value + '%, black 100%)'
+            }
+            
+            slider.nextElementSibling.value = slider.value           
+            };
+
+
+        document.getElementById("magic").oninput = function () {
+            var value = (this.value - this.min) / (this.max - this.min) * 100
+            this.style.background = 'linear-gradient(to right, #0000FF 0%, #6600CC ' + value + '%, #000 ' + value + '%, black 100%)'
+            this.nextElementSibling.value = this.value            
+        };
+
+        document.getElementById("physical").oninput = function () {
+            var value = (this.value - this.min) / (this.max - this.min) * 100
+            this.style.background = 'linear-gradient(to right, #FF6B6B 0%, #FF0000 ' + value + '%, #000 ' + value + '%, black 100%)'
+            this.nextElementSibling.value = this.value
+        };
+    </script>
+    
+
+   
+</div>
+
+
