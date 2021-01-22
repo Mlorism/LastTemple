@@ -16,7 +16,7 @@ namespace LastTemple.CRUD
 		}
 
 		public IEnumerable<Armor> Get()
-		{
+		{		
 			return _ctx.Armors.ToList();
 		} // Get()
 	}

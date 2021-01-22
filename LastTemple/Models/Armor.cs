@@ -10,8 +10,9 @@ namespace LastTemple.Models
 	{
 		[Key]
 		public int Id { get; set; }
-		[Required]
+		
 		[StringLength(20, MinimumLength = 3)]
+		[Required]
 		public string Name { get; set; }
 		[Required]
 		public int DamageResistance { get; set; }

@@ -46,6 +46,6 @@ input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 25px;
     height: 25px;    
-    background: url('../img/shield_brown.svg');    
+    background-image: url('../img/shield_brown.svg');    
     cursor: pointer;
 }

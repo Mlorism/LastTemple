@@ -24,19 +24,14 @@ namespace LastTemple.Pages.Create
 		
 		public void OnGet()
 		{
-			Armors = new GetArmors(_ctx).Get();
+			Armors = new GetArmors(_ctx).Get();					
 		}
-
-		public async Task<IActionResult> OnPost()
+		
+		public async Task<IActionResult> OnPostAsync()
 		{
-			if (!ModelState.IsValid)
-			{
-				return Page();				
-			}
-
-			await new CreateArmor(_ctx).Create(Armor);
-			Armor = new Armor();
-			return Page();
+			await new CreateArmor(_ctx).Create(Armor);			
+			
+			return RedirectToPage("Armour");
 		}
 	}
 }
