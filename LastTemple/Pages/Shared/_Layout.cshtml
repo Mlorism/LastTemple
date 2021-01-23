@@ -36,17 +36,17 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="subMenu">
-                                <a class="dropdown-item" asp-area="" asp-page="/Create/Creature">Istotami</a>
-                                <a class="dropdown-item" asp-area="" asp-page="/Create/Weapon">Broniami</a>
+                                <a class="dropdown-item" asp-area="" asp-page="/Manage/Creature">Istotami</a>
+                                <a class="dropdown-item" asp-area="" asp-page="/Manage/Weapon">Broniami</a>
 
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" asp-area="" asp-page="/Create/Armour">Pancerzami</a>
-                                <a class="dropdown-item" asp-area="" asp-page="/Create/Item">Przedmiotami</a>
+                                <a class="dropdown-item" asp-area="" asp-page="/Manage/Armour">Pancerzami</a>
+                                <a class="dropdown-item" asp-area="" asp-page="/Manage/Item">Przedmiotami</a>
 
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" asp-area="" asp-page="/Create/Spell">Zaklęciami</a>
+                                <a class="dropdown-item" asp-area="" asp-page="/Manage/Spell">Zaklęciami</a>
                             </div>
 
 
@@ -57,7 +57,7 @@
                         </li>
 
                         <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-page="/Index">O autorze</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/Index">O autorze</a>
                         </li>
 
                         <li class="nav-item">
@@ -68,8 +68,8 @@
                 </div>
 
             </div>
-            
-            
+
+
         </nav>
     </header>
 
@@ -88,7 +88,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     @RenderSection("Scripts", required: false)
-</body>
+</body>a
 </html>

@@ -33,5 +33,15 @@ namespace LastTemple.Pages.Create
 			
 			return RedirectToPage("Armour");
 		}
+
+		public async Task<IActionResult> OnPostDelete(int id)
+		{
+			await new DeleteArmor(_ctx).Delete(id);
+
+			return RedirectToPage("Armour");
+		}
+
+
+
 	}
 }
