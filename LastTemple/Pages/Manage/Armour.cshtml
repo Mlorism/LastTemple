@@ -4,98 +4,114 @@
 }
 <p class="text-center font-weight-bold mb-2">Zarządzaj pancerzami</p>
 
-<div class="row">    
-    <div class="col-7 text-center offset-5">
-    <button class="btn btn-outline-light mb-1">Stwórz pancerz</button>
-    </div>
-</div>
-
 <div class="row">
     <div class="col-5 p-1">
-        <img src="~/img/armor.png" class="img-thumbnail-dark" />
+        @*<img src="~/img/armor.png" class="img-thumbnail-dark" />*@
+        <button onclick="Visibility()">Visibility</button>
     </div> 
     
 
-    <div class="col-7 p-1" id="armourTable">
-        <table class="table text-light text-center">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Nazwa</th>
-                    <th scope="col">Odp. fiz.</th>
-                    <th scope="col">Odp. mag.</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-               
-                @foreach (var item in Model.Armors.Select((value, i) => (value,i)))
-                {
-                    
+    <div class="col-7 p-1">
+        <div id="armourTable" class="text-center">
+
+            <button class="btn btn-outline-light mb-2" onclick="ToggleColumn()">Stwórz pancerz</button>
+
+            <table class="table text-light text-center">
+                <thead>
                     <tr>
-                        <th scope="row">@item.value.Id</th>
-                        <td>@item.value.Name</td>
-                        <td>@item.value.DamageResistance</td>
-                        <td>@item.value.MagicResistance</td>
-                        <td>@item.i</td>
-                        <td><button class="btn btn-outline-warning" onclick="Edit(@item.value.Id)">Edytuj</button></td>
-                        <td><button class="btn btn-outline-warning" onclick="Delete(@item.value.Id, @item.i)">Usuń</button></td>
-                    </tr> 
-                }
+                        <th scope="col">Id</th>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Odp. fiz.</th>
+                        <th scope="col">Odp. mag.</th>
+                        <th scope="col"></th>                     
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
 
-            </tbody>
+                    @foreach (var item in Model.Armors)
+                    {
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.Name</td>
+                            <td>@item.DamageResistance</td>
+                            <td>@item.MagicResistance</td>                           
+                            <td><button class="btn btn-outline-warning" onclick="Edit(@item.Id)">Edytuj</button></td>
+                            <td><button class="btn btn-outline-warning" onclick="Delete(@item.Id)">Usuń</button></td>
+                        </tr>
+                    }
 
-        </table>
-        <form id="manipulateArmor" method="post">
+                </tbody>
+            </table>
+        </div>
 
-            <div class="form-group">
-                <label>Nazwa</label>
-                <input type="text" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Armor.Name" />
-                <small>Długość od 5 do 20 znaków</small>
-            </div>
+        <div id="armourForm">
+            <form id="manipulateArmor" method="post">
 
-            <div class="form-group">
-                <label>Odporność na obrażenia</label>
-                <input id="physical" class="mySlider" type="range" value="10" min="0" max="100" step="5" asp-for="Armor.DamageResistance" />
-                <output>10</output>
-            </div>
+                <div class="form-group">
+                    <label>Nazwa</label>
+                    <input type="text" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Armor.Name" />
+                    <small>Długość od 5 do 20 znaków</small>
+                </div>
 
-            <div class="form-text">
-                <label>Odporność na magię</label>
-                <input id="magic" class="mySlider" type="range" value="10" min="0" max="50" step="5" asp-for="Armor.MagicResistance" />
-                <output>10</output>
-            </div>
+                <div class="form-group">
+                    <label>Odporność na obrażenia</label>
+                    <input id="physical" class="mySlider" type="range" value="10" min="0" max="100" step="5" asp-for="Armor.DamageResistance" />
+                    <output>10</output>
+                </div>
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-outline-success m-2">Zapisz</button>
-                <button type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
-            </div>
-        </form>
+                <div class="form-text">
+                    <label>Odporność na magię</label>
+                    <input id="magic" class="mySlider" type="range" value="10" min="0" max="50" step="5" asp-for="Armor.MagicResistance" />
+                    <output>10</output>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-success m-2">Zapisz</button>
+                    <button type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
+                    <button class="btn btn-outline-danger m-2" onclick="ToggleColumn()">Anuluj</button>
+                </div>
+            </form>
+        </div>
+        
 
     </div>
         
    
-    <script type="text/javascript">       
+    <script type="text/javascript"> 
+        
+        var toogleVisibility = 1;        
 
-        var index = 0;
+        var form = document.getElementById("manipulateArmor");
 
-        function appendIndex() {
-            alert("append: " + index);
-           
-            
+        window.onload = loadSettings();
+               
+        document.getElementById("physical").oninput = function () { setSlider("physical"); }
+        document.getElementById("magic").oninput = function () { setSlider("magic"); }       
+
+        function Visibility() {
+            alert(toogleVisibility);
         }
 
-        window.onload = setSliders();
 
-        var form = document.getElementById("manipulateArmor");    
-         
-        document.getElementById("physical").oninput = function () { setSlider("physical"); }
-        document.getElementById("magic").oninput = function () { setSlider("magic"); }
+        function loadSettings() {
+            setSlider("physical");
+            setSlider("magic");            
+            ToggleColumn();           
+        }
+        
+        form.onreset = resetSliders;       
+
+        function resetSliders() {
+            $("#magic").load(window.location.href + "#magic");
+        }
+                
+        function Edit(id, index) {
+            alert("Edit + id: " + id);
+        }
 
         function setSlider(type) {
-            var slider = document.getElementById(type)          
+            var slider = document.getElementById(type)
             var value = (slider.value - slider.min) / (slider.max - slider.min) * 100
 
             if (slider == null) {
@@ -103,30 +119,15 @@
             }
 
             if (type == "physical") {
-                slider.style.background = 'linear-gradient(to right, #FF6B6B 0%, #FF0000 ' + value + '%, #000 ' + value + '%, black 100%)'                
+                slider.style.background = 'linear-gradient(to right, #FF6B6B 0%, #FF0000 ' + value + '%, #000 ' + value + '%, black 100%)'
             }
 
             else {
-                slider.style.background = 'linear-gradient(to right, #0000FF 0%, #6600CC ' + value + '%, #000 ' + value + '%, black 100%)'               
+                slider.style.background = 'linear-gradient(to right, #0000FF 0%, #6600CC ' + value + '%, #000 ' + value + '%, black 100%)'
             }
-            
-            slider.nextElementSibling.value = slider.value           
-            };
 
-        function setSliders() {
-            setSlider("physical");
-            setSlider("magic");            
-        }
-
-        function resetSlider() {              
-            $("#magic").load(window.location.href + "#magic");             
-        }
-
-        form.onreset = resetSlider;
-
-        function Edit(id, index) {
-            alert("Edit + id: " + id);
-        }
+            slider.nextElementSibling.value = slider.value
+        };
 
         function Delete(id) {
             this.loading = true;
@@ -140,11 +141,33 @@
                 })
                 .then(() => {
                     this.loading = false;
-                })           
+                })
+        }               
+
+
+        function ToggleColumn() {
+            var armourTable = document.getElementById("armourTable");
+            var armourForm = document.getElementById("armourForm");           
+
+            if (toogleVisibility == 1) {               
+                armourTable.style.display = "block";
+                armourForm.style.display = "none";
+                toogleVisibility = 0;               
+            }
+
+            else {       
+                armourForm.style.display = "block";
+                armourTable.style.display = "none";  
+
+                setSlider("physical");
+                setSlider("magic"); 
+
+                toogleVisibility = 1;
+            }   
 
         }
 
-
+    
        
     </script>
     
