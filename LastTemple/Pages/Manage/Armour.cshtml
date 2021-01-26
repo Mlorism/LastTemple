@@ -84,7 +84,7 @@
 
         var form = document.getElementById("manipulateArmor");
 
-        window.onload = loadSettings();        
+        loadSettings();        
 
         document.getElementById("physical").oninput = function () { setSlider("physical"); }
         document.getElementById("magic").oninput = function () { setSlider("magic"); }               
@@ -96,10 +96,11 @@
         }               
 
         function resetSliders() {
-            setTimeout(function () {
+
+            window.requestAnimationFrame(function (timestamp) {
                 setSlider("physical");
                 setSlider("magic");
-            }, 100);            
+            })                       
         }
 
         function Edit(id, index) {
