@@ -378,8 +378,8 @@ E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcorea
 E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\LastTemple.MvcApplicationPartsAssemblyInfo.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Contribution.cshtml.g.cs
-E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Armour.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Creature.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Item.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Spell.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Weapon.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Armor.cshtml.g.cs

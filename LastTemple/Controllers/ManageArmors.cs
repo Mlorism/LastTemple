@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 namespace LastTemple.Controllers
 {
 	[Route("[controller]")]
-	public class ManageArmours : Controller
+	public class ManageArmors : Controller
 	{
 		private readonly ApplicationDbContext _ctx;
 
-		public ManageArmours(ApplicationDbContext ctx)
+		public ManageArmors(ApplicationDbContext ctx)
 		{
 			_ctx = ctx;
 		}
 
 		#region Armour
 
-		[HttpGet("armours/{id}")]
+		[HttpGet("armors/{id}")]
 		public IActionResult GetArmour(int id) => Ok(new GetArmor(_ctx).Get(id));
 
-		[HttpDelete("armours/{id}")]
+		[HttpDelete("armors/{id}")]
 		public async Task<IActionResult> DeleteArmour(int id) => Ok(await new DeleteArmor(_ctx).Delete(id));
 
 

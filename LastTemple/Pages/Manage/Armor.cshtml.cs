@@ -27,20 +27,20 @@ namespace LastTemple.Pages.Create
 			Armors = new GetArmors(_ctx).Get();					
 		}
 		
-		public async Task<IActionResult> OnPostAsync()
+		public async Task<IActionResult> OnPostCreateAsync()
 		{
 			await new CreateArmor(_ctx).Create(Armor);			
 			
-			return RedirectToPage("Armour");
+			return RedirectToPage("Armor");
 		}
 
-		public async Task<IActionResult> OnPostDelete(int id)
+		public async Task<IActionResult> OnPostDeleteAsync(int id)
 		{
 			await new DeleteArmor(_ctx).Delete(id);
 
-			return RedirectToPage("Armour");
+			return RedirectToPage("Armor");
 		}
-
+	
 
 
 	}
