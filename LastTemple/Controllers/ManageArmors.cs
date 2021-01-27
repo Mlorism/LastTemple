@@ -25,8 +25,7 @@ namespace LastTemple.Controllers
 
 		[HttpDelete("armors/{id}")]
 		public async Task<IActionResult> DeleteArmour(int id) => Ok(await new DeleteArmor(_ctx).Delete(id));
-
-
+				
 
 		#endregion
 	}

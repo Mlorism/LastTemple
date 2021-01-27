@@ -6,6 +6,7 @@ using LastTemple.CRUD;
 using LastTemple.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using LastTemple.Controllers;
 
 namespace LastTemple.Pages.Create
 {
@@ -20,6 +21,7 @@ namespace LastTemple.Pages.Create
 
 		[BindProperty]
 		public Armor Armor { get; set; }
+		[BindProperty]
 		public IEnumerable<Armor> Armors { get; set; }
 		
 		public void OnGet()
@@ -40,7 +42,38 @@ namespace LastTemple.Pages.Create
 
 			return RedirectToPage("Armor");
 		}
-	
+
+		public IActionResult OnPostLoadArmor(int id)
+		{
+			Armor item = _ctx.Armors.Find(id);
+
+			if (item == null)
+			{
+				RedirectToPage("Armor");
+			}
+
+			Armor.Id = item.Id;
+			Armor.Name = item.Name;
+			Armor.DamageResistance = item.DamageResistance;
+			Armor.MagicResistance = item.MagicResistance;
+
+			return RedirectToPage("Armor");
+		}
+
+		public async Task<IActionResult> OnPostUpdateAsync()
+		{
+			if (_ctx.Armors.FindAsync(Armor.Id) == null)
+			{
+				return RedirectToPage("Armor");
+			}
+
+			await new EditArmor(_ctx).Update(Armor);
+
+			return RedirectToPage("Armor");
+		}
+
+
+
 
 
 	}

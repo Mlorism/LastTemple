@@ -35,7 +35,7 @@
                             <td>@item.Name</td>
                             <td>@item.DamageResistance</td>
                             <td>@item.MagicResistance</td>
-                            <td><button class="btn btn-outline-warning" onclick="Edit(@item.Id)" asp-page-handler="LoadProduct" value="item.Id">Edytuj</button></td>
+                            <td><form method="post"><button class="btn btn-outline-warning" type="submit" onclick="Edit(@item.Id)" asp-page-handler="LoadArmor" asp-route-id="@item.Id">Edytuj</button></form></td>
                             <td><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
                         </tr>
                     }
@@ -125,22 +125,22 @@
             slider.nextElementSibling.value = slider.value
         };
 
-        function Delete(id) {
-            this.loading = true;
-            axios.delete('/ManageArmors/armors/' + id)
-                .then(res => {
-                    console.log(res);
-                    var name = ("tr-" + id);
-                    var item = document.getElementById(name);
-                    item.remove();                   
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-                .then(() => {
-                    this.loading = false;
-                })
-        }
+        //function Delete(id) {
+        //    this.loading = true;
+        //    axios.delete('/ManageArmors/armors/' + id)
+        //        .then(res => {
+        //            console.log(res);
+        //            var name = ("tr-" + id);
+        //            var item = document.getElementById(name);
+        //            item.remove();                   
+        //        })
+        //        .catch(err => {
+        //            console.log(err);
+        //        })
+        //        .then(() => {
+        //            this.loading = false;
+        //        })
+        //}
 
         function ToggleColumn(type) {
             var armourTable = document.getElementById("armourTable");
