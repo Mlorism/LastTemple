@@ -18,9 +18,9 @@ namespace LastTemple.CRUD
 		}
 
 		public async Task<bool> Create(Armor armor)
-		{
-			Armor item = new Armor 
-			{ 
+		{		
+			Armor item = new Armor
+			{				
 				Name = armor.Name,
 				DamageResistance = armor.DamageResistance,
 				MagicResistance = armor.MagicResistance

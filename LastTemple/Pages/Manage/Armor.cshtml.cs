@@ -10,11 +10,11 @@ using LastTemple.Controllers;
 
 namespace LastTemple.Pages.Create
 {
-	public class ArmourModel : PageModel
+	public class ArmorModel : PageModel
 	{
 		private readonly ApplicationDbContext _ctx;
 
-		public ArmourModel(ApplicationDbContext ctx)
+		public ArmorModel(ApplicationDbContext ctx)
 		{
 			_ctx = ctx;
 		}
@@ -38,6 +38,13 @@ namespace LastTemple.Pages.Create
 
 		public async Task<IActionResult> OnPostDeleteAsync(int id)
 		{
+			var item = _ctx.Armors.Find(id);
+
+			if (item == null)
+			{
+				return RedirectToPage("Armor");
+			}
+
 			await new DeleteArmor(_ctx).Delete(id);
 
 			return RedirectToPage("Armor");
@@ -45,17 +52,15 @@ namespace LastTemple.Pages.Create
 
 		public async Task<IActionResult> OnPostUpdateAsync()
 		{
-			var target = _ctx.Armors.Find(Armor.Id);
-			if (target == null)
+			var item = _ctx.Armors.Find(Armor.Id);
+
+			if (item == null)
 			{
 				return RedirectToPage("Armor");
 			}
 
-			target.Name = Armor.Name;
-			target.DamageResistance = Armor.DamageResistance;
-			target.MagicResistance = Armor.MagicResistance;
+			await new EditArmor(_ctx).Update(Armor);
 
-			await _ctx.SaveChangesAsync();
 			return RedirectToPage("Armor");
 		}
 

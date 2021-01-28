@@ -1,5 +1,5 @@
 ﻿@page
-@model LastTemple.Pages.Create.ArmourModel
+@model LastTemple.Pages.Create.ArmorModel
 @{}
 <p class="text-center font-weight-bold mb-2">Zarządzaj pancerzami</p>
 
@@ -10,7 +10,7 @@
     
 
     <div class="col-7 pl-5 pr-5">
-        <div id="armourTable" class="text-center">
+        <div id="armorTable" class="text-center">
 
             <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Stwórz pancerz</button>
 
@@ -43,13 +43,13 @@
             </table>
         </div>
 
-        <div id="armourForm" style="display:none" class="p-5">
+        <div id="armorForm" style="display:none" class="p-5">
             <form id="manipulateArmor" method="post" onreset="resetSliders()">
 
                 <input type="hidden" id="id" asp-for="Armor.Id" />
                 <div class="form-group">
                     <label>Nazwa</label>
-                    <input type="text" id="nazwa" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Armor.Name" />
+                    <input type="text" id="name" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Armor.Name" />
                     <small>Długość od 5 do 20 znaków</small>
                 </div>
 
@@ -139,34 +139,44 @@
         //}
 
         function ToggleColumn(type) {
-            var armourTable = document.getElementById("armourTable");
-            var armourForm = document.getElementById("armourForm");
+            var armorTable = document.getElementById("armorTable");
+            var armorForm = document.getElementById("armorForm");
             var resetBtn = document.getElementById("resetBtn");
             var createBtn = document.getElementById("createBtn");
             var editBtn = document.getElementById("editBtn");
 
             if (type == 0) {
-                armourTable.style.display = "block";
-                armourForm.style.display = "none";
+                armorTable.style.display = "block";
+                armorForm.style.display = "none";
                 editBtn.style.display = "none";
                 resetBtn.style.display = "inline-block";
             }
             else {
-                armourForm.style.display = "block";
-                armourTable.style.display = "none";
+                armorForm.style.display = "block";
+                armorTable.style.display = "none";
                 setSlider("physical");
                 setSlider("magic");
-                if (type == 2) {
-                    var x = event.srcElement.parentElement.parentElement;
+
+                if (type == 2) {                    
+                    var x = event.target.parentElement.parentElement;
+
                     var id = x.children[0].innerHTML;
                     var name = x.children[1].innerHTML;
+                    var physical = x.children[2].innerHTML;
+                    var magic = x.children[3].innerHTML;
                     $("#id").val(id);
-                    $("#nazwa").val(name);
+                    $("#name").val(name);
+                    $("#physical").val(physical);
+                    $("#magic").val(magic);
+
+                    resetSliders();
                     editBtn.style.display = "inline-block"
+
                     resetBtn.style.display = "none";
                     createBtn.style.display = "none";
 
                 } else {
+                    form.reset();
                     editBtn.style.display = "none";
                     resetBtn.style.display = "inline-block";
                     createBtn.style.display = "inline-block";
