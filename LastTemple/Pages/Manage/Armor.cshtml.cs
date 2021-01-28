@@ -43,37 +43,21 @@ namespace LastTemple.Pages.Create
 			return RedirectToPage("Armor");
 		}
 
-		public IActionResult OnPostLoadArmor(int id)
-		{
-			Armor item = _ctx.Armors.Find(id);
-
-			if (item == null)
-			{
-				RedirectToPage("Armor");
-			}
-
-			Armor.Id = item.Id;
-			Armor.Name = item.Name;
-			Armor.DamageResistance = item.DamageResistance;
-			Armor.MagicResistance = item.MagicResistance;
-
-			return RedirectToPage("Armor");
-		}
-
 		public async Task<IActionResult> OnPostUpdateAsync()
 		{
-			if (_ctx.Armors.FindAsync(Armor.Id) == null)
+			var target = _ctx.Armors.Find(Armor.Id);
+			if (target == null)
 			{
 				return RedirectToPage("Armor");
 			}
 
-			await new EditArmor(_ctx).Update(Armor);
+			target.Name = Armor.Name;
+			target.DamageResistance = Armor.DamageResistance;
+			target.MagicResistance = Armor.MagicResistance;
 
+			await _ctx.SaveChangesAsync();
 			return RedirectToPage("Armor");
 		}
-
-
-
 
 
 	}

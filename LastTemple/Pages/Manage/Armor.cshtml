@@ -1,7 +1,6 @@
 ﻿@page
 @model LastTemple.Pages.Create.ArmourModel
-@{
-}
+@{}
 <p class="text-center font-weight-bold mb-2">Zarządzaj pancerzami</p>
 
 <div class="row">
@@ -35,7 +34,7 @@
                             <td>@item.Name</td>
                             <td>@item.DamageResistance</td>
                             <td>@item.MagicResistance</td>
-                            <td><form method="post"><button class="btn btn-outline-warning" type="submit" onclick="Edit(@item.Id)" asp-page-handler="LoadArmor" asp-route-id="@item.Id">Edytuj</button></form></td>
+                            <td><button class="btn btn-outline-warning" name="edit" type="submit" onclick="ToggleColumn(2)">Edytuj</button></td>
                             <td><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
                         </tr>
                     }
@@ -44,12 +43,13 @@
             </table>
         </div>
 
-        <div id="armourForm" class="p-5">
+        <div id="armourForm" style="display:none" class="p-5">
             <form id="manipulateArmor" method="post" onreset="resetSliders()">
 
+                <input type="hidden" id="id" asp-for="Armor.Id" />
                 <div class="form-group">
                     <label>Nazwa</label>
-                    <input type="text" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Armor.Name" />
+                    <input type="text" id="nazwa" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Armor.Name" />
                     <small>Długość od 5 do 20 znaków</small>
                 </div>
 
@@ -66,7 +66,8 @@
                 </div>
 
                 <div class="text-center">
-                    <button type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
+                    <button id="createBtn" type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
+                    <button id="editBtn" type="submit" asp-page-handler="Update" class="btn btn-outline-success m-2">Edytuj</button>
                     <button id="resetBtn" type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
                     <button type="button" class="btn btn-outline-danger m-2" onclick="ToggleColumn(0)">Anuluj</button>
                 </div>
@@ -91,11 +92,6 @@
             setSlider("magic");
             ToggleColumn(0);           
         }               
-
-        function Edit(id) {
-           
-            ToggleColumn(2);
-        }
 
         function resetSliders() {
 
@@ -146,27 +142,37 @@
             var armourTable = document.getElementById("armourTable");
             var armourForm = document.getElementById("armourForm");
             var resetBtn = document.getElementById("resetBtn");
+            var createBtn = document.getElementById("createBtn");
+            var editBtn = document.getElementById("editBtn");
 
             if (type == 0) {
                 armourTable.style.display = "block";
                 armourForm.style.display = "none";
+                editBtn.style.display = "none";
                 resetBtn.style.display = "inline-block";
-                
             }
-
-            else {   
-                    armourForm.style.display = "block";
-                    armourTable.style.display = "none";
-                    
-                    setSlider("physical");
-                    setSlider("magic");
-                    
+            else {
+                armourForm.style.display = "block";
+                armourTable.style.display = "none";
+                setSlider("physical");
+                setSlider("magic");
                 if (type == 2) {
-                        resetBtn.style.display = "none";
-                }                    
-            }
+                    var x = event.srcElement.parentElement.parentElement;
+                    var id = x.children[0].innerHTML;
+                    var name = x.children[1].innerHTML;
+                    $("#id").val(id);
+                    $("#nazwa").val(name);
+                    editBtn.style.display = "inline-block"
+                    resetBtn.style.display = "none";
+                    createBtn.style.display = "none";
 
-        } // ToggleColumn()
+                } else {
+                    editBtn.style.display = "none";
+                    resetBtn.style.display = "inline-block";
+                    createBtn.style.display = "inline-block";
+                }
+            }
+        }  // ToggleColumn()
 
 
     </script>
