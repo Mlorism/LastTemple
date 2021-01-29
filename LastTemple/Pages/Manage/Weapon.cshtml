@@ -6,11 +6,89 @@
 
 <div class="row">
     <div class="col-7 pl-5 pr-5">
-        <div id="weaponTable" class="text-center"></div>
-        <div id="weaponForm" class="text-center"></div>        
+        <div id="weaponTable" class="text-center">
+            <button class="btn btn-outline-light mb-2">Stwórz Broń</button>
+
+            <table class="table text-light text-center">
+                <thead>
+                    <tr>
+                        <th scope="row">Id</th>
+                        <th scope="row">Nazwa</th>
+                        <th scope="row">Obraż.</th>
+                        <th scope="row">Obraż. mag.</th>
+                        <th scope="row">Koszt PA</th>
+                        <th scope="row">Trafienie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model.Weapons)
+                    {
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.Name</td>
+                            <td>@item.Damage</td>
+                            <td>@item.MagicDamage</td>
+                            <td>@item.ActionCost</td>
+                            <td>@item.HitChance</td>
+                            <td><button class="btn btn-outline-warning">Edytuj</button></td>
+                            <td><button class="btn btn-outline-warning">Usuń</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="weaponForm" class="p-5">
+            <form id="manipulateWeapon" method="post">
+                <input type="hidden" id="id" asp-for="Weapon.Id" />
+
+                <div class="form-group">
+                    <label>Nazwa</label>
+                    <input type="text" id="name" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Weapon.Name" />
+                    <small>Długość od 5 do 20 znaków</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Obrażażenia</label>
+                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.Damage" />
+                    <output>10</output>
+                </div>
+
+                <div class="form-group">
+                    <label>Obrażażenia magiczne</label>
+                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.MagicDamage" />
+                    <output>10</output>
+                </div>
+
+                <div class="form-group">
+                    <label>Koszt Punktów Akcji</label>
+                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.ActionCost" />
+                    <output>10</output>
+                </div>
+
+                <div class="form-group">
+                    <label>Szansa na trafienia</label>
+                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.HitChance" />
+                    <output>10</output>
+                </div>
+
+                <div class="text-center">
+                    <button id="createBtn" type="submit" class="btn btn-outline-success m-2">Zapisz</button>
+                    <button id="editBtn" type="submit" class="btn btn-outline-success m-2">Edytuj</button>
+                    <button id="resetBtn" type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
+                    <button type="button" class="btn btn-outline-danger m-2">Anuluj</button>
+                </div>
+
+
+            </form>
+        </div>        
     </div>
 
     <div class="col-5 p-1">
         <img src="~/img/mace.png" class="img-thumbnail-dark"/>
     </div>
 </div>
+
+<script type="text/javascript">
+
+</script>

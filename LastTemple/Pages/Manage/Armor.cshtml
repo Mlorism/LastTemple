@@ -12,7 +12,7 @@
     <div class="col-7 pl-5 pr-5">
         <div id="armorTable" class="text-center">
 
-            <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Stwórz pancerz</button>
+            <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Stwórz Pancerz</button>
 
             <table class="table text-light text-center">
                 <thead>
@@ -47,6 +47,7 @@
             <form id="manipulateArmor" method="post" onreset="resetSliders()">
 
                 <input type="hidden" id="id" asp-for="Armor.Id" />
+
                 <div class="form-group">
                     <label>Nazwa</label>
                     <input type="text" id="name" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Armor.Name" />
@@ -59,7 +60,7 @@
                     <output>10</output>
                 </div>
 
-                <div class="form-text">
+                <div class="form-group">
                     <label>Odporność na magię</label>
                     <input id="magic" class="mySlider" type="range" value="10" min="0" max="50" step="5" asp-for="Armor.MagicResistance" />
                     <output>10</output>
@@ -73,7 +74,6 @@
                 </div>
             </form>
         </div>
-        
 
     </div>
         
