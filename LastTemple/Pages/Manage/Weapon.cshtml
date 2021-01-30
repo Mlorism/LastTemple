@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-7 pl-5 pr-5">
         <div id="weaponTable" class="text-center">
-            <button class="btn btn-outline-light mb-2">Stwórz Broń</button>
+            <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Stwórz Broń</button>
 
             <table class="table text-light text-center">
                 <thead>
@@ -18,6 +18,8 @@
                         <th scope="row">Obraż. mag.</th>
                         <th scope="row">Koszt PA</th>
                         <th scope="row">Trafienie</th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,53 +32,54 @@
                             <td>@item.MagicDamage</td>
                             <td>@item.ActionCost</td>
                             <td>@item.HitChance</td>
-                            <td><button class="btn btn-outline-warning">Edytuj</button></td>
-                            <td><button class="btn btn-outline-warning">Usuń</button></td>
+                            <td><button class="btn btn-outline-warning" onclick="ToggleColumn(2)">Edytuj</button></td>
+                            <td><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
 
-        <div id="weaponForm" class="p-5">
-            <form id="manipulateWeapon" method="post">
+        <div id="weaponForm" style="display:none" class="p-5">
+            <form id="manipulateWeapon" method="post" onreset="resetSliders()">
+
                 <input type="hidden" id="id" asp-for="Weapon.Id" />
 
                 <div class="form-group">
                     <label>Nazwa</label>
-                    <input type="text" id="name" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Weapon.Name" />
-                    <small>Długość od 5 do 20 znaków</small>
+                    <input type="text" id="name" class="form-control bg-secondary text-light" minlength="3" maxlength="20" required="required" asp-for="Weapon.Name" />
+                    <small>Długość od 3 do 20 znaków</small>
                 </div>
 
                 <div class="form-group">
-                    <label>Obrażażenia</label>
+                    <label>Obrażenia</label>
                     <input id="damage" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.Damage" />
                     <output>10</output>
                 </div>
 
                 <div class="form-group">
-                    <label>Obrażażenia magiczne</label>
-                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.MagicDamage" />
+                    <label>Obrażenia magiczne</label>
+                    <input id="magic" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.MagicDamage" />
                     <output>10</output>
                 </div>
 
                 <div class="form-group">
                     <label>Koszt Punktów Akcji</label>
-                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.ActionCost" />
+                    <input id="APs" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.ActionCost" />
                     <output>10</output>
                 </div>
 
                 <div class="form-group">
                     <label>Szansa na trafienia</label>
-                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.HitChance" />
+                    <input id="hit" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.HitChance" />
                     <output>10</output>
                 </div>
 
                 <div class="text-center">
-                    <button id="createBtn" type="submit" class="btn btn-outline-success m-2">Zapisz</button>
-                    <button id="editBtn" type="submit" class="btn btn-outline-success m-2">Edytuj</button>
+                    <button id="createBtn" type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
+                    <button id="editBtn" type="submit" asp-page-handler="Update" class="btn btn-outline-success m-2">Edytuj</button>
                     <button id="resetBtn" type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
-                    <button type="button" class="btn btn-outline-danger m-2">Anuluj</button>
+                    <button type="button" class="btn btn-outline-danger m-2" onclick="ToggleColumn(0)">Anuluj</button>
                 </div>
 
 
@@ -90,5 +93,103 @@
 </div>
 
 <script type="text/javascript">
+
+    var form = document.getElementById("manipulateWeapon");
+
+    loadSettings();      
+
+    document.getElementById("damage").oninput = function () { setSlider("damage"); }
+    document.getElementById("magic").oninput = function () { setSlider("magic"); }
+    document.getElementById("APs").oninput = function () { setSlider("APs"); }
+    document.getElementById("hit").oninput = function () { setSlider("hit"); }
+
+    function loadSettings() {      
+        setSlider("damage");
+        setSlider("magic");
+        setSlider("APs");
+        setSlider("hit");        
+    }   
+
+    function resetSliders() {
+        window.requestAnimationFrame(function (timestamp) {
+            loadSettings();
+        })
+    }      
+
+    function setSlider(type) {
+        var slider = document.getElementById(type)
+        var value = (slider.value - slider.min) / (slider.max - slider.min) * 100
+
+        if (slider == null) {
+            alert("slider is null");
+        }
+
+        if (type == "damage" || type == "hit") {
+            slider.style.background = 'linear-gradient(to right, #FF6B6B 0%, #FF0000 ' + value + '%, #000 ' + value + '%, black 100%)'
+        }
+
+        else if (type == "magic") {
+            slider.style.background = 'linear-gradient(to right, #0000FF 0%, #6600CC ' + value + '%, #000 ' + value + '%, black 100%)'
+        }
+
+        else {
+            slider.style.background = 'linear-gradient(to right, #3FEE82 0%, #0B6126 ' + value + '%, #000 ' + value + '%, black 100%)'
+        } 
+
+        slider.nextElementSibling.value = slider.value
+    };
+
+    function ToggleColumn(type) {
+        var weaponTable = document.getElementById("weaponTable");
+        var weaponForm = document.getElementById("weaponForm");
+        var resetBtn = document.getElementById("resetBtn");
+        var createBtn = document.getElementById("createBtn");
+        var editBtn = document.getElementById("editBtn");       
+
+        if (type == 0) {
+            weaponTable.style.display = "block";
+            weaponForm.style.display = "none";
+            editBtn.style.display = "none";
+            resetBtn.style.display = "inline-block";           
+        }
+
+        else {
+            weaponForm.style.display = "block";
+            weaponTable.style.display = "none";            
+
+            if (type == 2) {
+                var x = event.target.parentElement.parentElement;
+
+                var id = x.children[0].innerHTML;
+                var name = x.children[1].innerHTML;
+                var damage = x.children[2].innerHTML;
+                var magic = x.children[3].innerHTML;
+                var APs = x.children[4].innerHTML;
+                var hit = x.children[5].innerHTML;
+
+                $("#id").val(id);
+                $("#name").val(name);
+                $("#damage").val(damage);
+                $("#magic").val(magic);
+                $("#APs").val(APs);
+                $("#hit").val(hit);              
+
+                editBtn.style.display = "inline-block"
+                resetBtn.style.display = "none";
+                createBtn.style.display = "none";
+            }
+
+            else {
+                form.reset();
+                editBtn.style.display = "none";
+                resetBtn.style.display = "inline-block";
+                createBtn.style.display = "inline-block";
+            }
+
+            resetSliders();
+
+        }
+    }  // ToggleColumn()
+
 
 </script>

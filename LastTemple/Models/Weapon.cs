@@ -8,7 +8,7 @@ namespace LastTemple.Models
 	public class Weapon
 	{
 		public int Id { get; set; }
-		public int Name { get; set; }
+		public string Name { get; set; }
 		public int Damage { get; set; }
 		public int MagicDamage { get; set; }
 		public int ActionCost { get; set; }

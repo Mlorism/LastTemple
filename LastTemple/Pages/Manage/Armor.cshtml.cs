@@ -19,9 +19,10 @@ namespace LastTemple.Pages.Create
 			_ctx = ctx;
 		}
 
+
 		[BindProperty]
 		public Armor Armor { get; set; }
-		[BindProperty]
+		
 		public IEnumerable<Armor> Armors { get; set; }
 		
 		public void OnGet()

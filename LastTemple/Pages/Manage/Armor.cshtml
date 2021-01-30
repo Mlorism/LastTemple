@@ -82,25 +82,21 @@
 
         var form = document.getElementById("manipulateArmor");
 
-        loadSettings();        
-
-        document.getElementById("physical").oninput = function () { setSlider("physical"); }
+        loadSettings();
+        
+        document.getElementById("physical").oninput = function () { setSlider("physical"); }               
         document.getElementById("magic").oninput = function () { setSlider("magic"); }               
 
         function loadSettings() {
             setSlider("physical");
-            setSlider("magic");
-            ToggleColumn(0);           
+            setSlider("magic");                 
         }               
 
         function resetSliders() {
-
             window.requestAnimationFrame(function (timestamp) {
-                setSlider("physical");
-                setSlider("magic");
+                loadSettings();     
             })                       
-        }
-                
+        }                
 
         function setSlider(type) {
             var slider = document.getElementById(type)
@@ -153,9 +149,7 @@
             }
             else {
                 armorForm.style.display = "block";
-                armorTable.style.display = "none";
-                setSlider("physical");
-                setSlider("magic");
+                armorTable.style.display = "none";               
 
                 if (type == 2) {                    
                     var x = event.target.parentElement.parentElement;
@@ -164,23 +158,25 @@
                     var name = x.children[1].innerHTML;
                     var physical = x.children[2].innerHTML;
                     var magic = x.children[3].innerHTML;
+
                     $("#id").val(id);
                     $("#name").val(name);
                     $("#physical").val(physical);
-                    $("#magic").val(magic);
+                    $("#magic").val(magic);                                        
 
-                    resetSliders();
                     editBtn.style.display = "inline-block"
-
                     resetBtn.style.display = "none";
-                    createBtn.style.display = "none";
+                    createBtn.style.display = "none";                   
+                }
 
-                } else {
+                else {
                     form.reset();
                     editBtn.style.display = "none";
                     resetBtn.style.display = "inline-block";
                     createBtn.style.display = "inline-block";
                 }
+
+                resetSliders();
             }
         }  // ToggleColumn()
 
