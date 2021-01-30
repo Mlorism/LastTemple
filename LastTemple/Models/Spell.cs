@@ -9,6 +9,7 @@ namespace LastTemple.Models
 	public class Spell
 	{
 		public int Id { get; set; }
+		public string Name { get; set; }
 		public SpellTypeEnum Type { get; set; }
 		public int Level { get; set; }		
 		public int ManaCost { get; set; }

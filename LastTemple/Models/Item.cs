@@ -12,5 +12,6 @@ namespace LastTemple.Models
 		public string Name { get; set; }
 		public ItemTypeEnum ItemType { get; set; }
 		public int Strength { get; set; }
+		public int ActionCost { get; set; }
 	}
 }
