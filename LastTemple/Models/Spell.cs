@@ -12,6 +12,7 @@ namespace LastTemple.Models
 		public SpellTypeEnum Type { get; set; }
 		public int Level { get; set; }		
 		public int ManaCost { get; set; }
-		public int Strength { get; set; }
+		public int ActionCost { get; set; }
+		public int Strenght { get; set; } // Damage for offensice and restore for healing
 	}
 }

@@ -2,10 +2,10 @@
 @model LastTemple.Pages.Create.WeaponModel
 @{}
 
-<p class="text-center font-weight-bold mb-2">Zarządzaj brońmi</p>
+<p class="text-center font-weight-bold mb-2">Zarządzaj bronią</p>
 
 <div class="row">
-    <div class="col-7 pl-5 pr-5">
+    <div class="col-7 pl-5">
         <div id="weaponTable" class="text-center">
             <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Stwórz Broń</button>
 
@@ -53,25 +53,25 @@
 
                 <div class="form-group">
                     <label>Obrażenia</label>
-                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.Damage" />
+                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="50" step="2" asp-for="Weapon.Damage" />
                     <output>10</output>
                 </div>
 
                 <div class="form-group">
                     <label>Obrażenia magiczne</label>
-                    <input id="magic" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.MagicDamage" />
+                    <input id="magic" class="mySlider" type="range" value="0" min="0" max="50" step="2" asp-for="Weapon.MagicDamage" />
                     <output>10</output>
                 </div>
 
                 <div class="form-group">
                     <label>Koszt Punktów Akcji</label>
-                    <input id="APs" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.ActionCost" />
+                    <input id="APs" class="mySlider" type="range" value="3" min="1" max="10" step="1" asp-for="Weapon.ActionCost" />
                     <output>10</output>
                 </div>
 
                 <div class="form-group">
                     <label>Szansa na trafienia</label>
-                    <input id="hit" class="mySlider" type="range" value="10" min="0" max="100" step="1" asp-for="Weapon.HitChance" />
+                    <input id="hit" class="mySlider" type="range" value="30" min="10" max="80" step="5" asp-for="Weapon.HitChance" />
                     <output>10</output>
                 </div>
 
@@ -87,8 +87,8 @@
         </div>        
     </div>
 
-    <div class="col-5 p-1">
-        <img src="~/img/mace.png" class="img-thumbnail-dark"/>
+    <div class="col-5 p-1 text-center">
+        <img src="~/img/sword.png" class="img-thumbnail-dark pl-5 pr-5" />
     </div>
 </div>
 
