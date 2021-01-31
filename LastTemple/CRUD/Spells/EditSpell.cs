@@ -26,7 +26,7 @@ namespace LastTemple.CRUD
 			target.Level = spell.Level;
 			target.ManaCost = spell.ManaCost;
 			target.ActionCost = spell.ActionCost;
-			target.Strenght = spell.Strenght;
+			target.Strength = spell.Strength;
 
 			await _ctx.SaveChangesAsync();
 

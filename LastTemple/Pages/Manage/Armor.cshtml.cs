@@ -65,6 +65,5 @@ namespace LastTemple.Pages.Create
 			return RedirectToPage("Armor");
 		}
 
-
 	}
 }

@@ -6,8 +6,11 @@ using LastTemple.CRUD;
 using LastTemple.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using LastTemple.Enumerators;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
-namespace LastTemple.Pages.Create
+namespace LastTemple.Pages
 {
     public class SpellModel : PageModel
     {
@@ -62,6 +65,9 @@ namespace LastTemple.Pages.Create
 
             return RedirectToPage("Spell");
         }
-           
+               
+
     }
+    
+
 }

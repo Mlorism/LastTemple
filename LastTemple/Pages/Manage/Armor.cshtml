@@ -34,7 +34,7 @@
                             <td>@item.Name</td>
                             <td>@item.DamageResistance</td>
                             <td>@item.MagicResistance</td>
-                            <td><button class="btn btn-outline-warning" name="edit" type="submit" onclick="ToggleColumn(2)">Edytuj</button></td>
+                            <td><button class="btn btn-outline-warning" name="edit" type="button" onclick="ToggleColumn(2)">Edytuj</button></td>
                             <td><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
                         </tr>
                     }
@@ -44,7 +44,7 @@
         </div>
 
         <div id="armorForm" style="display:none" class="p-5">
-            <form id="manipulateArmor" method="post" onreset="resetSliders()">
+            <form id="manipulateArmor" method="post" onreset="resetSliders()">      
 
                 <input type="hidden" id="id" asp-for="Armor.Id" />
 

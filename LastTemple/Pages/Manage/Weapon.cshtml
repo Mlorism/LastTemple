@@ -16,7 +16,7 @@
                         <th scope="row">Nazwa</th>
                         <th scope="row">Obraż.</th>
                         <th scope="row">Obraż. mag.</th>
-                        <th scope="row">Koszt PA</th>
+                        <th scope="row">PA</th>
                         <th scope="row">Trafienie</th>
                         <th scope="row"></th>
                         <th scope="row"></th>
@@ -32,7 +32,7 @@
                             <td>@item.MagicDamage</td>
                             <td>@item.ActionCost</td>
                             <td>@item.HitChance</td>
-                            <td><button class="btn btn-outline-warning" onclick="ToggleColumn(2)">Edytuj</button></td>
+                            <td><button class="btn btn-outline-warning" type="button" onclick="ToggleColumn(2)">Edytuj</button></td>
                             <td><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
                         </tr>
                     }
@@ -66,7 +66,7 @@
                 <div class="form-group">
                     <label>Koszt Punktów Akcji</label>
                     <input id="APs" class="mySlider" type="range" value="3" min="1" max="10" step="1" asp-for="Weapon.ActionCost" />
-                    <output>10</output>
+                    <output>3</output>
                 </div>
 
                 <div class="form-group">

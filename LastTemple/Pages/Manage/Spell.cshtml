@@ -1,5 +1,228 @@
 ﻿@page
-@model LastTemple.Pages.Create.SpellModel
+@model LastTemple.Pages.SpellModel
 @{
 }
-<p>Spell</p>
+
+<p class="text-center font-weight-bold m-2">Zarządzaj zaklęciami</p>
+
+<div class="row">
+    <div class="col-5 p-1">
+        <img src="~/img/spellBook.png" class="img-thumbnail-dark" />
+    </div>
+
+    <div class="col-7 pl-5 pr-5">
+        <div id="spellTable" class="text-center">
+
+            <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Stwórz zaklęcie</button>
+
+            <table class="table text-light text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Typ</th>
+                        <th scope="col">Poziom</th>
+                        <th scope="col">Mana</th>
+                        <th scope="col">PA</th>
+                        <th scope="col">Siła</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Spells)
+                    {
+                        <tr>
+                            <th scope="col">@item.Id</th>
+                            <td scope="col">@item.Name</td>
+                            <td scope="col">@Enumerators.EnumConverter.Result(item.Type)</td>
+                            <td scope="col">@item.Level</td>
+                            <td scope="col">@item.ManaCost</td>
+                            <td scope="col">@item.ActionCost</td>
+                            <td scope="col">@item.Strength</td>
+                            <td style="display:none">@item.Type</td>
+
+                            <td scope="col"><button class="btn btn-outline-warning" name="edit" type="button" onclick="ToggleColumn(2)">Edytuj</button></td>
+                            <td scope="col"><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="spellForm" class="p-5" style="display:none">
+            <form id="manipulateSpell" method="post" onreset="resetSliders()">
+
+                <input type="hidden" id="id" asp-for="Spell.Id" />
+
+                <div class="form-group">
+                    <label>Nazwa</label>
+                    <input type="text" id="name" class="form-control bg-secondary text-light" minlength="4" maxlength="20" required="required" asp-for="Spell.Name" />
+                    <small>Długość od 4 do 20 znaków</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Typ zaklęcia</label>
+                    <select id="genre" class="form-control bg-secondary text-light" asp-for="Spell.Type" asp-items="Html.GetEnumSelectList<Enumerators.SpellTypeEnum>()"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Poziom</label>
+                    <input id="level" class="form-control bg-secondary text-light" type="number" step="1" value="0" min="0" max="10" asp-for="Spell.Level" onkeydown="return false" />
+                    <small>Od 0 do 10</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Koszt punktów magii</label>
+                    <input id="mana" class="mySlider" type="range" value="5" min="1" max="50" step="1" asp-for="Spell.ManaCost" />
+                    <output>5</output>
+                </div>
+
+                <div class="form-group">
+                    <label>Koszt Punktów Akcji</label>
+                    <input id="APs" class="mySlider" type="range" value="3" min="1" max="10" step="1" asp-for="Spell.ActionCost" />
+                    <output>3</output>
+                </div>
+
+                <div class="form-group">
+                    <label>Siła zaklęcia</label>
+                    <input id="strength" class="mySlider" type="range" value="3" min="5" max="100" step="5" asp-for="Spell.Strength" />
+                    <output>3</output>
+                </div>
+
+                <div class="text-center">
+                    <button id="createBtn" type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
+                    <button id="editBtn" type="submit" asp-page-handler="Update" class="btn btn-outline-success m-2">Edytuj</button>
+                    <button id="resetBtn" type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
+                    <button type="button" class="btn btn-outline-danger m-2" onclick="ToggleColumn(0)">Anuluj</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var form = document.getElementById("manipulateSpell");
+
+    loadSettings();
+
+    document.getElementById("mana").oninput = function () { setSlider("mana"); }
+    document.getElementById("APs").oninput = function () { setSlider("APs"); }
+    document.getElementById("strength").oninput = function () { setSlider("strength"); }
+
+    function loadSettings() {
+        setSlider("mana");
+        setSlider("APs");
+        setSlider("strength");
+    }
+
+    function resetSliders() {
+        window.requestAnimationFrame(function (timestamp) {
+            loadSettings();
+        })
+    }
+
+    function setSlider(type) {
+        var slider = document.getElementById(type)
+        var value = (slider.value - slider.min) / (slider.max - slider.min) * 100
+
+        if (slider == null) {
+            alert("slider is null");
+        }
+
+        if (type == "strength") {
+            slider.style.background = 'linear-gradient(to right, #FF6B6B 0%, #FF0000 ' + value + '%, #000 ' + value + '%, black 100%)'
+        }
+
+        else if (type == "mana") {
+            slider.style.background = 'linear-gradient(to right, #0000FF 0%, #6600CC ' + value + '%, #000 ' + value + '%, black 100%)'
+        }
+
+        else {
+            slider.style.background = 'linear-gradient(to right, #3FEE82 0%, #0B6126 ' + value + '%, #000 ' + value + '%, black 100%)'
+        }
+
+        slider.nextElementSibling.value = slider.value
+    };
+
+    function ToggleColumn(type) {
+        var spellTable = document.getElementById("spellTable");
+        var spellForm = document.getElementById("spellForm");
+
+        var resetBtn = document.getElementById("resetBtn");
+        var createBtn = document.getElementById("createBtn");
+        var editBtn = document.getElementById("editBtn");
+
+        if (type == 0) {
+            spellTable.style.display = "block";
+            spellForm.style.display = "none";
+            editBtn.style.display = "none";
+            resetBtn.style.display = "inline-block";
+        }
+        else {
+            spellForm.style.display = "block";
+            spellTable.style.display = "none";
+
+            if (type == 2) {
+                var x = event.target.parentElement.parentElement;
+
+                var id = x.children[0].innerHTML;
+                var name = x.children[1].innerHTML;
+                var genre = x.children[7].innerHTML;
+                var level = x.children[3].innerHTML;
+                var mana = x.children[4].innerHTML;
+                var APs = x.children[5].innerHTML;
+                var strength = x.children[6].innerHTML;                          
+
+                $("#id").val(id);
+                $("#name").val(name);
+
+                switch (genre) {
+                    case 'Offensive':
+                        document.getElementById("genre").selectedIndex = "0";
+                        break;
+                    case 'Healing':
+                        document.getElementById("genre").selectedIndex = "1";
+                        break;               
+                }      
+
+                $("#level").val(level);
+                $("#mana").val(mana);
+                $("#APs").val(APs);
+                $("#strength").val(strength);
+
+                editBtn.style.display = "inline-block"
+                resetBtn.style.display = "none";
+                createBtn.style.display = "none";
+            }
+
+            else {
+                form.reset();
+                editBtn.style.display = "none";
+                resetBtn.style.display = "inline-block";
+                createBtn.style.display = "inline-block";
+            }
+
+            resetSliders();
+        }
+    }  // ToggleColumn()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

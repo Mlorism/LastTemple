@@ -24,7 +24,7 @@ namespace LastTemple.CRUD
 				Level = spell.Level,
 				ManaCost = spell.ManaCost,
 				ActionCost = spell.ActionCost,
-				Strenght = spell.Strenght
+				Strength = spell.Strength
 			};
 
 			_ctx.Spells.Add(item);
