@@ -5,8 +5,88 @@
 
 <p class="text-center font-weight-bold m-2">Zarządzaj przedmiotami</p>
 <div class="row">
-   <div class="col-7 pl-5"></div>
+   <div class="col-7 pl-5">
+       <div id="itemTable" class="text-center">
+
+           <button class="btn btn-outline-light m-2" onclick="ToggleColumn(1)">Utwórz przedmiot</button>
+
+           <table class="table text-light text-center">
+               <thead>
+                   <tr>
+                       <th scope="row">Id</th>
+                       <th scope="row">Nazwa</th>
+                       <th scope="row">Rodzaj</th>
+                       <th scope="row">Siła</th>
+                       <th scope="row">PA</th>
+                       <th scope="row"></th>
+                       <th scope="row"></th>
+                   </tr>
+               </thead>
+               <tbody>
+                   @foreach (var item in Model.Items)
+                   {
+                       <tr>
+                           <th>@item.Id</th>
+                           <td>@item.Name</td>
+                           <td>@Enumerators.EnumConverter.Result(item.ItemType)</td>
+                           <td>@item.Strength</td>
+                           <td>@item.ActionCost</td>
+                           <td style="display:none">@item.ItemType</td>
+
+                           <td><button class="btn btn-outline-warning" name="edit" type="button" onclick="ToggleColumn(2)">Edytuj</button></td>
+                           <td><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-rout-id="@item.Id">Usuń</button></form></td>
+                       </tr>
+                   }
+               </tbody>
+           </table>
+       </div>
+
+       <div id="itemForm" class="p-5">
+           <form id="manipulateItem" method="post" onreset="resetSliders()">
+
+               <input type="hidden" id="id" asp-for="Item.Id" />
+
+               <div class="form-group">
+                   <label>Nazwa</label>
+                   <input type="text" class="form-control bg-secondary text-light" minlength="3" maxlength="20" required="required" asp-for="Item.Name" />
+                   <small>Długość od 3 do 20 znaków</small>
+               </div>
+
+               <div class="form-group">
+                   <label>Rodzaj przedmiotu</label>
+                   <select id="genere" class="form-control bg-secondary  text-light" asp-for="Item.ItemType" asp-items="@Html.GetEnumSelectList<Enumerators.ItemTypeEnum>()"></select>
+               </div>
+
+               <div>
+                   <label>Moc</label>
+                   <input id="strength" class="mySlider" type="range" value="5" min="1" max="50" step="1" asp-for="Item.Strength" />
+                   <output>5</output>
+               </div>
+
+               <div>
+                   <label>Koszt Punktów Akcji</label>
+                   <input id="APs" class="mySlider" type="range" value="3" min="1" max="10" step="1" asp-for="Item.ActionCost" />
+                   <output>3</output>
+               </div>
+
+               <div>
+                   <button id="createBtn" type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
+                   <button id="editBtn" type="submit" asp-page-handler="Update" class="btn btn-outline-success m-2">Edytuj</button>
+                   <button id="resetBtn" type="reset" class="btn btn-outline-warning m2">Resetuj</button>
+                   <button type="button" class="btn btn-outline-danger m2" onclick="ToggleColumn(0)">Anuluj</button>
+               </div>
+
+
+
+           </form>
+       </div>
+   </div>
    <div class="col-5 p-1 text-center">
        <img src="~/img/Potion.png" class="img-thumbnail-dark" />     
    </div>
 </div>
+
+<script type="text/javascript">
+
+
+</script>

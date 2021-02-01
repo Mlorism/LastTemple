@@ -33,17 +33,17 @@
                     @foreach (var item in Model.Spells)
                     {
                         <tr>
-                            <th scope="col">@item.Id</th>
-                            <td scope="col">@item.Name</td>
-                            <td scope="col">@Enumerators.EnumConverter.Result(item.Type)</td>
-                            <td scope="col">@item.Level</td>
-                            <td scope="col">@item.ManaCost</td>
-                            <td scope="col">@item.ActionCost</td>
-                            <td scope="col">@item.Strength</td>
+                            <th>@item.Id</th>
+                            <td>@item.Name</td>
+                            <td>@Enumerators.EnumConverter.Result(item.Type)</td>
+                            <td>@item.Level</td>
+                            <td>@item.ManaCost</td>
+                            <td>@item.ActionCost</td>
+                            <td>@item.Strength</td>
                             <td style="display:none">@item.Type</td>
 
-                            <td scope="col"><button class="btn btn-outline-warning" name="edit" type="button" onclick="ToggleColumn(2)">Edytuj</button></td>
-                            <td scope="col"><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
+                            <td><button class="btn btn-outline-warning" name="edit" type="button" onclick="ToggleColumn(2)">Edytuj</button></td>
+                            <td><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
                         </tr>
                     }
                 </tbody>
