@@ -12,16 +12,14 @@ html {
     background-color: #2F3336;
     border: 1px solid #fff;
     border-radius: 2rem;
-    max-width: 100%;
-    
+    max-width: 100%;    
 }
 
 .upper-navbar {
     margin-left: auto;
     margin-right: auto;
     align-content: center;
-    width: 100%;
-   
+    width: 100%;   
 }
 .footer {
     position: absolute;
@@ -49,3 +47,4 @@ input[type=range]::-webkit-slider-thumb {
     background-image: url('../img/shield_brown.svg');    
     cursor: pointer;
 }
+

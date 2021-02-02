@@ -40,7 +40,7 @@
             </table>
         </div>
 
-        <div id="weaponForm" style="display:none" class="p-5">
+        <div id="weaponForm" style="display:none" class="pr-5 pl-5">
             <form id="manipulateWeapon" method="post" onreset="resetSliders()">
 
                 <input type="hidden" id="id" asp-for="Weapon.Id" />
@@ -87,8 +87,10 @@
         </div>        
     </div>
 
-    <div class="col-5 p-1 text-center">
-        <img src="~/img/sword.png" class="img-thumbnail-dark pl-5 pr-5" />
+    <div class="col-5 p-1">
+        <div style="position:fixed">
+            <img src="~/img/sword.png" class="img-thumbnail-dark pl-4 pr-4" />
+        </div>
     </div>
 </div>
 
