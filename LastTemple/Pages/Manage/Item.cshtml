@@ -4,87 +4,92 @@
 }
 
 <p class="text-center font-weight-bold m-2">Zarządzaj przedmiotami</p>
+
+<div class="text-center">
+    <button id="createBtn" class="btn btn-outline-light m-2" onclick="ToggleColumn(1)">Utwórz przedmiot</button>
+    <button id="cancelBtn" class="btn btn-outline-danger m-2" style="display:none" type="button" onclick="ToggleColumn(0)">Anuluj</button>
+</div>
+
 <div class="row">
-   <div class="col-7 pl-5">
-       <div id="itemTable" class="text-center">
 
-           <button class="btn btn-outline-light m-2" onclick="ToggleColumn(1)">Utwórz przedmiot</button>
+    <div class="col-7 pl-5">
+        <div id="itemTable" class="text-center tableFixHead">
 
-           <table class="table text-light text-center">
-               <thead>
-                   <tr>
-                       <th scope="row">Id</th>
-                       <th scope="row">Nazwa</th>
-                       <th scope="row">Rodzaj</th>
-                       <th scope="row">Siła</th>
-                       <th scope="row">PA</th>
-                       <th scope="row"></th>
-                       <th scope="row"></th>
-                   </tr>
-               </thead>
-               <tbody>
-                   @foreach (var item in Model.Items)
-                   {
-                       <tr>
-                           <th>@item.Id</th>
-                           <td>@item.Name</td>
-                           <td>@Enumerators.EnumConverter.Result(item.ItemType)</td>
-                           <td>@item.Strength</td>
-                           <td>@item.ActionCost</td>
-                           <td style="display:none">@item.ItemType</td>
+            <table class="table text-light text-center">
+                <thead>
+                    <tr>
+                        <th scope="row">Id</th>
+                        <th scope="row">Nazwa</th>
+                        <th scope="row">Rodzaj</th>
+                        <th scope="row">Siła</th>
+                        <th scope="row">PA</th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td class="font-weight-bold">@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@Enumerators.EnumConverter.Result(item.ItemType)</td>
+                            <td>@item.Strength</td>
+                            <td>@item.ActionCost</td>
+                            <td style="display:none">@item.ItemType</td>
 
-                           <td><button class="btn btn-outline-warning" name="edit" type="button" onclick="ToggleColumn(2)">Edytuj</button></td>
-                           <td><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
-                       </tr>
-                   }
-               </tbody>
-           </table>
-       </div>
+                            <td><button class="btn btn-outline-warning" name="edit" type="button" onclick="ToggleColumn(2)">Edytuj</button></td>
+                            <td><form method="post"><button class="btn btn-outline-warning" type="submit" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
-       <div id="itemForm" style="display:none" class="p-5">
-           <form id="manipulateItem" method="post" onreset="resetSliders()">
+        <div id="itemForm" style="display:none" class="pr-5 pl-5">
+            <form id="manipulateItem" method="post" onreset="resetSliders()">
 
-               <input type="hidden" id="id" asp-for="Item.Id" />
+                <input type="hidden" id="id" asp-for="Item.Id" />
 
-               <div class="form-group">
-                   <label>Nazwa</label>
-                   <input type="text" id="name" class="form-control bg-secondary text-light" minlength="3" maxlength="20" required="required" asp-for="Item.Name" />
-                   <small>Długość od 3 do 20 znaków</small>
-               </div>
+                <div class="form-group">
+                    <label>Nazwa</label>
+                    <input type="text" id="name" class="form-control bg-secondary text-light" minlength="3" maxlength="20" required="required" asp-for="Item.Name" />
+                    <small>Długość od 3 do 20 znaków</small>
+                </div>
 
-               <div class="form-group">
-                   <label>Rodzaj przedmiotu</label>
-                   <select id="genere" class="form-control bg-secondary  text-light" asp-for="Item.ItemType" asp-items="@Html.GetEnumSelectList<Enumerators.ItemTypeEnum>()"></select>
-               </div>
+                <div class="form-group">
+                    <label>Rodzaj przedmiotu</label>
+                    <select id="genere" class="form-control bg-secondary  text-light" asp-for="Item.ItemType" asp-items="@Html.GetEnumSelectList<Enumerators.ItemTypeEnum>()"></select>
+                </div>
 
-               <div class="form-group">
-                   <label>Moc</label>
-                   <input id="strength" class="mySlider" type="range" value="5" min="1" max="50" step="1" asp-for="Item.Strength" />
-                   <output>5</output>
-               </div>
+                <div class="form-group">
+                    <label>Moc</label>
+                    <input id="strength" class="mySlider" type="range" value="5" min="1" max="50" step="1" asp-for="Item.Strength" />
+                    <output>5</output>
+                </div>
 
-               <div class="form-group">
-                   <label>Koszt Punktów Akcji</label>
-                   <input id="APs" class="mySlider" type="range" value="3" min="0" max="10" step="1" asp-for="Item.ActionCost" />
-                   <output>3</output>
-               </div>
+                <div class="form-group">
+                    <label>Koszt Punktów Akcji</label>
+                    <input id="APs" class="mySlider" type="range" value="3" min="0" max="10" step="1" asp-for="Item.ActionCost" />
+                    <output>3</output>
+                </div>
 
-               <div class="text-center">
-                   <button id="createBtn" type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
-                   <button id="editBtn" type="submit" asp-page-handler="Update" class="btn btn-outline-success m-2">Edytuj</button>
-                   <button id="resetBtn" type="reset" class="btn btn-outline-warning m2">Resetuj</button>
-                   <button type="button" class="btn btn-outline-danger m2" onclick="ToggleColumn(0)">Anuluj</button>
-               </div>
+                <div class="text-center">
+                    <button id="saveBtn" type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
+                    <button id="editBtn" type="submit" asp-page-handler="Update" class="btn btn-outline-success m-2">Edytuj</button>
+                    <button id="resetBtn" type="reset" class="btn btn-outline-warning m2">Resetuj</button>
+                    
+                </div>
 
-           </form>
-       </div>
-   </div>
+            </form>
+        </div>
+    </div>
 
-   <div class="col-5 p-1">
-       <div style="position:fixed">
-           <img src="~/img/Potion.png" class="img-thumbnail-dark pl-4 pr-4" />
-       </div>          
-   </div>
+    <div class="col-5 p-2">
+        <div class="fixedContainer">
+            <img src="~/img/Potion.png" class="img-thumbnail-dark pl-4 pr-4" />
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -94,7 +99,7 @@
     loadSettings();
 
     document.getElementById("strength").oninput = function () { setSlider("strength"); }
-    document.getElementById("APs").oninput = function () { setSlider("APs"); } 
+    document.getElementById("APs").oninput = function () { setSlider("APs"); }
 
     function loadSettings() {
         setSlider("strength");
@@ -121,7 +126,7 @@
 
         else {
             slider.style.background = 'linear-gradient(to right, #3FEE82 0%, #0B6126 ' + value + '%, #000 ' + value + '%, black 100%)'
-        }              
+        }
 
         slider.nextElementSibling.value = slider.value
     } // setSlider()
@@ -130,19 +135,26 @@
         var itemTable = document.getElementById("itemTable");
         var itemForm = document.getElementById("itemForm");
         var resetBtn = document.getElementById("resetBtn");
-        var createBtn = document.getElementById("createBtn");
+        var saveBtn = document.getElementById("saveBtn");
         var editBtn = document.getElementById("editBtn");
+        var createBtn = document.getElementById("createBtn");
+        var cancelBtn = document.getElementById("cancelBtn");
 
         if (type == 0) {
             itemTable.style.display = "block";
             itemForm.style.display = "none";
             editBtn.style.display = "none";
             resetBtn.style.display = "inline-block";
+            createBtn.style.display = "inline-block";
+            cancelBtn.style.display = "none";
         }
 
         else {
             itemForm.style.display = "block";
             itemTable.style.display = "none";
+
+            createBtn.style.display = "none";
+            cancelBtn.style.display = "inline-block";
 
             if (type == 2) {
                 var x = event.target.parentElement.parentElement;
@@ -151,7 +163,7 @@
                 var name = x.children[1].innerHTML;
                 var genere = x.children[5].innerHTML;
                 var strength = x.children[3].innerHTML;
-                var APs = x.children[4].innerHTML;                
+                var APs = x.children[4].innerHTML;
 
                 $("#id").val(id);
                 $("#name").val(name);
@@ -164,35 +176,35 @@
                         document.getElementById("genere").selectedIndex = "1";
                         break;
                     case 'StrengthBooster':
-                        document.getElementById("genere").selectedIndex  = "2";
+                        document.getElementById("genere").selectedIndex = "2";
                         break;
                     case 'EnduranceBooster':
-                        document.getElementById("genere").selectedIndex  = "3";
+                        document.getElementById("genere").selectedIndex = "3";
                         break;
                     case 'WillpowerBooster':
-                        document.getElementById("genere").selectedIndex  = "4";
+                        document.getElementById("genere").selectedIndex = "4";
                         break;
                     case 'SpeedBooster':
-                        document.getElementById("genere").selectedIndex  = "5";
+                        document.getElementById("genere").selectedIndex = "5";
                         break;
                     case 'AgilityBooster':
-                        document.getElementById("genere").selectedIndex  = "6";
+                        document.getElementById("genere").selectedIndex = "6";
                         break;
-                }                              
-                
-                $("#strength").val(strength);                
-                $("#APs").val(APs);              
+                }
+
+                $("#strength").val(strength);
+                $("#APs").val(APs);
 
                 editBtn.style.display = "inline-block"
                 resetBtn.style.display = "none";
-                createBtn.style.display = "none";
+                saveBtn.style.display = "none";
             }
 
             else {
                 form.reset();
                 editBtn.style.display = "none";
                 resetBtn.style.display = "inline-block";
-                createBtn.style.display = "inline-block";
+                saveBtn.style.display = "inline-block";
             }
 
             resetSliders();
