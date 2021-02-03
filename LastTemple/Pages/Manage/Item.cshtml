@@ -5,26 +5,22 @@
 
 <p class="text-center font-weight-bold m-2">Zarządzaj przedmiotami</p>
 
-<div class="text-center">
-    <button id="createBtn" class="btn btn-outline-light m-2" onclick="ToggleColumn(1)">Utwórz przedmiot</button>
-    <button id="cancelBtn" class="btn btn-outline-danger m-2" style="display:none" type="button" onclick="ToggleColumn(0)">Anuluj</button>
-</div>
-
 <div class="row">
-
     <div class="col-7 pl-5">
         <div id="itemTable" class="text-center tableFixHead">
+
+            <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Utwórz przedmiot</button>
 
             <table class="table text-light text-center">
                 <thead>
                     <tr>
-                        <th scope="row">Id</th>
-                        <th scope="row">Nazwa</th>
-                        <th scope="row">Rodzaj</th>
-                        <th scope="row">Siła</th>
-                        <th scope="row">PA</th>
-                        <th scope="row"></th>
-                        <th scope="row"></th>
+                        <th>Id</th>
+                        <th>Nazwa</th>
+                        <th>Rodzaj</th>
+                        <th>Siła</th>
+                        <th>PA</th>
+                        <th>E</th>
+                        <th>U</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,17 +74,17 @@
                     <button id="saveBtn" type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
                     <button id="editBtn" type="submit" asp-page-handler="Update" class="btn btn-outline-success m-2">Edytuj</button>
                     <button id="resetBtn" type="reset" class="btn btn-outline-warning m2">Resetuj</button>
-                    
+                    <button class="btn btn-outline-danger m-2" type="button" onclick="ToggleColumn(0)">Anuluj</button>
                 </div>
 
             </form>
         </div>
     </div>
 
-    <div class="col-5 p-2">
-        <div class="fixedContainer">
-            <img src="~/img/Potion.png" class="img-thumbnail-dark pl-4 pr-4" />
-        </div>
+    <div class="col-5 pr-2 pl-2 pt-5">        
+         <div class="fixedContainer">
+             <img src="~/img/Potion.png" class="img-thumbnail-dark pl-4 pr-4" />
+         </div>        
     </div>
 </div>
 
@@ -136,25 +132,18 @@
         var itemForm = document.getElementById("itemForm");
         var resetBtn = document.getElementById("resetBtn");
         var saveBtn = document.getElementById("saveBtn");
-        var editBtn = document.getElementById("editBtn");
-        var createBtn = document.getElementById("createBtn");
-        var cancelBtn = document.getElementById("cancelBtn");
+        var editBtn = document.getElementById("editBtn");        
 
         if (type == 0) {
             itemTable.style.display = "block";
             itemForm.style.display = "none";
             editBtn.style.display = "none";
-            resetBtn.style.display = "inline-block";
-            createBtn.style.display = "inline-block";
-            cancelBtn.style.display = "none";
+            resetBtn.style.display = "inline-block";            
         }
 
         else {
             itemForm.style.display = "block";
-            itemTable.style.display = "none";
-
-            createBtn.style.display = "none";
-            cancelBtn.style.display = "inline-block";
+            itemTable.style.display = "none";            
 
             if (type == 2) {
                 var x = event.target.parentElement.parentElement;

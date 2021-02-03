@@ -6,13 +6,13 @@
 <p class="text-center font-weight-bold m-2">Zarządzaj zaklęciami</p>
 
 <div class="row">
-    <div class="col-5 pl-1">
-        <div style="position:sticky;">
-            <img src="~/img/spellBook.png" class="img-thumbnail-dark" />
+    <div class="col-5 pr-2 pl-2 pt-5">
+        <div class="fixedContainer">
+            <img src="~/img/spellBook.png" class="img-thumbnail-dark pl-4 pr-4"/>
         </div>
     </div>
 
-    <div class="col-7 pl-5 pr-5">
+    <div class="col-7 pr-5">
         <div id="spellTable" class="text-center tableFixHead">
 
             <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Stwórz zaklęcie</button>
@@ -20,22 +20,22 @@
             <table class="table text-light text-center">
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nazwa</th>
-                        <th scope="col">Typ</th>
-                        <th scope="col">Poziom</th>
-                        <th scope="col">Mana</th>
-                        <th scope="col">PA</th>
-                        <th scope="col">Siła</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th>Id</th>
+                        <th>Nazwa</th>
+                        <th>Typ</th>
+                        <th>Poziom</th>
+                        <th>Mana</th>
+                        <th>PA</th>
+                        <th>Siła</th>
+                        <th>E</th>
+                        <th>U</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Spells)
                     {
                         <tr>
-                            <th>@item.Id</th>
+                            <td>@item.Id</td>
                             <td>@item.Name</td>
                             <td>@Enumerators.EnumConverter.Result(item.Type)</td>
                             <td>@item.Level</td>

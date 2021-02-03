@@ -4,35 +4,35 @@
 <p class="text-center font-weight-bold mb-2">Zarządzaj pancerzami</p>
 
 <div class="row">
-    <div class="col-5 p-1">
-        <div style="position:fixed">
-            <img src="~/img/armor.png" class="img-thumbnail-dark pl-5 pr-5"/>
+    <div class="col-5 pr-2 pl-2 pt-5">
+        <div class="fixedContainer">
+            <img src="~/img/armor.png" class="img-thumbnail-dark pl-4 pr-4"/>
         </div>
     </div> 
     
 
-    <div class="col-7 pl-5 pr-5">
-        <div id="armorTable" class="text-center">
+    <div class="col-7 pl-5">
+        <div id="armorTable" class="text-center tableFixHead">
 
             <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Stwórz Pancerz</button>
 
             <table class="table text-light text-center">
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nazwa</th>
-                        <th scope="col">Odp. fiz.</th>
-                        <th scope="col">Odp. mag.</th>
-                        <th scope="col"></th>                     
-                        <th scope="col"></th>
+                        <th>Id</th>
+                        <th>Nazwa</th>
+                        <th>Odp. fiz.</th>
+                        <th>Odp. mag.</th>
+                        <th>E</th>                     
+                        <th>U</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     @foreach (var item in Model.Armors)
                     {
-                        <tr id="tr-@item.Id">
-                            <th scope="row">@item.Id</th>                 
+                        <tr>
+                            <td scope="row">@item.Id</td>                 
                             <td>@item.Name</td>
                             <td>@item.DamageResistance</td>
                             <td>@item.MagicResistance</td>
@@ -45,7 +45,7 @@
             </table>
         </div>
 
-        <div id="armorForm" style="display:none" class="p-5">
+        <div id="armorForm" style="display:none" class="pr-5">
             <form id="manipulateArmor" method="post" onreset="resetSliders()">      
 
                 <input type="hidden" id="id" asp-for="Armor.Id" />

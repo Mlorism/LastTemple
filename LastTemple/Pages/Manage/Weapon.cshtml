@@ -6,27 +6,28 @@
 
 <div class="row">
     <div class="col-7 pl-5">
-        <div id="weaponTable" class="text-center">
+        <div id="weaponTable" class="text-center tableFixHead">
+
             <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(1)">Stwórz Broń</button>
 
             <table class="table text-light text-center">
                 <thead>
                     <tr>
-                        <th scope="row">Id</th>
-                        <th scope="row">Nazwa</th>
-                        <th scope="row">Obraż.</th>
-                        <th scope="row">Obraż. mag.</th>
-                        <th scope="row">PA</th>
-                        <th scope="row">Trafienie</th>
-                        <th scope="row"></th>
-                        <th scope="row"></th>
+                        <th>Id</th>
+                        <th>Nazwa</th>
+                        <th>Obraż.</th>
+                        <th nowrap>O. mag.</th>
+                        <th>PA</th>
+                        <th>Trafienie</th>
+                        <th>E</th>
+                        <th>U</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach(var item in Model.Weapons)
                     {
                         <tr>
-                            <th scope="row">@item.Id</th>
+                            <td class="font-weight-bold">@item.Id</td>
                             <td>@item.Name</td>
                             <td>@item.Damage</td>
                             <td>@item.MagicDamage</td>
@@ -40,7 +41,7 @@
             </table>
         </div>
 
-        <div id="weaponForm" style="display:none" class="pr-5 pl-5">
+        <div id="weaponForm" style="display:none" class="pr-5">
             <form id="manipulateWeapon" method="post" onreset="resetSliders()">
 
                 <input type="hidden" id="id" asp-for="Weapon.Id" />
@@ -87,8 +88,8 @@
         </div>        
     </div>
 
-    <div class="col-5 p-1">
-        <div style="position:fixed">
+    <div class="col-5 p-5">
+        <div class="fixedContainer">
             <img src="~/img/sword.png" class="img-thumbnail-dark pl-4 pr-4" />
         </div>
     </div>
