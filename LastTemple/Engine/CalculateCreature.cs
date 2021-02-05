@@ -12,13 +12,11 @@ namespace LastTemple.Engine
 			target.MaxHP = 15 + (target.Strength + target.Endurance * 2) * target.Level;
 			target.HitPoints = target.MaxHP;
 			target.MaxMana = 4 + target.Willpower * target.Level;
-			target.Mana = target.MaxMana;
-			target.ActionPoints = 0;
-			target.BaseDamage = 0;
-			target.DamageResistance = 0;
-			target.MagicResistance = 0;
-			target.Initiative = 0;
-
+			target.Mana = target.MaxMana;			
+			target.ActionPoints = 5 + (int)Math.Floor(target.Speed / 2.0);			
+			target.DamageResistance = target.Armor.DamageResistance + target.Endurance;
+			target.MagicResistance = target.Armor.MagicResistance + target.Endurance;
+			target.Initiative = target.Speed + target.Agility;
 		}
 	}
 }

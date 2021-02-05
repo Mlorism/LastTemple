@@ -20,7 +20,7 @@ namespace LastTemple.CRUD
 			Weapon item = new Weapon
 			{
 				Name = weapon.Name,
-				Damage = weapon.Damage,
+				BaseDamage = weapon.BaseDamage,
 				MagicDamage = weapon.MagicDamage,
 				ActionCost = weapon.ActionCost,
 				HitChance = weapon.HitChance			

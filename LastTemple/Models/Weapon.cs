@@ -9,7 +9,7 @@ namespace LastTemple.Models
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
-		public int Damage { get; set; }
+		public int BaseDamage { get; set; } // base damage with average attack
 		public int MagicDamage { get; set; }
 		public int ActionCost { get; set; }
 		public int HitChance { get; set; }

@@ -1,4 +1,5 @@
-﻿using LastTemple.Models;
+﻿using LastTemple.Engine;
+using LastTemple.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace LastTemple.CRUD
 				Weapon = new Weapon
 				{
 					Name = creature.Weapon.Name,
-					Damage = creature.Weapon.Damage,
+					BaseDamage = creature.Weapon.BaseDamage,
 					MagicDamage = creature.Weapon.MagicDamage,
 					ActionCost = creature.Weapon.ActionCost,
 					HitChance = creature.Weapon.HitChance
@@ -76,13 +77,7 @@ namespace LastTemple.CRUD
 				});
 			}
 
-
-
-
-
-
-
-
+			CalculateCreature.DerivedStatistics(creature);
 
 
 			_ctx.Creatures.Add(target);

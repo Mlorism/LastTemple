@@ -35,8 +35,7 @@ namespace LastTemple
 		public int HitPoints { get; set; } // MaxHP - damage
 		public int MaxMana { get; set; } // derived from Willpower and Level
 		public int Mana { get; set; } // MaxMana - used mana
-		public int ActionPoints { get; set; } // derived from Speed
-		public int BaseDamage { get; set; } // derived from Weapon and Strength		
+		public int ActionPoints { get; set; } // derived from Speed			
 		public int DamageResistance { get; set; } // derived from Endurance and equipped armor or natural hide/shell => property Armor
 		public int MagicResistance { get; set; } // derived from Willpower and equipped armor or natural hide/shell => property Armor
 		public int Initiative { get; set; } // derived from Speed and Agility

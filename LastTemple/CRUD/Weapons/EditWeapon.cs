@@ -22,7 +22,7 @@ namespace LastTemple.CRUD
 			if (target == null) return false;
 
 			target.Name = weapon.Name;
-			target.Damage = weapon.Damage;
+			target.BaseDamage = weapon.BaseDamage;
 			target.MagicDamage = weapon.MagicDamage;
 			target.ActionCost = weapon.ActionCost;
 			target.HitChance = weapon.HitChance;			

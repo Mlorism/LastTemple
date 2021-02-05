@@ -29,7 +29,7 @@
                         <tr>
                             <td class="font-weight-bold">@item.Id</td>
                             <td>@item.Name</td>
-                            <td>@item.Damage</td>
+                            <td>@item.BaseDamage</td>
                             <td>@item.MagicDamage</td>
                             <td>@item.ActionCost</td>
                             <td>@item.HitChance</td>
@@ -54,7 +54,7 @@
 
                 <div class="form-group">
                     <label>Obrażenia</label>
-                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="50" step="2" asp-for="Weapon.Damage" />
+                    <input id="damage" class="mySlider" type="range" value="10" min="0" max="50" step="2" asp-for="Weapon.BaseDamage" />
                     <output>10</output>
                 </div>
 
