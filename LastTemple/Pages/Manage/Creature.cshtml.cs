@@ -11,7 +11,7 @@ namespace LastTemple.Pages.Create
 {
     public class CreatureModel : PageModel
     {
-		private ApplicationDbContext _ctx;
+		private readonly ApplicationDbContext _ctx;
 
 		public CreatureModel(ApplicationDbContext ctx)
 		{
@@ -21,10 +21,20 @@ namespace LastTemple.Pages.Create
         [BindProperty]
         public Creature Creature { get; set; }
 		public IEnumerable<Creature> Creatures { get; set; }
+        public IEnumerable<Weapon> Weapons { get; set; }
+        public IEnumerable<Armor> Armors { get; set; }
+        public IEnumerable<Item> Items { get; set; }
+        public IEnumerable<Spell> Spells { get; set; }
 
-		public void OnGet()
+
+
+        public void OnGet()
         {
             Creatures = new GetCreatures(_ctx).Get();
+            Weapons = new GetWeapons(_ctx).Get();
+            Armors = new GetArmors(_ctx).Get();
+            Items = new GetItems(_ctx).Get();
+            Spells = new GetSpells(_ctx).Get();
         }
 
         public async Task<IActionResult> OnPostCreateAsync()

@@ -6,12 +6,15 @@
 <p class="text-center font-weight-bold mb-2">Zarządzaj istotami</p>
 
 <div class="row">
-    <div class="col-4 pr-2 pl-2 pt-5">
-        <img src="~/img/ghoul.png" class="img-thumbnail-dark"/>
+    <div class="col-3 pr-2 pl-2 pt-5">
+        <img src="~/img/ghoul.png" class="img-thumbnail-dark" />
     </div>
 
-    <div class="col-8">
-        <div id="creatureTable" class="tableFixHead">
+    <div class="col-9">
+        <div id="creatureTable" class="tableFixHead text-center">
+
+            <button class="btn btn-outline-light mb-2">Stwórz istotę</button>
+
             <table class="table text-light text-center">
                 <thead>
                     <tr>
@@ -21,24 +24,162 @@
                         <th>Poziom</th>
                         <th>Doś.</th>
                         <th>Zapasy</th>
-                        <th>S</th>
-                        <th>E</th>
-                        <th>U</th>
+                        <th>Szczegóły</th>
+                        <th>Uzbrojenie</th>
+                        <th>Edytuj</th>
+                        <th>Usuń</th>
                     </tr>
                 </thead>
-                    <tr>
-                        <td></td>
-                    </tr>
-                <tbody>
-                </tbody>
 
+                <tbody>
+                    <tr>
+                        <td>xxx</td>
+                        <td>xxx</td>
+                        <td>xxx</td>
+                        <td>xxxl</td>
+                        <td>xxxrience</td>
+                        <td>xxxlies</td>
+                        <td><button class="btn btn-outline-warning">Szczegóły</button></td>
+                        <td><button class="btn btn-outline-warning">Uzbrojenie</button></td>
+                        <td><button class="btn btn-outline-warning">Edytuj</button></td>
+                        <td><button class="btn btn-outline-warning">Usuń</button></td>
+
+                    </tr>
+
+                    @foreach (var item in Model.Creatures)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Type</td>
+                            <td>@item.Level</td>
+                            <td>@item.Experience</td>
+                            <td>@item.Supplies</td>
+                            <td><button class="btn btn-outline-warning">Szczegóły</button></td>
+                            <td><button class="btn btn-outline-warning">Uzbrojenie</button></td>
+                            <td><button class="btn btn-outline-warning">Edytuj</button></td>
+                            <td><button class="btn btn-outline-warning">Usuń</button></td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
 
-        <div id="creatureForm">
+        <div id="inventory" class="pt-5">
+            <div class="row">
+                <div id="weaponDiv" class="col-6 text-center">
+                    <p class="font-weight-bold">Broń</p>
+                    <div class="form-group">   
+                        <label>obrażenia | obr. magiczne | koszt akcji | szansa trafienia</label>
+                        <select id="weapon" class="form-control bg-secondary text-light" asp-for="Creature.Weapon">
+                            @foreach (var item in Model.Weapons)
+                            {
+                                <option value="@item">@item.Name - O: @item.BaseDamage | O.M: @item.MagicDamage | @item.ActionCost PA | @item.HitChance%</option>
+                            }
+                        </select>                        
+                    </div>
 
+                </div>
+
+                <div id="armorDiv" class="col-6">
+                    aaa
+                </div>
+
+                <div id="itemsDiv" class="col-6">
+                    iii
+                </div>
+                
+                <div id="spellsDiv" class="col-6">
+                    sss
+                </div>
+            </div>
         </div>
     </div>
-  
+
+
+
+</div>
+
+<div id="creatureForm" style="display:none" class="row mt-5">
+
+    <input type="hidden" asp-for="Creature.Id" id="id" />
+
+    <div class="col-6">
+        <div class="form-group">
+            <label>Nazwa</label>
+            <input id="name" type="text" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" />
+            <small>Długość od 5 do 20 znaków</small>
+        </div>
+
+        <div class="form-group">
+            <label>Typ</label>
+            <select id="genere" class="form-control bg-secondary text-light" asp-for="Creature.Type" asp-items="Html.GetEnumSelectList<Enumerators.CreatureTypeEnum>()"></select>
+        </div>
+
+        <div class="form-group">
+            <label>Pozim</label>
+            <input id="level" type="number" class="form-control bg-secondary text-light" step="1" value="0" max="10" asp-for="Creature.Level" onkeydown="return false" />
+            <small>Od 0 do 10</small>
+        </div>
+
+        <div class="form-group">
+            <label>Doświadczenie</label>
+            <input id="experience" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Experience" />
+            <small>0</small><br />
+            <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
+        </div>
+
+        <div class="form-group">
+            <label>Zapasy</label>
+            <input id="supplies" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Supplies" />
+            <small>0</small><br />
+            <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="form-group">
+            <label>Siła</label>
+            <input type="range" id="strength" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Strength" />
+            <small>2</small><br />
+            <small>Determinuje zadawane obrażenia w zwarciu, może być zwiększana przy awansie</small>
+        </div>
+
+        <div class="form-group">
+            <label>Wytrzymałość</label>
+            <input type="range" id="endurance" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Endurance" />
+            <small>2</small><br />
+            <small>Determinuje ilość puntów życia i wytrzymałość na obrażenia, może być zwiększana przy awansie</small>
+        </div>
+
+        <div class="form-group">
+            <label>Siła woli</label>
+            <input type="range" id="willpower" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Willpower" />
+            <small>2</small><br />
+            <small>Determinuje ilość puntów many i wytrzymałość na obrażenia magiczne, może być zwiększana przy awansie</small>
+        </div>
+
+        <div class="form-group">
+            <label>Siła woli</label>
+            <input type="range" id="willpower" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Willpower" />
+            <small>2</small><br />
+            <small>Determinuje ilość puntów many i wytrzymałość na obrażenia magiczne, może być zwiększana przy awansie</small>
+        </div>
+
+        <div class="form-group">
+            <label>Szybkość</label>
+            <input type="range" id="speed" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Speed" />
+            <small>2</small><br />
+            <small>Determinuje ilość punków akcji i inicjatywy</small>
+        </div>
+
+        <div class="form-group">
+            <label>Zręczność</label>
+            <input type="range" id="agility" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Agility" />
+            <small>2</small><br />
+            <small>Determinuje szansę na unik, trafienie oraz punkty inicjatywy</small>
+        </div>
+    </div>
+
 
 </div>
