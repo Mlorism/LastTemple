@@ -31,54 +31,66 @@ namespace LastTemple.CRUD
 				Endurance = creature.Endurance,
 				Willpower = creature.Willpower,
 				Speed = creature.Speed,
-				Agility = creature.Agility,
+				Agility = creature.Agility,				
 
-				Weapon = new Weapon
+				MagicBook = new List<Spell>(),
+				Items = new List<Item>()				
+			};
+
+			if(creature.Weapon != null) 
+			{
+				target.Weapon = new Weapon
 				{
 					Name = creature.Weapon.Name,
 					BaseDamage = creature.Weapon.BaseDamage,
 					MagicDamage = creature.Weapon.MagicDamage,
 					ActionCost = creature.Weapon.ActionCost,
 					HitChance = creature.Weapon.HitChance
-				},
+				};
+			}
 
-				Armor = new Armor
+			if (creature.Armor != null)
+			{
+				target.Armor = new Armor
 				{
 					Name = creature.Armor.Name,
 					DamageResistance = creature.Armor.DamageResistance,
 					MagicResistance = creature.Armor.MagicResistance
-				},
-
-				MagicBook = new List<Spell>(),
-				Items = new List<Item>()
-			};
-
-			foreach (var spell in creature.MagicBook)
-			{
-				target.MagicBook.Add(new Spell
-				{
-					Name = spell.Name,
-					Type = spell.Type,
-					Level = spell.Level,
-					ManaCost = spell.ManaCost,
-					ActionCost = spell.ActionCost,
-					Strength = spell.Strength
-				}); 
+				};
 			}
 
-			foreach (var item in creature.Items)
+			if (creature.MagicBook != null)
 			{
-				target.Items.Add(new Item
+
+			foreach (var spell in creature.MagicBook)
 				{
-					Name = item.Name,
-					ItemType = item.ItemType,
-					Strength = item.Strength,
-					ActionCost = item.ActionCost
-				});
+					target.MagicBook.Add(new Spell
+					{
+						Name = spell.Name,
+						Type = spell.Type,
+						Level = spell.Level,
+						ManaCost = spell.ManaCost,
+						ActionCost = spell.ActionCost,
+						Strength = spell.Strength
+					}); 
+				}
+			}
+
+			if (creature.Items != null)
+			{
+				foreach (var item in creature.Items)
+				{
+					target.Items.Add(new Item
+					{
+						Name = item.Name,
+						ItemType = item.ItemType,
+						Strength = item.Strength,
+						ActionCost = item.ActionCost
+					});
+				}
 			}
 
 			CalculateCreature.DerivedStatistics(creature);
-
 
 			_ctx.Creatures.Add(target);
 
