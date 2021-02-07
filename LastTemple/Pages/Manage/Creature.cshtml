@@ -65,8 +65,12 @@
             </table>
         </div>
 
-        <div id="inventory" class="pt-5">
+        <div id="inventory" class="pt-5 text-center">
+
+            <button class="btn btn-outline-light">Lista</button>
+
             <div class="row">
+
                 <div id="weaponDiv" class="col-6 text-center">
                     <p class="font-weight-bold">Broń</p>
                     <div class="form-group">   
@@ -74,23 +78,127 @@
                         <select id="weapon" class="form-control bg-secondary text-light" asp-for="Creature.Weapon">
                             @foreach (var item in Model.Weapons)
                             {
-                                <option value="@item">@item.Name - O: @item.BaseDamage | O.M: @item.MagicDamage | @item.ActionCost PA | @item.HitChance%</option>
+                                <option value="@item">@item.Name - @item.BaseDamage | @item.MagicDamage | @item.ActionCost PA | @item.HitChance%</option>
                             }
                         </select>                        
                     </div>
-
                 </div>
 
-                <div id="armorDiv" class="col-6">
-                    aaa
+                <div id="armorDiv" class="col-6 text-center">
+                    <p class="font-weight-bold">Pancerz</p>
+                    <div class="form-group">
+                        <label>odporność fizyczna | odporność magiczna</label>
+                        <select id="armor" class="form-control bg-secondary text-light" asp-for="Creature.Armor">
+                            @foreach (var item in Model.Armors)
+                            {
+                                <option value="@item">@item.Name - @item.DamageResistance | @item.MagicResistance</option>
+                            }
+                        </select>
+                    </div>
                 </div>
 
-                <div id="itemsDiv" class="col-6">
-                    iii
+                <div id="itemsDiv" class="col-6 text-center">
+                    <p class="font-weight-bold">Przedmioty</p>
+                    <table class="table tableFixHead text-light text-center">
+                        <thead>
+                            <tr>
+                                <th>Nazwa</th>
+                                <th>Typ</th>
+                                <th>Moc</th>
+                                <th>PA</th>
+                                <th>U</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Creature != null)
+                            {
+                                @foreach (var item in Model.Creature.Items)
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td>@Enumerators.EnumConverter.Result(item.ItemType)</td>
+                                        <td>@item.Strength</td>
+                                        <td>@item.ActionCost</td>
+                                        <td><button class="btn btn-outline-warning">Usuń</button></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="form-group text-center">
+                        <label>typ | moc | koszt akcji</label>
+                        <select id="item" class="form-control bg-secondary text-light">
+                            @foreach (var item in Model.Items)
+                            {
+                                <option value="@item">@item.Name - @Enumerators.EnumConverter.Result(item.ItemType) | @item.Strength | @item.ActionCost PA </option>
+                            }
+                        </select>
+                        <button class="btn btn-outline-warning m-2">Dodaj</button>
+                    </div>
                 </div>
                 
-                <div id="spellsDiv" class="col-6">
-                    sss
+                <div id="spellsDiv" class="col-6 text-center">
+                    <p class="font-weight-bold">Zaklęcia</p>
+                    <table class="table tableFixHead text-light text-center">
+                        <thead>
+                            <tr>
+                                <th>Nazwa</th>
+                                <th>Typ</th>
+                                <th>Siła</th>
+                                <th>PA</th>
+                                <th>U</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @if (Model.Creature != null)
+                            {
+                                @foreach (var item in Model.Creature.MagicBook)
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td>@Enumerators.EnumConverter.Result(item.Type)</td>
+                                        <td>@item.Strength</td>
+                                        <td>@item.ActionCost</td>
+                                        <td><button class="btn btn-outline-warning">Usuń</button></td>
+                                    </tr>
+                                }
+                            }
+
+                            else
+                            {
+                                <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="form-group">
+                        <label>typ | moc | koszt akcji</label>
+                        <select id="spell" class="form-control bg-secondary text-light">
+                            @foreach(var item in Model.Spells)
+                            {
+                                <option value="@item">@item.Name - @Enumerators.EnumConverter.Result(item.Type) | @item.Strength | @item.ActionCost PA</option>
+                            }
+                        </select>
+                        <button class="btn btn-outline-warning m-2">Dodaj</button>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -100,7 +208,7 @@
 
 </div>
 
-<div id="creatureForm" style="display:none" class="row mt-5">
+<div id="creatureForm" class="row mt-5 text-center">
 
     <input type="hidden" asp-for="Creature.Id" id="id" />
 
@@ -135,16 +243,16 @@
             <small>0</small><br />
             <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
         </div>
-    </div>
 
-    <div class="col-6">
         <div class="form-group">
             <label>Siła</label>
             <input type="range" id="strength" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Strength" />
             <small>2</small><br />
             <small>Determinuje zadawane obrażenia w zwarciu, może być zwiększana przy awansie</small>
         </div>
+    </div>
 
+    <div class="col-6">
         <div class="form-group">
             <label>Wytrzymałość</label>
             <input type="range" id="endurance" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Endurance" />
@@ -181,5 +289,11 @@
         </div>
     </div>
 
+    <div class="col-12 text-center">        
+        <button id="createBtn" type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
+        <button id="editBtn" type="submit" asp-page-handler="Update" class="btn btn-outline-success m-2">Edytuj</button>
+        <button id="resetBtn" type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
+        <button type="button" class="btn btn-outline-danger m-2" onclick="ToggleColumn(0)">Anuluj</button>        
+    </div>
 
 </div>
