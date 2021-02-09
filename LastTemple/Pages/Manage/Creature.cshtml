@@ -3,17 +3,19 @@
 @{
 }
 
+<input id="toggleValue" type="hidden" value="@Model.LastToggle"/>
+
 <p class="text-center font-weight-bold mb-2">Zarządzaj istotami</p>
 
-<div class="row">
-    <div class="col-3 pr-2 pl-2 pt-5">
+<div id="details" class="row">
+    <div id="creatureImg" class="col-3 pr-2 pl-2 pt-5">
         <img src="~/img/ghoul.png" class="img-thumbnail-dark" />
     </div>
 
     <div class="col-9">
         <div id="creatureTable" class="tableFixHead text-center">
 
-            <button class="btn btn-outline-light mb-2">Stwórz istotę</button>
+            <button class="btn btn-outline-light mb-2" onclick="ToggleColumn(3)">Stwórz istotę</button>
 
             <table class="table text-light text-center">
                 <thead>
@@ -31,7 +33,7 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody>                   
                     @foreach (var item in Model.Creatures)
                     {
                         <tr>
@@ -41,32 +43,58 @@
                             <td>@item.Level</td>
                             <td>@item.Experience</td>
                             <td>@item.Supplies</td>
-                            <td><button class="btn btn-outline-warning">Szczegóły</button></td>
-                            <td><button class="btn btn-outline-warning">Uzbrojenie</button></td>
-                            <td><button class="btn btn-outline-warning">Edytuj</button></td>
+                            <td>
+                                <form method="get">
+                                    <input type="hidden" name="handler" value="Details" />
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="toggle" value = 1 />
+                                    <button class="btn btn-outline-warning">Szczegóły</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form>
+                                    <input type="hidden" name="handler" value="Details" />
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="toggle" value = 2 />
+                                    <button class="btn btn-outline-warning">Uzbrojenie</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form>
+                                    <input type="hidden" name="handler" value="Details" />
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="toggle" value = 4 />
+                                    <button class="btn btn-outline-warning">Edytuj</button>
+                                </form>
+                            </td>
                             <td><button class="btn btn-outline-warning">Usuń</button></td>
                         </tr>
-                    }
+                    }                   
                 </tbody>
             </table>
         </div>
 
+        <div id="statistics" class="pt-5 text-center" style="display:none">
+            <p>Szczegóły!</p>
+            <button class="btn btn-outline-light" onclick="ToggleColumn(0)">Lista</button>
+        </div>
+
         <div id="inventory" class="pt-5 text-center" style="display:none">
 
-            <button class="btn btn-outline-light">Lista</button>
+            <button class="btn btn-outline-light" onclick="ToggleColumn(0)">Lista</button>
 
             <div class="row">
 
                 <div id="weaponDiv" class="col-6 text-center">
                     <p class="font-weight-bold">Broń</p>
-                    <div class="form-group">   
+                    <div class="form-group">
                         <label>obrażenia | obr. magiczne | koszt akcji | szansa trafienia</label>
                         <select id="weapon" class="form-control bg-secondary text-light" asp-for="Creature.Weapon">
                             @foreach (var item in Model.Weapons)
                             {
                                 <option value="@item">@item.Name - @item.BaseDamage | @item.MagicDamage | @item.ActionCost PA | @item.HitChance%</option>
                             }
-                        </select>   
+                        </select>
                         <button class="btn btn-outline-warning m-2">Wybierz</button>
                     </div>
                 </div>
@@ -98,7 +126,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model.Creature != null)
+                            @if (Model.Creature.Items != null)
                             {
                                 @foreach (var item in Model.Creature.Items)
                                 {
@@ -134,7 +162,7 @@
                         <button class="btn btn-outline-warning m-2">Dodaj</button>
                     </div>
                 </div>
-                
+
                 <div id="spellsDiv" class="col-6 text-center">
                     <p class="font-weight-bold">Zaklęcia</p>
                     <table class="table tableFixHead text-light text-center">
@@ -149,7 +177,7 @@
                         </thead>
 
                         <tbody>
-                            @if (Model.Creature != null)
+                            @if (Model.Creature.MagicBook != null)
                             {
                                 @foreach (var item in Model.Creature.MagicBook)
                                 {
@@ -179,7 +207,7 @@
                     <div class="form-group">
                         <label>typ | moc | koszt akcji</label>
                         <select id="spell" class="form-control bg-secondary text-light">
-                            @foreach(var item in Model.Spells)
+                            @foreach (var item in Model.Spells)
                             {
                                 <option value="@item">@item.Name - @Enumerators.EnumConverter.Result(item.Type) | @item.Strength | @item.ActionCost PA</option>
                             }
@@ -196,15 +224,18 @@
 
 </div>
 
-<div id="creatureForm" class="row mt-5 text-center">
+<form id="creatureForm" class="text-center" method="post" style="display:none">
 
-    <form method="post">
+    <button class="btn btn-outline-light mt-2" onclick="ToggleColumn(0)">Lista</button>
+
+    <div class="row mt-2 text-center">
+
         <input type="hidden" asp-for="Creature.Id" id="id" />
 
         <div class="col-6">
             <div class="form-group">
                 <label>Nazwa</label>
-                <input id="name" type="text" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Creature.Name"/>
+                <input id="name" type="text" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Creature.Name" />
                 <small>Długość od 5 do 20 znaków</small>
             </div>
 
@@ -254,7 +285,7 @@
                 <input type="range" id="willpower" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Willpower" />
                 <small>2</small><br />
                 <small>Determinuje ilość puntów many i wytrzymałość na obrażenia magiczne, może być zwiększana przy awansie</small>
-            </div>           
+            </div>
 
             <div class="form-group">
                 <label>Szybkość</label>
@@ -277,5 +308,80 @@
             <button id="resetBtn" type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
             <button type="button" class="btn btn-outline-danger m-2" onclick="ToggleColumn(0)">Anuluj</button>
         </div>
-    </form>
-</div>
+    </div>
+
+
+
+
+
+
+</form>
+
+<script type="text/javascript">
+
+    var toggleValue = document.getElementById("toggleValue");
+
+    loadSettings();
+
+    function loadSettings() {
+        if (toggleValue.value > 0) {
+            ToggleColumn(toggleValue.value);
+        }     
+        
+    }
+
+    function ToggleColumn(type)
+    {
+        var creatureImg = document.getElementById("creatureImg");
+        var creatureTable = document.getElementById("creatureTable");
+        var statistics = document.getElementById("statistics");
+        var inventory = document.getElementById("inventory");
+        var creatureForm = document.getElementById("creatureForm");
+        
+        var resetBtn = document.getElementById("resetBtn");
+        var createBtn = document.getElementById("createBtn");
+        var editBtn = document.getElementById("editBtn");
+
+        if (type == 0) {
+            creatureImg.style.display = "block";
+           
+            creatureTable.style.display = "block";
+            inventory.style.display = "none";
+            statistics.style.display = "none";            
+            creatureForm.style.display = "none";           
+        }
+
+        else {
+            creatureTable.style.display = "none";
+
+            if (type == 1) {
+                statistics.style.display = "block";    
+            }
+
+            else if (type == 2){               
+                inventory.style.display = "block";                
+            }
+
+            else {
+                creatureImg.style.display = "none";
+                creatureForm.style.display = "block";
+                                
+                    if (type == 3) {
+                        resetBtn.style.display = "inline-block";
+                        createBtn.style.display = "inline-block";
+                        editBtn.style.display = "none";
+                    }
+
+                    else if (type == 4) {
+                        resetBtn.style.display = "none";
+                        createBtn.style.display = "none";
+                        editBtn.style.display = "inline-block";
+                    }
+                 }
+
+        }
+    } // ToggleColumn()
+
+
+
+</script>

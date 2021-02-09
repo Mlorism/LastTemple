@@ -26,14 +26,31 @@ namespace LastTemple.Pages.Create
 		public IEnumerable<Item> Items { get; set; }
 		public IEnumerable<Spell> Spells { get; set; }
 
+		[BindProperty]
+		public int LastToggle { get; set; }
 		public void OnGet()
 		{
+			Creature = new Creature();
+			
 			Creatures = new GetCreatures(_ctx).Get();
 			Weapons = new GetWeapons(_ctx).Get();
 			Armors = new GetArmors(_ctx).Get();
 			Items = new GetItems(_ctx).Get();
 			Spells = new GetSpells(_ctx).Get();
 		}
+
+		public void OnGetDetails(int id, int toggle)
+		{
+			Creature = new GetCreature(_ctx).Get(id);
+
+			LastToggle = toggle;
+			Creatures = new GetCreatures(_ctx).Get();
+			Weapons = new GetWeapons(_ctx).Get();
+			Armors = new GetArmors(_ctx).Get();
+			Items = new GetItems(_ctx).Get();
+			Spells = new GetSpells(_ctx).Get();
+		}
+
 
 		public async Task<IActionResult> OnPostCreateAsync()
 		{
