@@ -73,7 +73,7 @@ namespace LastTemple.Pages.Create
 			return RedirectToPage("Creature");
 		}
 
-		public async Task<IActionResult> OnPostUpdateAsync()
+		public async Task<IActionResult> OnPostUpdateCreatureAsync()
 		{
 			var item = _ctx.Creatures.Find(Creature.Id);
 
@@ -82,7 +82,7 @@ namespace LastTemple.Pages.Create
 				return RedirectToPage("Creature");
 			}
 
-			await new EditCreature(_ctx).Update(Creature);
+			await new EditCreature(_ctx).UpdateCreature(Creature);
 
 			return RedirectToPage("Creature");
 		}

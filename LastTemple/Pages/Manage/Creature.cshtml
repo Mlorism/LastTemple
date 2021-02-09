@@ -76,12 +76,16 @@
 
         <div id="statistics" class="pt-5 text-center" style="display:none">
             <p>Szczegóły!</p>
-            <button class="btn btn-outline-light" onclick="ToggleColumn(0)">Lista</button>
+            <form method="get">
+                <button class="btn btn-outline-light">Lista</button>
+            </form>
         </div>
 
         <div id="inventory" class="pt-5 text-center" style="display:none">
 
-            <button class="btn btn-outline-light" onclick="ToggleColumn(0)">Lista</button>
+            <form method="get">
+                <button class="btn btn-outline-light">Lista</button>
+            </form>
 
             <div class="row">
 
@@ -220,102 +224,104 @@
         </div>
     </div>
 
-
-
 </div>
 
-<form id="creatureForm" class="text-center" method="post" style="display:none">
+<div id="creatureForm" class="text-center" style="display:none">
 
-    <button class="btn btn-outline-light mt-2" onclick="ToggleColumn(0)">Lista</button>
+    <form method="get">
+        <button class="btn btn-outline-light">Lista</button>
+    </form>
 
-    <div class="row mt-2 text-center">
+    <form id="manageForm" method="post">
+        <div class="row mt-2 text-center">
 
-        <input type="hidden" asp-for="Creature.Id" id="id" />
+            <input type="hidden" asp-for="Creature.Id" id="id" />
 
-        <div class="col-6">
-            <div class="form-group">
-                <label>Nazwa</label>
-                <input id="name" type="text" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Creature.Name" />
-                <small>Długość od 5 do 20 znaków</small>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Nazwa</label>
+                    <input id="name" type="text" class="form-control bg-secondary text-light" minlength="5" maxlength="20" required="required" asp-for="Creature.Name" />
+                    <small>Długość od 5 do 20 znaków</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Typ</label>
+                    <select id="genere" class="form-control bg-secondary text-light" asp-for="Creature.Type" asp-items="Html.GetEnumSelectList<Enumerators.CreatureTypeEnum>()"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Pozim</label>
+                    <input id="level" type="number" class="form-control bg-secondary text-light" step="1" value="0" max="10" asp-for="Creature.Level" onkeydown="return false" />
+                    <small>Od 0 do 10</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Doświadczenie</label>
+                    <input id="experience" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Experience" />
+                    <small>0</small><br />
+                    <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Zapasy</label>
+                    <input id="supplies" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Supplies" />
+                    <small>0</small><br />
+                    <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Siła</label>
+                    <input type="range" id="strength" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Strength" />
+                    <small>2</small><br />
+                    <small>Determinuje zadawane obrażenia w zwarciu, może być zwiększana przy awansie</small>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Typ</label>
-                <select id="genere" class="form-control bg-secondary text-light" asp-for="Creature.Type" asp-items="Html.GetEnumSelectList<Enumerators.CreatureTypeEnum>()"></select>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Wytrzymałość</label>
+                    <input type="range" id="endurance" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Endurance" />
+                    <small>2</small><br />
+                    <small>Determinuje ilość puntów życia i wytrzymałość na obrażenia, może być zwiększana przy awansie</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Siła woli</label>
+                    <input type="range" id="willpower" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Willpower" />
+                    <small>2</small><br />
+                    <small>Determinuje ilość puntów many i wytrzymałość na obrażenia magiczne, może być zwiększana przy awansie</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Szybkość</label>
+                    <input type="range" id="speed" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Speed" />
+                    <small>2</small><br />
+                    <small>Determinuje ilość punków akcji i inicjatywy</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Zręczność</label>
+                    <input type="range" id="agility" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Agility" />
+                    <small>2</small><br />
+                    <small>Determinuje szansę na unik, trafienie oraz punkty inicjatywy</small>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Pozim</label>
-                <input id="level" type="number" class="form-control bg-secondary text-light" step="1" value="0" max="10" asp-for="Creature.Level" onkeydown="return false" />
-                <small>Od 0 do 10</small>
-            </div>
 
-            <div class="form-group">
-                <label>Doświadczenie</label>
-                <input id="experience" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Experience" />
-                <small>0</small><br />
-                <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
-            </div>
-
-            <div class="form-group">
-                <label>Zapasy</label>
-                <input id="supplies" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Supplies" />
-                <small>0</small><br />
-                <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
-            </div>
-
-            <div class="form-group">
-                <label>Siła</label>
-                <input type="range" id="strength" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Strength" />
-                <small>2</small><br />
-                <small>Determinuje zadawane obrażenia w zwarciu, może być zwiększana przy awansie</small>
-            </div>
         </div>
+    </form>
 
-        <div class="col-6">
-            <div class="form-group">
-                <label>Wytrzymałość</label>
-                <input type="range" id="endurance" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Endurance" />
-                <small>2</small><br />
-                <small>Determinuje ilość puntów życia i wytrzymałość na obrażenia, może być zwiększana przy awansie</small>
-            </div>
-
-            <div class="form-group">
-                <label>Siła woli</label>
-                <input type="range" id="willpower" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Willpower" />
-                <small>2</small><br />
-                <small>Determinuje ilość puntów many i wytrzymałość na obrażenia magiczne, może być zwiększana przy awansie</small>
-            </div>
-
-            <div class="form-group">
-                <label>Szybkość</label>
-                <input type="range" id="speed" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Speed" />
-                <small>2</small><br />
-                <small>Determinuje ilość punków akcji i inicjatywy</small>
-            </div>
-
-            <div class="form-group">
-                <label>Zręczność</label>
-                <input type="range" id="agility" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Agility" />
-                <small>2</small><br />
-                <small>Determinuje szansę na unik, trafienie oraz punkty inicjatywy</small>
-            </div>
-        </div>
-
-        <div class="col-12 text-center">
-            <button id="createBtn" type="submit" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
-            <button id="editBtn" type="submit" asp-page-handler="Update" class="btn btn-outline-success m-2">Edytuj</button>
-            <button id="resetBtn" type="reset" class="btn btn-outline-warning m-2">Resetuj</button>
-            <button type="button" class="btn btn-outline-danger m-2" onclick="ToggleColumn(0)">Anuluj</button>
-        </div>
+    <div class="col-12 text-center">
+        <button id="createBtn" type="submit" form="manageForm" asp-page-handler="Create" class="btn btn-outline-success m-2">Zapisz</button>
+        <button id="editBtn" type="submit" form="manageForm" asp-page-handler="UpdateCreature" class="btn btn-outline-success m-2">Edytuj</button>
+        <button id="resetBtn" type="reset" form="manageForm" class="btn btn-outline-warning m-2">Resetuj</button>
+        <form style="display:inline-block" method="get">
+            <button class="btn btn-outline-danger m-2">Anuluj</button>
+        </form>
     </div>
 
-
-
-
-
-
-</form>
+  
+</div>
 
 <script type="text/javascript">
 
