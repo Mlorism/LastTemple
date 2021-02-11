@@ -50,13 +50,22 @@ table th:last-child {
 }
 
 
-
 .img-thumbnail-dark {
     padding: 2rem 0.5rem;
     background-color: #2F3336;
     border: 1px solid #fff;
     border-radius: 2rem;
     max-width: 100%;    
+}
+
+.container-background {
+    padding: 2rem 0.5rem;
+    background: #95959595;
+    color: #101010;
+    border: 1px solid #fff;
+    border-radius: 1rem;
+    max-width: 100%;
+    font-weight: 700 !important;
 }
 
 .upper-navbar {

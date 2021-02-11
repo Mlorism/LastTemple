@@ -67,17 +67,86 @@
                                     <button class="btn btn-outline-warning">Edytuj</button>
                                 </form>
                             </td>
-                            <td><button class="btn btn-outline-warning">Usuń</button></td>
+                            <td><form method="post"><button type="submit" class="btn btn-outline-warning" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
                         </tr>
                     }                   
                 </tbody>
             </table>
         </div>
 
-        <div id="statistics" class="pt-5 text-center" style="display:none">
-            <p>Szczegóły!</p>
+        <div id="statistics" class="pt-2 text-center" style="display:none">           
             <form method="get">
-                <button class="btn btn-outline-light">Lista</button>
+
+
+                <h2 class="m-3">Szczegóły</h2>
+
+                <div class="row p-3 container-background">
+
+                    <div class="col-4 offset-1">
+
+                        <h4><u>Atrybuty</u></h4>
+
+                        <table>
+                            <tbody class="text-left">
+                                <tr>
+                                    <td>Siła:</td>
+                                    <td style="font-weight:800">@Model.Creature.Strength</td>
+                                </tr>
+                                <tr>
+                                    <td>Wytrzymałość:</td>
+                                    <td style="font-weight:800">@Model.Creature.Endurance</td>
+                                </tr>
+                                <tr>
+                                    <td>Siła woli:</td>
+                                    <td style="font-weight:800">@Model.Creature.Willpower</td>
+                                </tr>
+                                <tr>
+                                    <td>Prędkość:</td>
+                                    <td style="font-weight:800">@Model.Creature.Speed</td>
+                                </tr>
+                                <tr>
+                                    <td>Zręczność:</td>
+                                    <td style="font-weight:800">@Model.Creature.Agility</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-5 offset-1">
+                        <h4><u>Statystyki pochodne</u></h4>
+                        <table>
+                            <tbody class="text-left">
+                                <tr>
+                                    <td>Punkty życia:</td>
+                                    <td style="font-weight:800">@Model.Creature.MaxHP</td>
+                                </tr>
+                                <tr>
+                                    <td>Mana:</td>
+                                    <td style="font-weight:800">@Model.Creature.MaxMana</td>
+                                </tr>
+                                <tr>
+                                    <td>Punkty akcji:</td>
+                                    <td style="font-weight:800">@Model.Creature.ActionPoints</td>
+                                </tr>
+                                <tr>
+                                    <td>Odporność na obrażenia:</td>
+                                    <td style="font-weight:800">@Model.Creature.DamageResistance</td>
+                                </tr>
+                                <tr>
+                                    <td>Odporność na magię:</td>
+                                    <td style="font-weight:800">@Model.Creature.MagicResistance</td>
+                                </tr>
+                                <tr>
+                                    <td>Inicjatywa:</td>
+                                    <td style="font-weight:800">@Model.Creature.Initiative</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline-light m-2">Powrót</button>
+
             </form>
         </div>
 

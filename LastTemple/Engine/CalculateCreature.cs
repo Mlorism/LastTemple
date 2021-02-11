@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LastTemple.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,8 +8,12 @@ namespace LastTemple.Engine
 {
 	public static class CalculateCreature
 	{
-		public static void DerivedStatistics(Creature target)
+		private static ApplicationDbContext _ctx;
+
+		public static void DerivedStatistics(Creature target, ApplicationDbContext ctx)
 		{
+			_ctx = ctx;
+
 			target.MaxHP = 15 + (target.Strength + target.Endurance * 2) * target.Level;
 			target.HitPoints = target.MaxHP;
 			target.MaxMana = 4 + target.Willpower * target.Level;
@@ -28,6 +33,8 @@ namespace LastTemple.Engine
 			}
 
 			target.Initiative = target.Speed + target.Agility;
+
+			_ctx.SaveChanges();
 		}
 	}
 }

@@ -71,7 +71,7 @@ namespace LastTemple.CRUD
 				});
 			}
 
-			CalculateCreature.DerivedStatistics(creature);
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			await _ctx.SaveChangesAsync();
 
@@ -96,8 +96,8 @@ namespace LastTemple.CRUD
 			target.Speed = creature.Speed;
 			target.Agility = creature.Agility;
 
-			
-			CalculateCreature.DerivedStatistics(creature);
+
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			await _ctx.SaveChangesAsync();
 
@@ -152,7 +152,7 @@ namespace LastTemple.CRUD
 				});
 			}
 
-			CalculateCreature.DerivedStatistics(creature);
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			await _ctx.SaveChangesAsync();
 
@@ -169,9 +169,9 @@ namespace LastTemple.CRUD
 			target.Weapon.BaseDamage = creature.Weapon.BaseDamage;
 			target.Weapon.MagicDamage = creature.Weapon.MagicDamage;
 			target.Weapon.ActionCost = creature.Weapon.ActionCost;
-			target.Weapon.HitChance = creature.Weapon.HitChance;			
-			
-			CalculateCreature.DerivedStatistics(creature);
+			target.Weapon.HitChance = creature.Weapon.HitChance;
+
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			await _ctx.SaveChangesAsync();
 
@@ -186,9 +186,9 @@ namespace LastTemple.CRUD
 			
 			target.Armor.Name = creature.Armor.Name;
 			target.Armor.DamageResistance = creature.Armor.DamageResistance;
-			target.Armor.MagicResistance = creature.Armor.MagicResistance;			
-			
-			CalculateCreature.DerivedStatistics(creature);
+			target.Armor.MagicResistance = creature.Armor.MagicResistance;
+
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			await _ctx.SaveChangesAsync();
 
@@ -214,7 +214,7 @@ namespace LastTemple.CRUD
 				});
 			}
 
-			CalculateCreature.DerivedStatistics(creature);
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			await _ctx.SaveChangesAsync();
 
@@ -242,7 +242,7 @@ namespace LastTemple.CRUD
 				});
 			}
 
-			CalculateCreature.DerivedStatistics(creature);
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			await _ctx.SaveChangesAsync();
 

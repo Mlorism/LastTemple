@@ -90,7 +90,7 @@ namespace LastTemple.CRUD
 				}
 			}
 
-			CalculateCreature.DerivedStatistics(creature);
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			_ctx.Creatures.Add(target);
 
