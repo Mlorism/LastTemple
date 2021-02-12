@@ -76,15 +76,14 @@
 
         <div id="statistics" class="pt-2 text-center" style="display:none">           
             <form method="get">
-
-
-                <h2 class="m-3">Szczegóły</h2>
+                
+                <h3 class="m-2">@Model.Creature.Name</h3>
 
                 <div class="row p-3 container-background">
 
                     <div class="col-4 offset-1">
 
-                        <h4><u>Atrybuty</u></h4>
+                        <h4 style="color:#eee"><u>Atrybuty</u></h4>
 
                         <table>
                             <tbody class="text-left">
@@ -113,7 +112,7 @@
                     </div>
 
                     <div class="col-5 offset-1">
-                        <h4><u>Statystyki pochodne</u></h4>
+                        <h4 style="color:#eee"><u>Statystyki pochodne</u></h4>
                         <table>
                             <tbody class="text-left">
                                 <tr>
@@ -319,7 +318,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Pozim</label>
+                    <label>Poziom</label>
                     <input id="level" type="number" class="form-control bg-secondary text-light" step="1" value="0" max="10" asp-for="Creature.Level" onkeydown="return false" />
                     <small>Od 0 do 10</small>
                 </div>
@@ -327,21 +326,21 @@
                 <div class="form-group">
                     <label>Doświadczenie</label>
                     <input id="experience" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Experience" />
-                    <small>0</small><br />
+                    <output>0</output><br />
                     <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
                 </div>
 
                 <div class="form-group">
                     <label>Zapasy</label>
                     <input id="supplies" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Supplies" />
-                    <small>0</small><br />
+                    <output>0</output><br />
                     <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
                 </div>
 
                 <div class="form-group">
                     <label>Siła</label>
                     <input type="range" id="strength" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Strength" />
-                    <small>2</small><br />
+                    <output>2</output><br />
                     <small>Determinuje zadawane obrażenia w zwarciu, może być zwiększana przy awansie</small>
                 </div>
             </div>
@@ -350,28 +349,28 @@
                 <div class="form-group">
                     <label>Wytrzymałość</label>
                     <input type="range" id="endurance" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Endurance" />
-                    <small>2</small><br />
+                    <output>2</output><br />
                     <small>Determinuje ilość puntów życia i wytrzymałość na obrażenia, może być zwiększana przy awansie</small>
                 </div>
 
                 <div class="form-group">
                     <label>Siła woli</label>
                     <input type="range" id="willpower" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Willpower" />
-                    <small>2</small><br />
+                    <output>2</output><br />
                     <small>Determinuje ilość puntów many i wytrzymałość na obrażenia magiczne, może być zwiększana przy awansie</small>
                 </div>
 
                 <div class="form-group">
                     <label>Szybkość</label>
                     <input type="range" id="speed" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Speed" />
-                    <small>2</small><br />
+                    <output>2</output><br />
                     <small>Determinuje ilość punków akcji i inicjatywy</small>
                 </div>
 
                 <div class="form-group">
                     <label>Zręczność</label>
                     <input type="range" id="agility" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Agility" />
-                    <small>2</small><br />
+                    <output>2</output><br />
                     <small>Determinuje szansę na unik, trafienie oraz punkty inicjatywy</small>
                 </div>
             </div>
@@ -398,11 +397,26 @@
 
     loadSettings();
 
+    document.getElementById("experience").oninput = function () { setSlider("experience"); }
+    document.getElementById("supplies").oninput = function () { setSlider("supplies"); }
+    document.getElementById("strength").oninput = function () { setSlider("strength"); }
+    document.getElementById("endurance").oninput = function () { setSlider("endurance"); }
+    document.getElementById("willpower").oninput = function () { setSlider("willpower"); }
+    document.getElementById("speed").oninput = function () { setSlider("speed"); }
+    document.getElementById("agility").oninput = function () { setSlider("agility"); }
+
     function loadSettings() {
         if (toggleValue.value > 0) {
             ToggleColumn(toggleValue.value);
-        }     
-        
+        }  
+
+        setSlider("experience");
+        setSlider("supplies");
+        setSlider("strength");
+        setSlider("endurance");
+        setSlider("willpower");
+        setSlider("speed");
+        setSlider("agility");
     }
 
     function ToggleColumn(type)
@@ -457,6 +471,31 @@
         }
     } // ToggleColumn()
 
+    function setSlider(type) {
+        var slider = document.getElementById(type);
+        var value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
 
+        if (slider == null) {
+            alert("slider is null");
+        }
+
+        if (type == "willpower") {
+            slider.style.background = 'linear-gradient(to right, #0000FF 0%, #6600CC ' + value + '%, #000 ' + value + '%, black 100%)'
+        }
+
+        else if (type == "experience"){
+            slider.style.background = 'linear-gradient(to right, #FFFF00 0%, #DAA520 ' + value + '%, #000 ' + value + '%, black 100%)'
+        }        
+
+        else if (type == "speed" || type == "agility") {
+            slider.style.background = 'linear-gradient(to right, #3FEE82 0%, #0B6126 ' + value + '%, #000 ' + value + '%, black 100%)'
+        }
+
+        else {
+            slider.style.background = 'linear-gradient(to right, #FF6B6B 0%, #FF0000 ' + value + '%, #000 ' + value + '%, black 100%)';
+        }
+
+        slider.nextElementSibling.value = slider.value
+    } // setSlider()
 
 </script>
