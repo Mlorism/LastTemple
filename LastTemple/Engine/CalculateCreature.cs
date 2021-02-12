@@ -10,29 +10,31 @@ namespace LastTemple.Engine
 	{
 		private static ApplicationDbContext _ctx;
 
-		public static void DerivedStatistics(Creature target, ApplicationDbContext ctx)
+		public static void DerivedStatistics(Creature creature, ApplicationDbContext ctx)
 		{
 			_ctx = ctx;
 
-			target.MaxHP = 15 + (target.Strength + target.Endurance * 2) * target.Level;
-			target.HitPoints = target.MaxHP;
-			target.MaxMana = 4 + target.Willpower * target.Level;
-			target.Mana = target.MaxMana;			
-			target.ActionPoints = 5 + (int)Math.Floor(target.Speed / 2.0);
+			Creature target = _ctx.Creatures.Find(creature.Id);
 
-			if(target.Armor != null)
+			target.MaxHP = 15 + (creature.Strength + creature.Endurance * 2) * creature.Level;
+			target.HitPoints = creature.MaxHP;
+			target.MaxMana = 4 + creature.Willpower * creature.Level;
+			target.Mana = creature.MaxMana;			
+			target.ActionPoints = 5 + (int)Math.Floor(creature.Speed / 2.0);
+
+			if(creature.Armor != null)
 			{
-				target.DamageResistance = target.Armor.DamageResistance + target.Endurance;
-				target.MagicResistance = target.Armor.MagicResistance + target.Endurance;
+				target.DamageResistance = creature.Armor.DamageResistance + creature.Endurance;
+				target.MagicResistance = creature.Armor.MagicResistance + creature.Endurance;
 			}
 
 			else
 			{
-				target.DamageResistance = target.Endurance;
-				target.MagicResistance = target.Endurance;
+				target.DamageResistance = creature.Endurance;
+				target.MagicResistance = creature.Endurance;
 			}
 
-			target.Initiative = target.Speed + target.Agility;
+			target.Initiative = creature.Speed + creature.Agility;
 
 			_ctx.SaveChanges();
 		}
