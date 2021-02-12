@@ -89,12 +89,12 @@ namespace LastTemple.CRUD
 					});
 				}
 			}
-
-			CalculateCreature.DerivedStatistics(creature, _ctx);
-
+						
 			_ctx.Creatures.Add(target);
 
 			await _ctx.SaveChangesAsync();
+
+			CalculateCreature.DerivedStatistics(target, _ctx);
 
 			return true;
 		} // Create()

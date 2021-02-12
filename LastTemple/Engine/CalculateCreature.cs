@@ -10,12 +10,14 @@ namespace LastTemple.Engine
 	{
 		private static ApplicationDbContext _ctx;
 
-		public static void DerivedStatistics(Creature creature, ApplicationDbContext ctx)
+		public static bool DerivedStatistics(Creature creature, ApplicationDbContext ctx)
 		{
 			_ctx = ctx;
 
-			Creature target = _ctx.Creatures.Find(creature.Id);
+			Creature target = _ctx.Creatures.Find(creature.Id);	
 
+			if (target == null) return false;
+			
 			target.MaxHP = 15 + (creature.Strength + creature.Endurance * 2) * creature.Level;
 			target.HitPoints = creature.MaxHP;
 			target.MaxMana = 4 + creature.Willpower * creature.Level;
@@ -37,6 +39,8 @@ namespace LastTemple.Engine
 			target.Initiative = creature.Speed + creature.Agility;
 
 			_ctx.SaveChanges();
+
+			return true;
 		}
 	}
 }
