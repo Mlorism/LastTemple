@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LastTemple.CRUD;
 using LastTemple.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -20,11 +21,12 @@ namespace LastTemple.Pages.Create
 
 		[BindProperty]
 		public Creature Creature { get; set; }
+		public int Weapon { get; set; }
 		public IEnumerable<Creature> Creatures { get; set; }
 		public IEnumerable<Weapon> Weapons { get; set; }
 		public IEnumerable<Armor> Armors { get; set; }
 		public IEnumerable<Item> Items { get; set; }
-		public IEnumerable<Spell> Spells { get; set; }
+		public IEnumerable<Spell> Spells { get; set; }		
 
 		[BindProperty]
 		public int LastToggle { get; set; }
@@ -36,7 +38,7 @@ namespace LastTemple.Pages.Create
 			Weapons = new GetWeapons(_ctx).Get();
 			Armors = new GetArmors(_ctx).Get();
 			Items = new GetItems(_ctx).Get();
-			Spells = new GetSpells(_ctx).Get();
+			Spells = new GetSpells(_ctx).Get();			
 		}
 
 		public void OnGetDetails(int id, int toggle)
@@ -50,8 +52,6 @@ namespace LastTemple.Pages.Create
 			Items = new GetItems(_ctx).Get();
 			Spells = new GetSpells(_ctx).Get();
 		}
-
-
 		public async Task<IActionResult> OnPostCreateAsync()
 		{
 			await new CreateCreature(_ctx).Create(Creature);
@@ -75,7 +75,7 @@ namespace LastTemple.Pages.Create
 
 		public async Task<IActionResult> OnPostUpdateCreatureAsync()
 		{
-			var item = _ctx.Creatures.Find(Creature.Id);
+			var item = _ctx.Creatures.Find(Creature.Id);			
 
 			if (item == null)
 			{
@@ -84,6 +84,25 @@ namespace LastTemple.Pages.Create
 
 			await new EditCreature(_ctx).UpdateCreature(Creature);
 
+			return RedirectToPage("Creature");
+		}
+
+		public async Task<IActionResult> OnPostUpdateWeaponAsync()
+		{
+			var item = _ctx.Creatures.Find(Creature.Id);
+
+			if (item == null)
+			{
+				return RedirectToPage("Creature");
+			}
+
+			if (Creature.Weapon == null)
+			{
+				return RedirectToPage("Creature");
+			}
+
+			await new EditCreature(_ctx).UpdateWeapon(Creature);
+						
 			return RedirectToPage("Creature");
 		}
 
