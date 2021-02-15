@@ -20,18 +20,22 @@ namespace LastTemple.Pages.Create
 		}
 
 		[BindProperty]
-		public Creature Creature { get; set; }		
+		public Creature Creature { get; set; }
+		[BindProperty]
+		public string UrlString { get; set; }
+		[BindProperty]
+		public int LastToggle { get; set; }
+		[BindProperty]
+		public int SpellId { get; set; }
+		[BindProperty]
+		public int ItemId { get; set; }
 		public IEnumerable<Creature> Creatures { get; set; }
 		public IEnumerable<Weapon> Weapons { get; set; }
 		public IEnumerable<Armor> Armors { get; set; }
 		public IEnumerable<Item> Items { get; set; }
 		public IEnumerable<Spell> Spells { get; set; }
 
-		[BindProperty]
-		public string UrlString { get; set; }
-
-		[BindProperty]
-		public int LastToggle { get; set; }
+		
 		public void OnGet()
 		{
 			Creature = new Creature();
@@ -115,7 +119,16 @@ namespace LastTemple.Pages.Create
 			return Redirect(UrlString);
 		}
 
+		public async Task<IActionResult> OnPostAddSpellAsync()
+		{
+			var item = _ctx.Items.Find(ItemId);
 
+			if (item == null) return RedirectToPage("Creature");
+
+			await new EditCreature(_ctx).AddItem(Creature, ItemId);
+
+			return Redirect(UrlString);
+		}
 
 
 

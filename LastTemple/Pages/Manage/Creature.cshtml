@@ -237,16 +237,23 @@
                             }
                         </tbody>
                     </table>
-                    <div class="form-group text-center">
-                        <label>typ | moc | koszt akcji</label>
-                        <select id="item" class="form-control bg-secondary text-light">
-                            @foreach (var item in Model.Items)
-                            {
-                                <option value="@item">@item.Name - @Enumerators.EnumConverter.Result(item.ItemType) | @item.Strength | @item.ActionCost PA </option>
-                            }
-                        </select>
-                        <button class="btn btn-outline-warning m-2">Dodaj</button>
-                    </div>
+                    
+                    <form method="post">
+                        <input type="hidden" asp-for="Creature.Id" />
+                        <input type="hidden" asp-for="UrlString" value="@HttpContext.Request.Scheme://@HttpContext.Request.Host@HttpContext.Request.Path@HttpContext.Request.QueryString" />
+
+                        <div class="form-group text-center">
+                            <label>typ | moc | koszt akcji</label>
+                            <select id="item" class="form-control bg-secondary text-light" asp-for="ItemId">
+                                @foreach (var item in Model.Items)
+                                {
+                                    <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.ItemType) | @item.Strength | @item.ActionCost PA </option>
+                                }
+                            </select>
+                            <button class="btn btn-outline-warning m-2" asp-page-handler="AddSpell">Dodaj</button>
+                        </div>
+                    </form>
+
                 </div>
 
                 <div id="spellsDiv" class="col-6 text-center">
@@ -290,16 +297,20 @@
                         </tbody>
                     </table>
 
-                    <div class="form-group">
-                        <label>typ | moc | koszt akcji</label>
-                        <select id="spell" class="form-control bg-secondary text-light">
-                            @foreach (var item in Model.Spells)
-                            {
-                                <option value="@item">@item.Name - @Enumerators.EnumConverter.Result(item.Type) | @item.Strength | @item.ActionCost PA</option>
-                            }
-                        </select>
-                        <button class="btn btn-outline-warning m-2">Dodaj</button>
-                    </div>
+                    <form method="post">
+                        
+
+                        <div class="form-group">
+                            <label>typ | moc | koszt akcji</label>
+                            <select id="spell" class="form-control bg-secondary text-light" asp-for="SpellId">
+                                @foreach (var item in Model.Spells)
+                                {
+                                    <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.Type) | @item.Strength | @item.ActionCost PA</option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-outline-warning m-2">Dodaj</button>
+                        </div>
+                    </form>
 
                 </div>
             </div>
