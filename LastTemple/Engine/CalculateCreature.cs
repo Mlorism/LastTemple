@@ -41,6 +41,24 @@ namespace LastTemple.Engine
 			_ctx.SaveChanges();
 
 			return true;
-		}
+		} // DerivedStatistics()
+
+		public static bool ItemsEffect(Creature creature, ApplicationDbContext ctx)
+		{
+			_ctx = ctx;
+
+			Creature target = _ctx.Creatures.Find(creature.Id);
+
+			if (target == null) return false;
+
+
+			////
+			////
+			////
+			
+
+			return true;
+		} // ItemsEffect()
+
 	}
 }

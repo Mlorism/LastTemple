@@ -88,18 +88,15 @@ namespace LastTemple.Pages.Create
 		}
 
 		public async Task<IActionResult> OnPostUpdateWeaponAsync()
-		{
-			var item = _ctx.Creatures.Find(Creature.Id);
+		{			
+			var weapon = _ctx.Weapons.Find(Creature.Weapon.Id);
 
-			if (item == null)
+			if (weapon == null)
 			{
 				return RedirectToPage("Creature");
 			}
 
-			if (Creature.Weapon == null)
-			{
-				return RedirectToPage("Creature");
-			}
+			Creature.Weapon = weapon;
 
 			await new EditCreature(_ctx).UpdateWeapon(Creature);
 						

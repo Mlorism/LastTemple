@@ -166,9 +166,7 @@
                         <div class="form-group">
                             <label>obrażenia | obr. magiczne | koszt akcji | szansa trafienia</label>
 
-                            @*@Html.DropDownListFor(x => x.Creature.Weapon, new SelectList(Model.Weapons, "Id", "Name"))*@
-
-                            <select id="weapon" class="form-control bg-secondary text-light" asp-for="Creature.Weapon">
+                            <select id="weapon" class="form-control bg-secondary text-light" asp-for="Creature.Weapon.Id">
                                 @foreach (var item in Model.Weapons)
                                 {
                                     <option value="@item.Id">@item.Name - @item.BaseDamage | @item.MagicDamage | @item.ActionCost PA | @item.HitChance%</option>

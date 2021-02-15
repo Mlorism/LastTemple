@@ -71,9 +71,9 @@ namespace LastTemple.CRUD
 				});
 			}
 
-			CalculateCreature.DerivedStatistics(creature, _ctx);
-
 			await _ctx.SaveChangesAsync();
+
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			return true;
 		} // UpdateFull() updates creature's parameters and inventory
@@ -97,9 +97,9 @@ namespace LastTemple.CRUD
 			target.Agility = creature.Agility;
 
 
-			CalculateCreature.DerivedStatistics(creature, _ctx);
-
 			await _ctx.SaveChangesAsync();
+
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			return true;
 		} // UpdateCreature() updates only creature's parameters
@@ -152,9 +152,9 @@ namespace LastTemple.CRUD
 				});
 			}
 
-			CalculateCreature.DerivedStatistics(creature, _ctx);
-
 			await _ctx.SaveChangesAsync();
+
+			CalculateCreature.DerivedStatistics(creature, _ctx);
 
 			return true;
 		} // UpdateInventory() updates only creature's inventory
@@ -164,6 +164,8 @@ namespace LastTemple.CRUD
 			Creature target = _ctx.Creatures.Find(creature.Id);
 
 			if (target == null) return false;
+
+			if (target.Weapon == null) target.Weapon = new Weapon();
 			
 			target.Weapon.Name = creature.Weapon.Name;
 			target.Weapon.BaseDamage = creature.Weapon.BaseDamage;
@@ -171,82 +173,96 @@ namespace LastTemple.CRUD
 			target.Weapon.ActionCost = creature.Weapon.ActionCost;
 			target.Weapon.HitChance = creature.Weapon.HitChance;
 
-			CalculateCreature.DerivedStatistics(creature, _ctx);
-
-			await _ctx.SaveChangesAsync();
+			await _ctx.SaveChangesAsync();			
 
 			return true;
-		} // UpdateInventory() updates only creature's inventory
+		} // UpdateWeapon() updates only creature's weapon
 
 		public async Task<bool> UpdateArmor(Creature creature)
 		{
 			Creature target = _ctx.Creatures.Find(creature.Id);
 
-			if (target == null) return false;			
-			
+			if (target == null) return false;
+
+			if (target.Armor == null) target.Armor = new Armor();
+
 			target.Armor.Name = creature.Armor.Name;
 			target.Armor.DamageResistance = creature.Armor.DamageResistance;
 			target.Armor.MagicResistance = creature.Armor.MagicResistance;
 
-			CalculateCreature.DerivedStatistics(creature, _ctx);
-
 			await _ctx.SaveChangesAsync();
-
-			return true;
-		} // UpdateInventory() updates only creature's inventory
-
-		public async Task<bool> UpdateItems(Creature creature)
-		{
-			Creature target = _ctx.Creatures.Find(creature.Id);
-
-			if (target == null) return false;		
-			
-			target.Items = new List<Item>();			
-
-			foreach (var item in creature.Items)
-			{
-				target.Items.Add(new Item
-				{
-					Name = item.Name,
-					ItemType = item.ItemType,
-					Strength = item.Strength,
-					ActionCost = item.ActionCost
-				});
-			}
 
 			CalculateCreature.DerivedStatistics(creature, _ctx);
 
-			await _ctx.SaveChangesAsync();
-
 			return true;
-		} // UpdateInventory() updates only creature's inventory
+		} // UpdateArmor() updates only creature's armor
 
-		public async Task<bool> UpdateSpells(Creature creature)
+		public async Task<bool> AddItem(Creature creature, Item item)
 		{
 			Creature target = _ctx.Creatures.Find(creature.Id);
 
 			if (target == null) return false;
 
-			target.MagicBook = new List<Spell>();			
+			if (target.Items == null) target.Items = new List<Item>();
 
-			foreach (var spell in creature.MagicBook)
-			{
-				target.MagicBook.Add(new Spell
-				{
-					Name = spell.Name,
-					Type = spell.Type,
-					Level = spell.Level,
-					ManaCost = spell.ManaCost,
-					ActionCost = spell.ActionCost,
-					Strength = spell.Strength
-				});
-			}
+			target.Items.Add(item);					
 
-			CalculateCreature.DerivedStatistics(creature, _ctx);
+			await _ctx.SaveChangesAsync();
+
+			CalculateCreature.ItemsEffect(creature, _ctx);
+
+			return true;
+		} // AddItem()
+
+		public async Task<bool> DeleteItem(Creature creature, Item item)
+		{
+			Creature target = _ctx.Creatures.Find(creature.Id);
+
+			if (target == null) return false;
+
+			Item buffer = target.Items.FirstOrDefault(x => x.Id == item.Id);
+
+			if (buffer.Id != item.Id) return false;
+
+			target.Items.Remove(item);
+
+			await _ctx.SaveChangesAsync();
+
+			CalculateCreature.ItemsEffect(creature, _ctx);
+
+			return true;
+		} // DeleteItem()
+
+		public async Task<bool> AddSpell(Creature creature, Spell spell)
+		{
+			Creature target = _ctx.Creatures.Find(creature.Id);
+
+			if (target == null) return false;
+
+			if (target.MagicBook == null) target.MagicBook = new List<Spell>();
+
+			target.MagicBook.Add(spell);
 
 			await _ctx.SaveChangesAsync();
 
 			return true;
-		} // UpdateInventory() updates only creature's inventory
+		} // AddSpell()
+
+		public async Task<bool> DeleteSpell(Creature creature, Item spell)
+		{
+			Creature target = _ctx.Creatures.Find(creature.Id);
+
+			if (target == null) return false;
+
+			Spell buffer = target.MagicBook.FirstOrDefault(x => x.Id == spell.Id);
+
+			if (buffer.Id != spell.Id) return false;
+
+			target.Items.Remove(spell);
+
+			await _ctx.SaveChangesAsync();
+			
+			return true;
+		} // DeleteSpell()
 	}
 }
