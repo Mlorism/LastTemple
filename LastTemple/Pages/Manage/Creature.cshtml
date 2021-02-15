@@ -181,6 +181,8 @@
                 <div id="armorDiv" class="col-6 text-center">
                     <form method="post">
                         <input type="hidden" asp-for="Creature.Id" />
+                        <input type="hidden" asp-for="UrlString" value="@HttpContext.Request.Scheme://@HttpContext.Request.Host@HttpContext.Request.Path@HttpContext.Request.QueryString"/>                        
+
                         <p class="font-weight-bold">Pancerz</p>
                         <div class="form-group">
                             <label>odporność fizyczna | odporność magiczna</label>

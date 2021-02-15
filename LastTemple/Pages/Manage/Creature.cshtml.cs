@@ -20,13 +20,15 @@ namespace LastTemple.Pages.Create
 		}
 
 		[BindProperty]
-		public Creature Creature { get; set; }
-		public int Weapon { get; set; }
+		public Creature Creature { get; set; }		
 		public IEnumerable<Creature> Creatures { get; set; }
 		public IEnumerable<Weapon> Weapons { get; set; }
 		public IEnumerable<Armor> Armors { get; set; }
 		public IEnumerable<Item> Items { get; set; }
-		public IEnumerable<Spell> Spells { get; set; }		
+		public IEnumerable<Spell> Spells { get; set; }
+
+		[BindProperty]
+		public string UrlString { get; set; }
 
 		[BindProperty]
 		public int LastToggle { get; set; }
@@ -110,8 +112,7 @@ namespace LastTemple.Pages.Create
 
 			await new EditCreature(_ctx).UpdateArmor(Creature);
 
-			return RedirectToPage("Creature");
-
+			return Redirect(UrlString);
 		}
 
 
