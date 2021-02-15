@@ -248,7 +248,7 @@ namespace LastTemple.CRUD
 			return true;
 		} // AddSpell()
 
-		public async Task<bool> DeleteSpell(Creature creature, Item spell)
+		public async Task<bool> DeleteSpell(Creature creature, Spell spell)
 		{
 			Creature target = _ctx.Creatures.Find(creature.Id);
 
@@ -258,7 +258,7 @@ namespace LastTemple.CRUD
 
 			if (buffer.Id != spell.Id) return false;
 
-			target.Items.Remove(spell);
+			target.MagicBook.Remove(spell);
 
 			await _ctx.SaveChangesAsync();
 			

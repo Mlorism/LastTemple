@@ -157,7 +157,6 @@
             </form>
 
             <div class="row">
-
               
                 <div id="weaponDiv" class="col-6 text-center">
                     <form method="post">
@@ -167,6 +166,7 @@
                             <label>obrażenia | obr. magiczne | koszt akcji | szansa trafienia</label>
 
                             <select id="weapon" class="form-control bg-secondary text-light" asp-for="Creature.Weapon.Id">
+                                <option value="0">Wybierz broń</option>
                                 @foreach (var item in Model.Weapons)
                                 {
                                     <option value="@item.Id">@item.Name - @item.BaseDamage | @item.MagicDamage | @item.ActionCost PA | @item.HitChance%</option>
@@ -176,21 +176,24 @@
                             <button type="submit" class="btn btn-outline-warning m-2" asp-page-handler="UpdateWeapon">Wybierz</button>
                         </div>
                     </form>
-                </div>
-              
+                </div>              
 
                 <div id="armorDiv" class="col-6 text-center">
-                    <p class="font-weight-bold">Pancerz</p>
-                    <div class="form-group">
-                        <label>odporność fizyczna | odporność magiczna</label>
-                        <select id="armor" class="form-control bg-secondary text-light" asp-for="Creature.Armor">
-                            @foreach (var item in Model.Armors)
-                            {
-                                <option value="@item">@item.Name - @item.DamageResistance | @item.MagicResistance</option>
-                            }
-                        </select>
-                        <button class="btn btn-outline-warning m-2">Wybierz</button>
-                    </div>
+                    <form method="post">
+                        <input type="hidden" asp-for="Creature.Id" />
+                        <p class="font-weight-bold">Pancerz</p>
+                        <div class="form-group">
+                            <label>odporność fizyczna | odporność magiczna</label>
+                            <select id="armor" class="form-control bg-secondary text-light" asp-for="Creature.Armor.Id">
+                                <option value="0">Wybierz pancerz</option>
+                                @foreach (var item in Model.Armors)
+                                {
+                                    <option value="@item.Id">@item.Name - @item.DamageResistance | @item.MagicResistance</option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-outline-warning m-2" asp-page-handler="UpdateArmor">Wybierz</button>
+                        </div>
+                    </form>
                 </div>
 
                 <div id="itemsDiv" class="col-6 text-center">

@@ -91,10 +91,7 @@ namespace LastTemple.Pages.Create
 		{			
 			var weapon = _ctx.Weapons.Find(Creature.Weapon.Id);
 
-			if (weapon == null)
-			{
-				return RedirectToPage("Creature");
-			}
+			if (weapon == null)	return RedirectToPage("Creature");			
 
 			Creature.Weapon = weapon;
 
@@ -103,7 +100,19 @@ namespace LastTemple.Pages.Create
 			return RedirectToPage("Creature");
 		}
 
+		public async Task<IActionResult> OnPostUpdateArmorAsync()
+		{
+			var armor = _ctx.Armors.Find(Creature.Armor.Id);
 
+			if (armor == null) return RedirectToPage("Creature");
+
+			Creature.Armor = armor;
+
+			await new EditCreature(_ctx).UpdateArmor(Creature);
+
+			return RedirectToPage("Creature");
+
+		}
 
 
 
