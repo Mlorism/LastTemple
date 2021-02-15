@@ -98,8 +98,8 @@ namespace LastTemple.Pages.Create
 			Creature.Weapon = weapon;
 
 			await new EditCreature(_ctx).UpdateWeapon(Creature);
-						
-			return RedirectToPage("Creature");
+
+			return Redirect(UrlString);
 		}
 
 		public async Task<IActionResult> OnPostUpdateArmorAsync()

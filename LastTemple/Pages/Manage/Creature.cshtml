@@ -150,53 +150,54 @@
             </form>
         </div>
 
-        <div id="inventory" class="pt-5 text-center" style="display:none">
+        <div id="inventory" class="pt-2 text-center" style="display:none">
 
-            <form method="get">
-                <button class="btn btn-outline-light">Lista</button>
-            </form>
+
 
             <div class="row">
-              
-                <div id="weaponDiv" class="col-6 text-center">
-                    <form method="post">
-                        <input type="hidden" asp-for="Creature.Id"/>
-                        <p class="font-weight-bold">Broń</p>
-                        <div class="form-group">
-                            <label>obrażenia | obr. magiczne | koszt akcji | szansa trafienia</label>
-
-                            <select id="weapon" class="form-control bg-secondary text-light" asp-for="Creature.Weapon.Id">
-                                <option value="0">Wybierz broń</option>
-                                @foreach (var item in Model.Weapons)
-                                {
-                                    <option value="@item.Id">@item.Name - @item.BaseDamage | @item.MagicDamage | @item.ActionCost PA | @item.HitChance%</option>
-                                }
-                            </select>
-
-                            <button type="submit" class="btn btn-outline-warning m-2" asp-page-handler="UpdateWeapon">Wybierz</button>
-                        </div>
-                    </form>
-                </div>              
-
-                <div id="armorDiv" class="col-6 text-center">
-                    <form method="post">
-                        <input type="hidden" asp-for="Creature.Id" />
-                        <input type="hidden" asp-for="UrlString" value="@HttpContext.Request.Scheme://@HttpContext.Request.Host@HttpContext.Request.Path@HttpContext.Request.QueryString"/>                        
-
-                        <p class="font-weight-bold">Pancerz</p>
-                        <div class="form-group">
-                            <label>odporność fizyczna | odporność magiczna</label>
-                            <select id="armor" class="form-control bg-secondary text-light" asp-for="Creature.Armor.Id">
-                                <option value="0">Wybierz pancerz</option>
-                                @foreach (var item in Model.Armors)
-                                {
-                                    <option value="@item.Id">@item.Name - @item.DamageResistance | @item.MagicResistance</option>
-                                }
-                            </select>
-                            <button type="submit" class="btn btn-outline-warning m-2" asp-page-handler="UpdateArmor">Wybierz</button>
-                        </div>
-                    </form>
+                <div class="col-12 text-center">
+                    <h3 class="m-2">@Model.Creature.Name</h3>
                 </div>
+
+                <form method="post" class="col-12">
+                    <div class="row">
+                        <input type="hidden" asp-for="Creature.Id" />
+                        <input type="hidden" asp-for="UrlString" value="@HttpContext.Request.Scheme://@HttpContext.Request.Host@HttpContext.Request.Path@HttpContext.Request.QueryString" />
+
+                        <div id="weaponDiv" class="col-6 text-center">
+                            <p class="font-weight-bold">Broń</p>
+                            <div class="form-group">
+                                <label>obrażenia | obr. magiczne | koszt akcji | szansa trafienia</label>
+
+                                <select id="weapon" class="form-control bg-secondary text-light" asp-for="Creature.Weapon.Id">
+                                    <option value="0">Wybierz broń</option>
+                                    @foreach (var item in Model.Weapons)
+                                    {
+                                        <option value="@item.Id">@item.Name - @item.BaseDamage | @item.MagicDamage | @item.ActionCost PA | @item.HitChance%</option>
+                                    }
+                                </select>
+
+                                <button type="submit" class="btn btn-outline-warning m-2" asp-page-handler="UpdateWeapon">Wybierz</button>
+                            </div>
+
+                        </div>
+
+                        <div id="armorDiv" class="col-6 text-center">
+                            <p class="font-weight-bold">Pancerz</p>
+                            <div class="form-group">
+                                <label>odporność fizyczna | odporność magiczna</label>
+                                <select id="armor" class="form-control bg-secondary text-light" asp-for="Creature.Armor.Id">
+                                    <option value="0">Wybierz pancerz</option>
+                                    @foreach (var item in Model.Armors)
+                                    {
+                                        <option value="@item.Id">@item.Name - @item.DamageResistance | @item.MagicResistance</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-outline-warning m-2" asp-page-handler="UpdateArmor">Wybierz</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
                 <div id="itemsDiv" class="col-6 text-center">
                     <p class="font-weight-bold">Przedmioty</p>
@@ -302,6 +303,10 @@
 
                 </div>
             </div>
+
+            <form method="get">
+                <button class="btn btn-outline-light">Powrót</button>
+            </form>
         </div>
     </div>
 
@@ -310,10 +315,10 @@
 <div id="creatureForm" class="text-center" style="display:none">
 
     <form method="get">
-        <button class="btn btn-outline-light">Lista</button>
+        <button class="btn btn-outline-light">Powrót</button>
     </form>
 
-    <form id="manageForm" method="post">
+    <form id="manageForm" method="post" onreset="resetSliders()">
         <div class="row mt-2 text-center">
 
             <input type="hidden" asp-for="Creature.Id"/>
@@ -417,6 +422,18 @@
     document.getElementById("willpower").oninput = function () { setSlider("willpower"); }
     document.getElementById("speed").oninput = function () { setSlider("speed"); }
     document.getElementById("agility").oninput = function () { setSlider("agility"); }
+
+    function resetSliders() {
+        window.requestAnimationFrame(function (timestamp) {
+            setSlider("experience");
+            setSlider("supplies");
+            setSlider("strength");
+            setSlider("endurance");
+            setSlider("willpower");
+            setSlider("speed");
+            setSlider("agility");
+        })
+    }
 
     function loadSettings() {
         if (toggleValue.value > 0) {
