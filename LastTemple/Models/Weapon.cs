@@ -13,5 +13,6 @@ namespace LastTemple.Models
 		public int MagicDamage { get; set; }
 		public int ActionCost { get; set; }
 		public int HitChance { get; set; }
+
 	}
 }

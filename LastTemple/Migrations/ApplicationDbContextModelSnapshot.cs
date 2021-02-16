@@ -15,9 +15,39 @@ namespace LastTemple.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CreatureItem", b =>
+                {
+                    b.Property<int>("CreaturesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CreaturesId", "ItemsId");
+
+                    b.HasIndex("ItemsId");
+
+                    b.ToTable("CreatureItem");
+                });
+
+            modelBuilder.Entity("CreatureSpell", b =>
+                {
+                    b.Property<int>("CreaturesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MagicBookId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CreaturesId", "MagicBookId");
+
+                    b.HasIndex("MagicBookId");
+
+                    b.ToTable("CreatureSpell");
+                });
 
             modelBuilder.Entity("LastTemple.Creature", b =>
                 {
@@ -113,8 +143,8 @@ namespace LastTemple.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -131,9 +161,6 @@ namespace LastTemple.Migrations
                     b.Property<int>("ActionCost")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CreatureId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ItemType")
                         .HasColumnType("int");
 
@@ -144,8 +171,6 @@ namespace LastTemple.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatureId");
 
                     b.ToTable("Items");
                 });
@@ -158,9 +183,6 @@ namespace LastTemple.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ActionCost")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatureId")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
@@ -179,8 +201,6 @@ namespace LastTemple.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatureId");
 
                     b.ToTable("Spells");
                 });
@@ -212,6 +232,36 @@ namespace LastTemple.Migrations
                     b.ToTable("Weapons");
                 });
 
+            modelBuilder.Entity("CreatureItem", b =>
+                {
+                    b.HasOne("LastTemple.Creature", null)
+                        .WithMany()
+                        .HasForeignKey("CreaturesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LastTemple.Models.Item", null)
+                        .WithMany()
+                        .HasForeignKey("ItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CreatureSpell", b =>
+                {
+                    b.HasOne("LastTemple.Creature", null)
+                        .WithMany()
+                        .HasForeignKey("CreaturesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LastTemple.Models.Spell", null)
+                        .WithMany()
+                        .HasForeignKey("MagicBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LastTemple.Creature", b =>
                 {
                     b.HasOne("LastTemple.Models.Armor", "Armor")
@@ -221,20 +271,10 @@ namespace LastTemple.Migrations
                     b.HasOne("LastTemple.Models.Weapon", "Weapon")
                         .WithMany()
                         .HasForeignKey("WeaponId");
-                });
 
-            modelBuilder.Entity("LastTemple.Models.Item", b =>
-                {
-                    b.HasOne("LastTemple.Creature", null)
-                        .WithMany("Items")
-                        .HasForeignKey("CreatureId");
-                });
+                    b.Navigation("Armor");
 
-            modelBuilder.Entity("LastTemple.Models.Spell", b =>
-                {
-                    b.HasOne("LastTemple.Creature", null)
-                        .WithMany("MagicBook")
-                        .HasForeignKey("CreatureId");
+                    b.Navigation("Weapon");
                 });
 #pragma warning restore 612, 618
         }

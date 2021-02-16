@@ -15,5 +15,6 @@ namespace LastTemple.Models
 		public int ManaCost { get; set; }
 		public int ActionCost { get; set; }
 		public int Strength { get; set; } // Damage for offensice and restore for healing
+		public ICollection<Creature> Creatures { get; set; }
 	}
 }

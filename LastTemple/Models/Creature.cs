@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace LastTemple
 {
 	public class Creature
-	{
+	{	
+
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public CreatureTypeEnum Type { get; set; } // defines fighting style
@@ -44,8 +45,8 @@ namespace LastTemple
 		#region Inventory
 		public Weapon Weapon { get; set; }
 		public Armor Armor { get; set; }
-		public List<Spell> MagicBook { get; set; }
-		public List<Item> Items { get; set; }
+		public ICollection<Spell> MagicBook { get; set; }
+		public ICollection<Item> Items { get; set; }
 
 		#endregion
 	}

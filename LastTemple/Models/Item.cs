@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 namespace LastTemple.Models
 {
 	public class Item
-	{
+	{		
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public ItemTypeEnum ItemType { get; set; }
 		public int Strength { get; set; }
 		public int ActionCost { get; set; }
+		public ICollection<Creature> Creatures { get; set; }
 	}
 }
