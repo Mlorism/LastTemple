@@ -21,5 +21,22 @@ namespace LastTemple.Models
 
 		}		
 
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<CreatureItem>()
+				.HasKey(x => new { x.CreatureId, x.ItemId });
+
+			modelBuilder.Entity<CreatureItem>()	
+				.HasOne(x => x.Creature)
+				.WithMany(x => x.Items)			
+				.HasForeignKey(x => x.CreatureId);
+
+			modelBuilder.Entity<CreatureItem>()
+				.HasOne(x => x.Item)
+				.WithMany(x => x.Creatures)
+				.HasForeignKey(x => x.ItemId);
+		}
+
+
 	}
 }

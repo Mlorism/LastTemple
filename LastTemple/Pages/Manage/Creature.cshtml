@@ -36,43 +36,46 @@
                     </tr>
                 </thead>
 
-                <tbody>                   
-                    @foreach (var item in Model.Creatures)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Name</td>
-                            <td>@Enumerators.EnumConverter.Result(item.Type)</td>
-                            <td>@item.Level</td>
-                            <td>@item.Experience</td>
-                            <td>@item.Supplies</td>
-                            <td>
-                                <form method="get">
-                                    <input type="hidden" name="handler" value="Details" />
-                                    <input type="hidden" name="id" value="@item.Id" />
-                                    <input type="hidden" name="toggle" value = 1 />
-                                    <button class="btn btn-outline-warning">Szczegóły</button>
-                                </form>
-                            </td>
-                            <td>
-                                <form>
-                                    <input type="hidden" name="handler" value="Details" />
-                                    <input type="hidden" name="id" value="@item.Id" />
-                                    <input type="hidden" name="toggle" value = 2 />
-                                    <button class="btn btn-outline-warning">Uzbrojenie</button>
-                                </form>
-                            </td>
-                            <td>
-                                <form>
-                                    <input type="hidden" name="handler" value="Details" />
-                                    <input type="hidden" name="id" value="@item.Id" />
-                                    <input type="hidden" name="toggle" value = 4 />
-                                    <button class="btn btn-outline-warning">Edytuj</button>
-                                </form>
-                            </td>
-                            <td><form method="post"><button type="submit" class="btn btn-outline-warning" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
-                        </tr>
-                    }                   
+                <tbody>     
+                    @if(Model.Creatures != null)
+                    {                        
+                        @foreach (var item in Model.Creatures)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td>@Enumerators.EnumConverter.Result(item.Type)</td>
+                                <td>@item.Level</td>
+                                <td>@item.Experience</td>
+                                <td>@item.Supplies</td>
+                                <td>
+                                    <form method="get">
+                                        <input type="hidden" name="handler" value="Details" />
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="toggle" value = 1 />
+                                        <button class="btn btn-outline-warning">Szczegóły</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form>
+                                        <input type="hidden" name="handler" value="Details" />
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="toggle" value = 2 />
+                                        <button class="btn btn-outline-warning">Uzbrojenie</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form>
+                                        <input type="hidden" name="handler" value="Details" />
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="toggle" value = 4 />
+                                        <button class="btn btn-outline-warning">Edytuj</button>
+                                    </form>
+                                </td>
+                                <td><form method="post"><button type="submit" class="btn btn-outline-warning" asp-page-handler="Delete" asp-route-id="@item.Id">Usuń</button></form></td>
+                            </tr>
+                        }   
+                    }                
                 </tbody>
             </table>
         </div>
@@ -217,10 +220,10 @@
                                 @foreach (var item in Model.Creature.Items)
                                 {
                                     <tr>
-                                        <td>@item.Name</td>
-                                        <td>@Enumerators.EnumConverter.Result(item.ItemType)</td>
-                                        <td>@item.Strength</td>
-                                        <td>@item.ActionCost</td>
+                                        <td>@item.Item.Name</td>
+                                        <td>@Enumerators.EnumConverter.Result(item.Item.ItemType)</td>
+                                        <td>@item.Item.Strength</td>
+                                        <td>@item.Item.ActionCost</td>
                                         <td><button class="btn btn-outline-warning">Usuń</button></td>
                                     </tr>
                                 }
@@ -250,7 +253,7 @@
                                     <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.ItemType) | @item.Strength | @item.ActionCost PA </option>
                                 }
                             </select>
-                            <button class="btn btn-outline-warning m-2" asp-page-handler="AddSpell">Dodaj</button>
+                            <button class="btn btn-outline-warning m-2" asp-page-handler="AddItem">Dodaj</button>
                         </div>
                     </form>
 

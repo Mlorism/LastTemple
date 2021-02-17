@@ -45,7 +45,7 @@ namespace LastTemple.CRUD
 			target.Armor.MagicResistance = creature.Armor.MagicResistance;
 
 			target.MagicBook = new List<Spell>();
-			target.Items = new List<Item>();
+			target.Items = new List<CreatureItem>();
 
 			foreach (var spell in creature.MagicBook)
 			{
@@ -62,12 +62,14 @@ namespace LastTemple.CRUD
 
 			foreach (var item in creature.Items)
 			{
-				target.Items.Add(new Item
+				target.Items.Add(new CreatureItem
 				{
-					Name = item.Name,
-					ItemType = item.ItemType,
-					Strength = item.Strength,
-					ActionCost = item.ActionCost
+					CreatureId = item.CreatureId,
+					ItemId = item.ItemId,
+					Qty = item.Qty,
+
+					Creature = item.Creature,
+					Item = item.Item
 				});
 			}
 
@@ -126,7 +128,7 @@ namespace LastTemple.CRUD
 				target.Armor.MagicResistance = creature.Armor.MagicResistance;
 			}
 			target.MagicBook = new List<Spell>();
-			target.Items = new List<Item>();
+			target.Items = new List<CreatureItem>();
 
 			foreach (var spell in creature.MagicBook)
 			{
@@ -143,12 +145,14 @@ namespace LastTemple.CRUD
 
 			foreach (var item in creature.Items)
 			{
-				target.Items.Add(new Item
+				target.Items.Add(new CreatureItem
 				{
-					Name = item.Name,
-					ItemType = item.ItemType,
-					Strength = item.Strength,
-					ActionCost = item.ActionCost
+					CreatureId = item.CreatureId,
+					ItemId = item.ItemId,
+					Qty = item.Qty,
+
+					Creature = item.Creature,
+					Item = item.Item
 				});
 			}
 
@@ -205,9 +209,25 @@ namespace LastTemple.CRUD
 			Item item = _ctx.Items.Find(itemId);
 			if (item == null) return false;
 
-			if (target.Items == null) target.Items = new List<Item>();
+			if (target.Items == null) target.Items = new List<CreatureItem>();
 
-			target.Items.Add(item);					
+			if(target.Items.FirstOrDefault(x => x.ItemId == itemId) == null)
+			{
+				target.Items.Add(new CreatureItem
+				{
+					CreatureId = target.Id,
+					ItemId = item.Id,
+					Qty = 1,
+
+					Creature = creature,
+					Item = item
+				});
+			}
+			
+			else
+			{
+				target.Items.FirstOrDefault(x => x.ItemId == itemId).Qty++;
+			}
 
 			await _ctx.SaveChangesAsync();
 
@@ -216,18 +236,37 @@ namespace LastTemple.CRUD
 			return true;
 		} // AddItem()
 
+		public async Task<bool> ChangeItemQty(Creature creature, int itemId, int qty)
+		{
+			Creature target = _ctx.Creatures.Find(creature.Id);
+			if (target == null) return false;
+
+			Item item = _ctx.Items.Find(itemId);
+			if (item == null) return false;
+
+			if (target.Items.FirstOrDefault(x => x.ItemId == itemId) == null)
+				return false;
+
+			target.Items.FirstOrDefault(x => x.ItemId == itemId).Qty = qty;
+
+			await _ctx.SaveChangesAsync();
+
+			return true;
+
+		} // ChangeItemQty()
+
 		public async Task<bool> DeleteItem(Creature creature, int itemId)
 		{
 			Creature target = _ctx.Creatures.Find(creature.Id);
 			if (target == null) return false;
 
-			Item item = target.Items.FirstOrDefault(x => x.Id == itemId);
-			if (item.Id != itemId) return false;
+			Item item = _ctx.Items.Find(itemId);
+			if (item == null) return false;
 
-			Item buffer = target.Items.FirstOrDefault(x => x.Id == itemId);
-			if (buffer.Id != itemId) return false;
+			if (target.Items.FirstOrDefault(x => x.ItemId == itemId) == null)
+				return false;
 
-			target.Items.Remove(item);
+			target.Items.Remove(target.Items.FirstOrDefault(x => x.ItemId == itemId));
 
 			await _ctx.SaveChangesAsync();
 
@@ -236,6 +275,7 @@ namespace LastTemple.CRUD
 			return true;
 		} // DeleteItem()
 
+		
 		public async Task<bool> AddSpell(Creature creature, int spellId)
 		{
 			Creature target = _ctx.Creatures.Find(creature.Id);
@@ -243,6 +283,9 @@ namespace LastTemple.CRUD
 
 			Spell spell = _ctx.Spells.Find(spellId);
 			if (spell == null) return false;
+
+			if (target.MagicBook.FirstOrDefault(x => x.Id == spellId) != null)
+				return false;
 
 			if (target.MagicBook == null) target.MagicBook = new List<Spell>();
 
@@ -261,8 +304,8 @@ namespace LastTemple.CRUD
 			Spell spell = _ctx.Spells.Find(spellId);
 			if (spell == null) return false;
 
-			Spell buffer = target.MagicBook.FirstOrDefault(x => x.Id == spellId);
-			if (buffer.Id != spellId) return false;
+			if(target.MagicBook.FirstOrDefault(x => x.Id == spellId) == null)
+				return false;
 
 			target.MagicBook.Remove(spell);
 

@@ -1,4 +1,5 @@
 ﻿using LastTemple.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace LastTemple.CRUD
 
 		public Creature Get(int id)
 		{
-			return _ctx.Creatures.Find(id);
+			return _ctx.Creatures.Include(i => i.Items).FirstOrDefault(x => x.Id == id);
+
 		} // Get()
 	}
 }

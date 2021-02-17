@@ -119,7 +119,7 @@ namespace LastTemple.Pages.Create
 			return Redirect(UrlString);
 		}
 
-		public async Task<IActionResult> OnPostAddSpellAsync()
+		public async Task<IActionResult> OnPostAddItemAsync()
 		{
 			var item = _ctx.Items.Find(ItemId);
 

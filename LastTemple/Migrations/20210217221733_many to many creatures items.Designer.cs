@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LastTemple.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210216201138_many to many creatures items spells")]
-    partial class manytomanycreaturesitemsspells
+    [Migration("20210217221733_many to many creatures items")]
+    partial class manytomanycreaturesitems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace LastTemple.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CreatureItem", b =>
-                {
-                    b.Property<int>("CreaturesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CreaturesId", "ItemsId");
-
-                    b.HasIndex("ItemsId");
-
-                    b.ToTable("CreatureItem");
-                });
 
             modelBuilder.Entity("CreatureSpell", b =>
                 {
@@ -153,6 +138,24 @@ namespace LastTemple.Migrations
                     b.ToTable("Armors");
                 });
 
+            modelBuilder.Entity("LastTemple.Models.CreatureItem", b =>
+                {
+                    b.Property<int>("CreatureId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
+
+                    b.HasKey("CreatureId", "ItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("CreatureItem");
+                });
+
             modelBuilder.Entity("LastTemple.Models.Item", b =>
                 {
                     b.Property<int>("Id")
@@ -234,21 +237,6 @@ namespace LastTemple.Migrations
                     b.ToTable("Weapons");
                 });
 
-            modelBuilder.Entity("CreatureItem", b =>
-                {
-                    b.HasOne("LastTemple.Creature", null)
-                        .WithMany()
-                        .HasForeignKey("CreaturesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LastTemple.Models.Item", null)
-                        .WithMany()
-                        .HasForeignKey("ItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CreatureSpell", b =>
                 {
                     b.HasOne("LastTemple.Creature", null)
@@ -277,6 +265,35 @@ namespace LastTemple.Migrations
                     b.Navigation("Armor");
 
                     b.Navigation("Weapon");
+                });
+
+            modelBuilder.Entity("LastTemple.Models.CreatureItem", b =>
+                {
+                    b.HasOne("LastTemple.Creature", "Creature")
+                        .WithMany("Items")
+                        .HasForeignKey("CreatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LastTemple.Models.Item", "Item")
+                        .WithMany("Creatures")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creature");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("LastTemple.Creature", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("LastTemple.Models.Item", b =>
+                {
+                    b.Navigation("Creatures");
                 });
 #pragma warning restore 612, 618
         }

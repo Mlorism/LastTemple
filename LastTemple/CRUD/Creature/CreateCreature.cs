@@ -33,8 +33,8 @@ namespace LastTemple.CRUD
 				Speed = creature.Speed,
 				Agility = creature.Agility,				
 
-				MagicBook = new List<Spell>(),
-				Items = new List<Item>()				
+				MagicBook = new List<Spell>(),				
+				Items = new List<CreatureItem>()				
 			};
 
 			if(creature.Weapon != null) 
@@ -62,30 +62,32 @@ namespace LastTemple.CRUD
 			if (creature.MagicBook != null)
 			{
 
-			foreach (var spell in creature.MagicBook)
-				{
-					target.MagicBook.Add(new Spell
+				foreach (var spell in creature.MagicBook)
 					{
-						Name = spell.Name,
-						Type = spell.Type,
-						Level = spell.Level,
-						ManaCost = spell.ManaCost,
-						ActionCost = spell.ActionCost,
-						Strength = spell.Strength
-					}); 
+						target.MagicBook.Add(new Spell
+						{
+							Name = spell.Name,
+							Type = spell.Type,
+							Level = spell.Level,
+							ManaCost = spell.ManaCost,
+							ActionCost = spell.ActionCost,
+							Strength = spell.Strength
+						}); 
+					}
 				}
-			}
 
 			if (creature.Items != null)
 			{
 				foreach (var item in creature.Items)
 				{
-					target.Items.Add(new Item
+					target.Items.Add(new CreatureItem
 					{
-						Name = item.Name,
-						ItemType = item.ItemType,
-						Strength = item.Strength,
-						ActionCost = item.ActionCost
+						CreatureId = item.CreatureId,
+						ItemId = item.ItemId,
+						Qty = item.Qty,
+
+						Creature = item.Creature,
+						Item = item.Item						
 					});
 				}
 			}

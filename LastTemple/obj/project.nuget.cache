@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "eTrg3YyOv1Hua+2cIzQWhFxWUc6YFUVRZ3HgTvb9T7OwA4h9JJvjNmdCg6tbCTRf2sx1TsKSjWAeeMTbH2MPMg==",
+  "dgSpecHash": "LeB4SHgYm//JXJmnyhmo/B9lJSGOQ1saLz5MU0LsGbG+0ZiTZiZaPHM0XBd7MJgkV7CeoWrLPLunceLlu68uKA==",
   "success": true,
   "projectFilePath": "E:\\Repos\\LastTemple\\LastTemple\\LastTemple.csproj",
   "expectedPackageFiles": [
@@ -112,9 +112,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Marcin.000\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Marcin.000\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\Marcin.000\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
-    "C:\\Users\\Marcin.000\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
-    "C:\\Users\\Marcin.000\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.10\\microsoft.netcore.app.host.win-x64.3.1.10.nupkg.sha512"
+    "C:\\Users\\Marcin.000\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }
