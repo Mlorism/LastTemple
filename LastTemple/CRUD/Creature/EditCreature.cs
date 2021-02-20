@@ -279,16 +279,16 @@ namespace LastTemple.CRUD
 		
 		public async Task<bool> AddSpell(Creature creature, int spellId)
 		{
-			Creature target = _ctx.Creatures.Find(creature.Id);
+			Creature target = _ctx.Creatures.Include(x => x.MagicBook).SingleOrDefault(x => x.Id == creature.Id);
 			if (target == null) return false;
 
 			Spell spell = _ctx.Spells.Find(spellId);
-			if (spell == null) return false;
-
-			if (target.MagicBook.FirstOrDefault(x => x.Id == spellId) != null)
-				return false;
+			if (spell == null) return false;			
 
 			if (target.MagicBook == null) target.MagicBook = new List<Spell>();
+
+			if (target.MagicBook.SingleOrDefault(x => x.Id == spellId) != null)
+				return false;
 
 			target.MagicBook.Add(spell);
 
@@ -305,7 +305,7 @@ namespace LastTemple.CRUD
 			Spell spell = _ctx.Spells.Find(spellId);
 			if (spell == null) return false;
 
-			if(target.MagicBook.FirstOrDefault(x => x.Id == spellId) == null)
+			if(target.MagicBook.SingleOrDefault(x => x.Id == spellId) == null)
 				return false;
 
 			target.MagicBook.Remove(spell);

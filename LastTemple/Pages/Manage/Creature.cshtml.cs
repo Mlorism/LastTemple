@@ -115,13 +115,25 @@ namespace LastTemple.Pages.Create
 
 		public async Task<IActionResult> OnPostDeleteItemAsync(int id)
 		{
-			Creature = _ctx.Creatures.Include(x => x.Items).SingleOrDefault(x => x.Id == Creature.Id);
-
-			CreatureItem item = Creature.Items.SingleOrDefault(x => x.ItemId == id);
-
-			if (item == null) return RedirectToPage("Creature");
+			Creature = _ctx.Creatures.Include(x => x.Items).SingleOrDefault(x => x.Id == Creature.Id);			
 
 			await new EditCreature(_ctx).DeleteItem(Creature, id);
+
+			return Redirect(UrlString);
+		}
+
+		public async Task<IActionResult> OnPostAddSpellAsync()
+		{
+			await new EditCreature(_ctx).AddSpell(Creature, SpellId);
+
+			return Redirect(UrlString);
+		}
+
+		public async Task<IActionResult> OnPostDeleteSpellAsync(int id)
+		{
+			Creature = _ctx.Creatures.Include(x => x.MagicBook).SingleOrDefault(x => x.Id == Creature.Id);
+
+			await new EditCreature(_ctx).DeleteSpell(Creature, id);
 
 			return Redirect(UrlString);
 		}

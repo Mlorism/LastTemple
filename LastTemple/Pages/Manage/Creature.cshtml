@@ -284,7 +284,7 @@
                                                 <td>@Enumerators.EnumConverter.Result(item.Type)</td>
                                                 <td>@item.Strength</td>
                                                 <td>@item.ActionCost</td>
-                                                <td><button class="btn btn-outline-warning">Usuń</button></td>
+                                                <td><button type="submit" asp-page-handler="DeleteSpell" asp-route-id="@item.Id" class="btn btn-outline-warning">Usuń</button></td>
                                             </tr>
                                         }
                                     }
@@ -310,7 +310,7 @@
                                         <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.Type) | @item.Strength | @item.ActionCost PA</option>
                                     }
                                 </select>
-                                <button type="submit" class="btn btn-outline-warning m-2">Dodaj</button>
+                                <button type="submit" asp-page-handler="AddSpell" class="btn btn-outline-warning m-2">Dodaj</button>
                             </div>
                         </div>
                     </div>

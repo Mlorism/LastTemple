@@ -18,7 +18,10 @@ namespace LastTemple.CRUD
 
 		public Creature Get(int id)
 		{
-			return _ctx.Creatures.Include(i => i.Items).FirstOrDefault(x => x.Id == id);
+			return _ctx.Creatures
+				.Include(i => i.Items)
+				.Include(m => m.MagicBook)
+				.FirstOrDefault(x => x.Id == id);
 
 		} // Get()
 	}
