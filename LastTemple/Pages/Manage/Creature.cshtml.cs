@@ -7,6 +7,7 @@ using LastTemple.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace LastTemple.Pages.Create
 {
@@ -130,6 +131,21 @@ namespace LastTemple.Pages.Create
 			return Redirect(UrlString);
 		}
 
+		public async Task<IActionResult> OnPostDeleteItemAsync(int id)
+		{
+			var x = _ctx.Creatures.FirstOrDefault(x => x.Id == Creature.Id);
+			var y = _ctx.Creatures.Include(x => x.Items).FirstOrDefault(x => x.Id == Creature.Id);
+
+
+
+			CreatureItem item = Creature.Items.FirstOrDefault(x => x.ItemId == id);
+
+			if (item == null) return RedirectToPage("Creature");
+
+			await new EditCreature(_ctx).DeleteItem(Creature, id);
+
+			return Redirect(UrlString);
+		}
 
 
 

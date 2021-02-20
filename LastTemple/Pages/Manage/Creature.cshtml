@@ -211,6 +211,7 @@
                                 <th>Typ</th>
                                 <th>Moc</th>
                                 <th>PA</th>
+                                <th>Qty</th>
                                 <th>U</th>
                             </tr>
                         </thead>
@@ -224,13 +225,15 @@
                                         <td>@Enumerators.EnumConverter.Result(item.Item.ItemType)</td>
                                         <td>@item.Item.Strength</td>
                                         <td>@item.Item.ActionCost</td>
-                                        <td><button class="btn btn-outline-warning">Usuń</button></td>
+                                        <td>@item.Qty</td>
+                                        <td><form method="post"><button type="submit" asp-page-handler="DeleteItem" asp-route-id="@item.Item.Id" class="btn btn-outline-warning">Usuń</button></form></td>
                                     </tr>
                                 }
                             }
                             else
                             {
                                 <tr>
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>

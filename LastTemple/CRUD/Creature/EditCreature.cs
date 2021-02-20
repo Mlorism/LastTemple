@@ -1,5 +1,6 @@
 ﻿using LastTemple.Engine;
 using LastTemple.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -203,7 +204,7 @@ namespace LastTemple.CRUD
 
 		public async Task<bool> AddItem(Creature creature, int itemId)
 		{
-			Creature target = _ctx.Creatures.Find(creature.Id);
+			Creature target = _ctx.Creatures.Include(x => x.Items).FirstOrDefault(x => x.Id == creature.Id);
 			if (target == null) return false;
 
 			Item item = _ctx.Items.Find(itemId);
