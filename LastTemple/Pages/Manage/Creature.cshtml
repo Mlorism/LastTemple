@@ -350,7 +350,7 @@
 
                 <div class="form-group">
                     <label>Poziom</label>
-                    <input id="level" type="number" class="form-control bg-secondary text-light" step="1" value="0" max="10" asp-for="Creature.Level" onkeydown="return false" />
+                    <input id="level" type="number" class="form-control bg-secondary text-light" step="1" value="0" min="0" max="10" asp-for="Creature.Level" onkeydown="return false" />
                     <small>Od 0 do 10</small>
                 </div>
 

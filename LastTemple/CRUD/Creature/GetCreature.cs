@@ -22,7 +22,6 @@ namespace LastTemple.CRUD
 				.Include(i => i.Items)
 				.Include(m => m.MagicBook)
 				.FirstOrDefault(x => x.Id == id);
-
 		} // Get()
 	}
 }

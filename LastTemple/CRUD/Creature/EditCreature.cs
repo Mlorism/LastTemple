@@ -113,20 +113,16 @@ namespace LastTemple.CRUD
 
 			if (target == null) return false;
 
-			if (target.Weapon != null)
+			if (creature.Weapon != null)
 			{
-				target.Weapon.Name = creature.Weapon.Name;
-				target.Weapon.BaseDamage = creature.Weapon.BaseDamage;
-				target.Weapon.MagicDamage = creature.Weapon.MagicDamage;
-				target.Weapon.ActionCost = creature.Weapon.ActionCost;
-				target.Weapon.HitChance = creature.Weapon.HitChance;
+				var weapon = creature.Weapon;
+				target.Weapon = weapon;				
 			}
 
-			if (target.Armor != null)
+			if (creature.Armor != null)
 			{
-				target.Armor.Name = creature.Armor.Name;
-				target.Armor.DamageResistance = creature.Armor.DamageResistance;
-				target.Armor.MagicResistance = creature.Armor.MagicResistance;
+				var armor = creature.Armor;
+				target.Armor = armor;
 			}
 			target.MagicBook = new List<Spell>();
 			target.Items = new List<CreatureItem>();
@@ -170,13 +166,9 @@ namespace LastTemple.CRUD
 
 			if (target == null) return false;
 
-			if (target.Weapon == null) target.Weapon = new Weapon();
-			
-			target.Weapon.Name = creature.Weapon.Name;
-			target.Weapon.BaseDamage = creature.Weapon.BaseDamage;
-			target.Weapon.MagicDamage = creature.Weapon.MagicDamage;
-			target.Weapon.ActionCost = creature.Weapon.ActionCost;
-			target.Weapon.HitChance = creature.Weapon.HitChance;
+			var weapon = creature.Weapon;
+
+			if (target.Weapon == null) target.Weapon = weapon;			
 
 			await _ctx.SaveChangesAsync();			
 
@@ -189,11 +181,9 @@ namespace LastTemple.CRUD
 
 			if (target == null) return false;
 
-			if (target.Armor == null) target.Armor = new Armor();
+			var armor = creature.Armor;
 
-			target.Armor.Name = creature.Armor.Name;
-			target.Armor.DamageResistance = creature.Armor.DamageResistance;
-			target.Armor.MagicResistance = creature.Armor.MagicResistance;
+			if (target.Armor == null) target.Armor = armor;			
 
 			await _ctx.SaveChangesAsync();
 
