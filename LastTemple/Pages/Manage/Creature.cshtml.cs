@@ -137,7 +137,6 @@ namespace LastTemple.Pages.Create
 			var y = _ctx.Creatures.Include(x => x.Items).FirstOrDefault(x => x.Id == Creature.Id);
 
 
-
 			CreatureItem item = Creature.Items.FirstOrDefault(x => x.ItemId == id);
 
 			if (item == null) return RedirectToPage("Creature");

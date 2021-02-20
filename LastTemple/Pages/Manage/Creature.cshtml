@@ -162,9 +162,9 @@
                     <h3 class="m-2">@Model.Creature.Name</h3>
                 </div>
 
-                <form method="post" class="col-12">
+                <form id="topInventory" method="post" class="col-12">
                     <div class="row">
-                        <input type="hidden" asp-for="Creature.Id" />
+                        <input type="hidden" asp-for="Creature" />
                         <input type="hidden" asp-for="UrlString" value="@HttpContext.Request.Scheme://@HttpContext.Request.Host@HttpContext.Request.Path@HttpContext.Request.QueryString" />
 
                         <div id="weaponDiv" class="col-6 text-center">
@@ -202,123 +202,120 @@
                     </div>
                 </form>
 
-                <div id="itemsDiv" class="col-6 text-center">
-                    <p class="font-weight-bold">Przedmioty</p>
-                    <table class="table tableFixHead text-light text-center">
-                        <thead>
-                            <tr>
-                                <th>Nazwa</th>
-                                <th>Typ</th>
-                                <th>Moc</th>
-                                <th>PA</th>
-                                <th>Qty</th>
-                                <th>U</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.Creature.Items != null)
-                            {
-                                @foreach (var item in Model.Creature.Items)
-                                {
-                                    <tr>
-                                        <td>@item.Item.Name</td>
-                                        <td>@Enumerators.EnumConverter.Result(item.Item.ItemType)</td>
-                                        <td>@item.Item.Strength</td>
-                                        <td>@item.Item.ActionCost</td>
-                                        <td>@item.Qty</td>
-                                        <td><form method="post"><button type="submit" asp-page-handler="DeleteItem" asp-route-id="@item.Item.Id" class="btn btn-outline-warning">Usuń</button></form></td>
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    
-                    <form method="post">
+                <form id="bottomInventory" method="post" class="col-12">
+                    <div class="row">
                         <input type="hidden" asp-for="Creature.Id" />
                         <input type="hidden" asp-for="UrlString" value="@HttpContext.Request.Scheme://@HttpContext.Request.Host@HttpContext.Request.Path@HttpContext.Request.QueryString" />
 
-                        <div class="form-group text-center">
-                            <label>typ | moc | koszt akcji</label>
-                            <select id="item" class="form-control bg-secondary text-light" asp-for="ItemId">
-                                @foreach (var item in Model.Items)
-                                {
-                                    <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.ItemType) | @item.Strength | @item.ActionCost PA </option>
-                                }
-                            </select>
-                            <button class="btn btn-outline-warning m-2" asp-page-handler="AddItem">Dodaj</button>
-                        </div>
-                    </form>
-
-                </div>
-
-                <div id="spellsDiv" class="col-6 text-center">
-                    <p class="font-weight-bold">Zaklęcia</p>
-                    <table class="table tableFixHead text-light text-center">
-                        <thead>
-                            <tr>
-                                <th>Nazwa</th>
-                                <th>Typ</th>
-                                <th>Siła</th>
-                                <th>PA</th>
-                                <th>U</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @if (Model.Creature.MagicBook != null)
-                            {
-                                @foreach (var item in Model.Creature.MagicBook)
-                                {
+                        <div id="itemsDiv" class="col-7 text-center">
+                            <p class="font-weight-bold">Przedmioty</p>
+                            <table class="table tableFixHead text-light text-center">
+                                <thead>
                                     <tr>
-                                        <td>@item.Name</td>
-                                        <td>@Enumerators.EnumConverter.Result(item.Type)</td>
-                                        <td>@item.Strength</td>
-                                        <td>@item.ActionCost</td>
-                                        <td><button class="btn btn-outline-warning">Usuń</button></td>
+                                        <th>Nazwa</th>
+                                        <th>Typ</th>
+                                        <th>Moc</th>
+                                        <th>PA</th>
+                                        <th>Qty</th>
+                                        <th>U</th>
                                     </tr>
-                                }
-                            }
+                                </thead>
+                                <tbody>
+                                    @if (Model.Creature.Items != null)
+                                    {
+                                        @foreach (var item in Model.Creature.Items)
+                                        {
+                                            <tr>
+                                                <td>@item.Item.Name</td>
+                                                <td>@Enumerators.EnumConverter.Result(item.Item.ItemType)</td>
+                                                <td>@item.Item.Strength</td>
+                                                <td>@item.Item.ActionCost</td>
+                                                <td>@item.Qty</td>
+                                                <td><button type="submit" asp-page-handler="DeleteItem" asp-route-id="@item.Item.Id" class="btn btn-outline-warning">Usuń</button></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
 
-                            else
-                            {
-                                <tr>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                            <div class="form-group text-center">
+                                <label>typ | moc | koszt akcji</label>
+                                <select id="item" class="form-control bg-secondary text-light" asp-for="ItemId">
+                                    @foreach (var item in Model.Items)
+                                    {
+                                        <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.ItemType) | @item.Strength | @item.ActionCost PA </option>
+                                    }
+                                </select>
+                                <button class="btn btn-outline-warning m-2" asp-page-handler="AddItem">Dodaj</button>
+                            </div>
 
-                    <form method="post">
-                        
-
-                        <div class="form-group">
-                            <label>typ | moc | koszt akcji</label>
-                            <select id="spell" class="form-control bg-secondary text-light" asp-for="SpellId">
-                                @foreach (var item in Model.Spells)
-                                {
-                                    <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.Type) | @item.Strength | @item.ActionCost PA</option>
-                                }
-                            </select>
-                            <button type="submit" class="btn btn-outline-warning m-2">Dodaj</button>
                         </div>
-                    </form>
 
-                </div>
+                        <div id="spellsDiv" class="col-5 text-center">
+                            <p class="font-weight-bold">Zaklęcia</p>
+                            <table class="table tableFixHead text-light text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Nazwa</th>
+                                        <th>Typ</th>
+                                        <th>Siła</th>
+                                        <th>PA</th>
+                                        <th>U</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @if (Model.Creature.MagicBook != null)
+                                    {
+                                        @foreach (var item in Model.Creature.MagicBook)
+                                        {
+                                            <tr>
+                                                <td>@item.Name</td>
+                                                <td>@Enumerators.EnumConverter.Result(item.Type)</td>
+                                                <td>@item.Strength</td>
+                                                <td>@item.ActionCost</td>
+                                                <td><button class="btn btn-outline-warning">Usuń</button></td>
+                                            </tr>
+                                        }
+                                    }
+
+                                    else
+                                    {
+                                        <tr>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                            <div class="form-group">
+                                <label>typ | moc | koszt akcji</label>
+                                <select id="spell" class="form-control bg-secondary text-light" asp-for="SpellId">
+                                    @foreach (var item in Model.Spells)
+                                    {
+                                        <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.Type) | @item.Strength | @item.ActionCost PA</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-outline-warning m-2">Dodaj</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>               
             </div>
 
             <form method="get">
