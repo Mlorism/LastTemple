@@ -61,7 +61,6 @@ namespace LastTemple.CRUD
 
 			if (creature.MagicBook != null)
 			{
-
 				foreach (var spell in creature.MagicBook)
 					{
 						target.MagicBook.Add(new Spell

@@ -68,27 +68,13 @@ namespace LastTemple.Pages.Create
 
 		public async Task<IActionResult> OnPostDeleteAsync(int id)
 		{
-			var item = _ctx.Creatures.Find(id);
-
-			if (item == null)
-			{
-				return RedirectToPage("Creature");
-			}
-
 			await new DeleteCreature(_ctx).Delete(id);
 
 			return RedirectToPage("Creature");
 		}
 
 		public async Task<IActionResult> OnPostUpdateCreatureAsync()
-		{
-			var item = _ctx.Creatures.Find(Creature.Id);			
-
-			if (item == null)
-			{
-				return RedirectToPage("Creature");
-			}
-
+		{	
 			await new EditCreature(_ctx).UpdateCreature(Creature);
 
 			return RedirectToPage("Creature");
@@ -121,11 +107,7 @@ namespace LastTemple.Pages.Create
 		}
 
 		public async Task<IActionResult> OnPostAddItemAsync()
-		{
-			var item = _ctx.Items.Find(ItemId);
-
-			if (item == null) return RedirectToPage("Creature");
-
+		{	
 			await new EditCreature(_ctx).AddItem(Creature, ItemId);
 
 			return Redirect(UrlString);
@@ -133,11 +115,9 @@ namespace LastTemple.Pages.Create
 
 		public async Task<IActionResult> OnPostDeleteItemAsync(int id)
 		{
-			var x = _ctx.Creatures.FirstOrDefault(x => x.Id == Creature.Id);
-			var y = _ctx.Creatures.Include(x => x.Items).FirstOrDefault(x => x.Id == Creature.Id);
+			Creature = _ctx.Creatures.Include(x => x.Items).SingleOrDefault(x => x.Id == Creature.Id);
 
-
-			CreatureItem item = Creature.Items.FirstOrDefault(x => x.ItemId == id);
+			CreatureItem item = Creature.Items.SingleOrDefault(x => x.ItemId == id);
 
 			if (item == null) return RedirectToPage("Creature");
 

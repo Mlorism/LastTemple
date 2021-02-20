@@ -164,7 +164,7 @@
 
                 <form id="topInventory" method="post" class="col-12">
                     <div class="row">
-                        <input type="hidden" asp-for="Creature" />
+                        <input type="hidden" asp-for="Creature.Id" />
                         <input type="hidden" asp-for="UrlString" value="@HttpContext.Request.Scheme://@HttpContext.Request.Host@HttpContext.Request.Path@HttpContext.Request.QueryString" />
 
                         <div id="weaponDiv" class="col-6 text-center">
@@ -182,7 +182,6 @@
 
                                 <button type="submit" class="btn btn-outline-warning m-2" asp-page-handler="UpdateWeapon">Wybierz</button>
                             </div>
-
                         </div>
 
                         <div id="armorDiv" class="col-6 text-center">

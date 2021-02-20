@@ -212,7 +212,7 @@ namespace LastTemple.CRUD
 
 			if (target.Items == null) target.Items = new List<CreatureItem>();
 
-			if(target.Items.FirstOrDefault(x => x.ItemId == itemId) == null)
+			if(target.Items.SingleOrDefault(x => x.ItemId == itemId) == null)
 			{
 				target.Items.Add(new CreatureItem
 				{
@@ -245,10 +245,10 @@ namespace LastTemple.CRUD
 			Item item = _ctx.Items.Find(itemId);
 			if (item == null) return false;
 
-			if (target.Items.FirstOrDefault(x => x.ItemId == itemId) == null)
+			if (target.Items.SingleOrDefault(x => x.ItemId == itemId) == null)
 				return false;
 
-			target.Items.FirstOrDefault(x => x.ItemId == itemId).Qty = qty;
+			target.Items.SingleOrDefault(x => x.ItemId == itemId).Qty = qty;
 
 			await _ctx.SaveChangesAsync();
 
