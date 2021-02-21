@@ -46,7 +46,7 @@ namespace LastTemple
 		public Weapon Weapon { get; set; }
 		public Armor Armor { get; set; }
 		public ICollection<Spell> MagicBook { get; set; }
-		public ICollection<CreatureItem> Items { get; set; }
+		public virtual ICollection<CreatureItem> Items { get; set; }
 
 		#endregion
 	}

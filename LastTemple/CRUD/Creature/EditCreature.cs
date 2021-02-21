@@ -194,26 +194,27 @@ namespace LastTemple.CRUD
 
 		public async Task<bool> AddItem(Creature creature, int itemId)
 		{
-			Creature target = _ctx.Creatures.Include(x => x.Items).FirstOrDefault(x => x.Id == creature.Id);
+			Creature target = _ctx.Creatures.Include(x => x.Items).ThenInclude(x => x.Item).SingleOrDefault(x => x.Id == creature.Id);
 			if (target == null) return false;
 
 			Item item = _ctx.Items.Find(itemId);
 			if (item == null) return false;
 
 
-			if (target.Items == null)
+			if (target.Items == null || target.Items.Count == 0)
 			{
-				target.Items = new List<CreatureItem>();
-				
-				target.Items.Add(new CreatureItem
+				target.Items = new List<CreatureItem>
+				{
+					new CreatureItem
 					{
 						CreatureId = target.Id,
 						ItemId = item.Id,
 						Qty = 1,
 
-						Creature = creature,
+						Creature = target,
 						Item = item
-					});				
+					}
+				};
 			}			
 
 			else if (target.Items != null)
@@ -225,28 +226,19 @@ namespace LastTemple.CRUD
 					 item.ItemType == Enumerators.ItemTypeEnum.WillpowerBooster)
 					{
 						var booster = target.Items.SingleOrDefault(x => x.Item.ItemType == item.ItemType);
-
+						
 						if (booster != null)
 						{
-							target.Items.Remove(booster);
-							target.Items.Add(new CreatureItem
-							{
-								CreatureId = target.Id,
-								ItemId = item.Id,
-								Qty = 1,
-
-								Creature = creature,
-								Item = item
-							});
+							target.Items.Remove(booster);							
 						}
 
-						else target.Items.Add(new CreatureItem
+						target.Items.Add(new CreatureItem
 						{
 							CreatureId = target.Id,
 							ItemId = item.Id,
 							Qty = 1,
 
-							Creature = creature,
+							Creature = target,
 							Item = item
 						});
 				}
@@ -259,7 +251,7 @@ namespace LastTemple.CRUD
 							ItemId = item.Id,
 							Qty = 1,
 
-							Creature = creature,
+							Creature = target,
 							Item = item
 						});
 					}
@@ -271,7 +263,7 @@ namespace LastTemple.CRUD
 
 			await _ctx.SaveChangesAsync();
 
-			CalculateCreature.ItemsEffect(creature, _ctx);
+			CalculateCreature.ItemEffect(creature, _ctx, itemId);
 
 			return true;
 		} // AddItem()
@@ -290,6 +282,8 @@ namespace LastTemple.CRUD
 			target.Items.SingleOrDefault(x => x.ItemId == itemId).Qty = qty;
 
 			await _ctx.SaveChangesAsync();
+
+			CalculateCreature.ItemEffect(creature, _ctx, itemId);
 
 			return true;
 
@@ -310,7 +304,7 @@ namespace LastTemple.CRUD
 
 			await _ctx.SaveChangesAsync();
 
-			CalculateCreature.ItemsEffect(creature, _ctx);
+			CalculateCreature.ItemEffect(creature, _ctx, itemId);
 
 			return true;
 		} // DeleteItem()

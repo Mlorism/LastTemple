@@ -44,24 +44,34 @@ namespace LastTemple.Engine
 			return true;
 		} // DerivedStatistics()
 
-		public static bool ItemsEffect(Creature creature, ApplicationDbContext ctx)
+		public static bool ItemEffect(Creature creature, ApplicationDbContext ctx, int ItemId)
 		{
 			_ctx = ctx;
 
-			Creature target = _ctx.Creatures.Include(x => x.Items).SingleOrDefault(x => x.Id == creature.Id);
+			Creature target = _ctx.Creatures.Include(x => x.Items).ThenInclude(x => x.Item).SingleOrDefault(x => x.Id == creature.Id);
 
 			if (target == null) return false;
-			
-			if(target.Items == null) return false;
 
-			foreach(var item in target.Items)
+			Item item = _ctx.Items.SingleOrDefault(x => x.Id == ItemId);
+			if (item == null) return false;
+
+			if (target.Items.SingleOrDefault(x => x.ItemId == ItemId) == null)
 			{
-				if(item.Item.ItemType == Enumerators.ItemTypeEnum.AgilityBooster) { target.Agility += item.Item.Strength; }
-				if(item.Item.ItemType == Enumerators.ItemTypeEnum.EnduranceBooster) { target.Endurance += item.Item.Strength; }
-				if(item.Item.ItemType == Enumerators.ItemTypeEnum.SpeedBooster) { target.Speed += item.Item.Strength; }
-				if(item.Item.ItemType == Enumerators.ItemTypeEnum.StrengthBooster) { target.Strength += item.Item.Strength; }
-				if(item.Item.ItemType == Enumerators.ItemTypeEnum.WillpowerBooster) { target.Willpower += item.Item.Strength; }
+				if (item.ItemType == Enumerators.ItemTypeEnum.AgilityBooster) { target.Agility += item.Strength; }
+				if (item.ItemType == Enumerators.ItemTypeEnum.EnduranceBooster) { target.Endurance += item.Strength; }
+				if (item.ItemType == Enumerators.ItemTypeEnum.SpeedBooster) { target.Speed += item.Strength; }
+				if (item.ItemType == Enumerators.ItemTypeEnum.StrengthBooster) { target.Strength += item.Strength; }
+				if (item.ItemType == Enumerators.ItemTypeEnum.WillpowerBooster) { target.Willpower += item.Strength; }
 			}
+
+			else
+			{
+				if (item.ItemType == Enumerators.ItemTypeEnum.AgilityBooster) { target.Agility -= item.Strength; }
+				if (item.ItemType == Enumerators.ItemTypeEnum.EnduranceBooster) { target.Endurance -= item.Strength; }
+				if (item.ItemType == Enumerators.ItemTypeEnum.SpeedBooster) { target.Speed -= item.Strength; }
+				if (item.ItemType == Enumerators.ItemTypeEnum.StrengthBooster) { target.Strength -= item.Strength; }
+				if (item.ItemType == Enumerators.ItemTypeEnum.WillpowerBooster) { target.Willpower -= item.Strength; }
+			}			
 
 			_ctx.SaveChanges();
 

@@ -13,6 +13,6 @@ namespace LastTemple.Models
 		public ItemTypeEnum ItemType { get; set; }
 		public int Strength { get; set; }
 		public int ActionCost { get; set; }
-		public ICollection<CreatureItem> Creatures { get; set; }
+		public virtual ICollection<CreatureItem> Creatures { get; set; }
 	}
 }

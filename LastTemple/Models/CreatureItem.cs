@@ -13,7 +13,7 @@ namespace LastTemple.Models
 		public int ItemId { get; set; }
 		public int Qty { get; set; }
 
-		public Creature Creature { get; set; }
-		public Item Item { get; set; }
+		public virtual Creature Creature { get; set; }
+		public virtual Item Item { get; set; }
 	}
 }
