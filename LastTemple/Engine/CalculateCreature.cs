@@ -1,4 +1,5 @@
 ﻿using LastTemple.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,15 +48,22 @@ namespace LastTemple.Engine
 		{
 			_ctx = ctx;
 
-			Creature target = _ctx.Creatures.Find(creature.Id);
+			Creature target = _ctx.Creatures.Include(x => x.Items).SingleOrDefault(x => x.Id == creature.Id);
 
 			if (target == null) return false;
-
-
-			////
-			////
-			////
 			
+			if(target.Items == null) return false;
+
+			foreach(var item in target.Items)
+			{
+				if(item.Item.ItemType == Enumerators.ItemTypeEnum.AgilityBooster) { target.Agility += item.Item.Strength; }
+				if(item.Item.ItemType == Enumerators.ItemTypeEnum.EnduranceBooster) { target.Endurance += item.Item.Strength; }
+				if(item.Item.ItemType == Enumerators.ItemTypeEnum.SpeedBooster) { target.Speed += item.Item.Strength; }
+				if(item.Item.ItemType == Enumerators.ItemTypeEnum.StrengthBooster) { target.Strength += item.Item.Strength; }
+				if(item.Item.ItemType == Enumerators.ItemTypeEnum.WillpowerBooster) { target.Willpower += item.Item.Strength; }
+			}
+
+			_ctx.SaveChanges();
 
 			return true;
 		} // ItemsEffect()
