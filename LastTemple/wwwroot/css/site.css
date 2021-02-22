@@ -10,45 +10,45 @@ html {
     
 }
 
-
-.tableFixHead thead th {
-    position: sticky;
-    top: 0;   
+.tableFixHead table {
+    border-spacing: 0;
+    border-collapse: separate;
+    width: 100%;
+    color: white;
+    border-radius: 2px;    
 }
 
-table tr:first-child td {
+.tableFixHead tr:first-child td{
     border-top: none;
 }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th {
-    background: #2F3336;
-}
-
 .tableFixHead thead th {
     position: sticky;
-    top: 0;
-    border:none;
+    top: 0px;
+    background: #2F3336;
+    color: white;
 }
 
 .tableFixHead th {
-    box-shadow: inset 0px 2px #fff, 0px 2px #fff;
+    padding: 8px 16px;
+    text-align: center;
+    border: 2px solid; 
 }
 
-table th:first-child {
-    border-radius: 5px 0 0 5px;
-    box-shadow: inset 2px 2px #fff, 2px 2px #fff;
+.tableFixHead th:first-child {
+    border-radius: 8px 0 0 8px;
+    border-right-width: 0px;
 }
 
-table th:last-child {
-    border-radius: 0 5px 5px 0;
-    box-shadow: inset 0px 2px #fff, 2px 2px #fff;
+.tableFixHead th:last-child {
+    border-radius: 0 8px 8px 0;
+    border-left-width: 0px;
 }
 
+.tableFixHead th:not(:first-child):not(:last-child) {   
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
 
 .img-thumbnail-dark {
     padding: 2rem 0.5rem;
@@ -66,6 +66,11 @@ table th:last-child {
     border-radius: 1rem;
     max-width: 100%;
     font-weight: 700 !important;
+}
+
+.fixedContainer {
+    position: sticky;
+    top: 70px;
 }
 
 .upper-navbar {
@@ -101,7 +106,3 @@ input[type=range]::-webkit-slider-thumb {
     cursor: pointer;
 }
 
-.fixedContainer {
-    position: sticky;
-    top: 70px;
-}
