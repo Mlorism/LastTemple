@@ -55,7 +55,7 @@ namespace LastTemple.Engine
 			Item item = _ctx.Items.SingleOrDefault(x => x.Id == ItemId);
 			if (item == null) return false;
 
-			if (target.Items.SingleOrDefault(x => x.ItemId == ItemId) == null)
+			if (target.Items.SingleOrDefault(x => x.ItemId == ItemId) != null)
 			{
 				if (item.ItemType == Enumerators.ItemTypeEnum.AgilityBooster) { target.Agility += item.Strength; }
 				if (item.ItemType == Enumerators.ItemTypeEnum.EnduranceBooster) { target.Endurance += item.Strength; }
