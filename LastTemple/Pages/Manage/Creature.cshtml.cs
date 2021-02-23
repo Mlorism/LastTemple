@@ -39,7 +39,13 @@ namespace LastTemple.Pages.Create
 		
 		public void OnGet()
 		{
-			Creature = new Creature();
+			Creature = new Creature{
+				Strength = 2,
+				Endurance = 2,
+				Willpower = 2,
+				Speed = 2,
+				Agility = 2
+			};
 			
 			Creatures = new GetCreatures(_ctx).Get();
 			Weapons = new GetWeapons(_ctx).Get();

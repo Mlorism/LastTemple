@@ -350,27 +350,27 @@
 
                 <div class="form-group">
                     <label>Poziom</label>
-                    <input id="level" type="number" class="form-control bg-secondary text-light" step="1" value="0" min="0" max="10" asp-for="Creature.Level" onkeydown="return false" />
+                    <input id="level" type="number" class="form-control bg-secondary text-light" step="1" min="0" max="10" asp-for="Creature.Level" onkeydown="return false" />
                     <small>Od 0 do 10</small>
                 </div>
 
                 <div class="form-group">
                     <label>Doświadczenie</label>
-                    <input id="experience" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Experience" />
+                    <input id="experience" type="range" class="mySlider" min="0" max="100" step="10" asp-for="Creature.Experience" />
                     <output>0</output><br />
                     <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
                 </div>
 
                 <div class="form-group">
                     <label>Zapasy</label>
-                    <input id="supplies" type="range" class="mySlider" value="0" min="0" max="100" step="10" asp-for="Creature.Supplies" />
+                    <input id="supplies" type="range" class="mySlider" min="0" max="100" step="10" asp-for="Creature.Supplies" />
                     <output>0</output><br />
                     <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
                 </div>
 
                 <div class="form-group">
                     <label>Siła</label>
-                    <input type="range" id="strength" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Strength" />
+                    <input type="range" id="strength" class="mySlider" min="1" max="20" step="1" asp-for="Creature.Strength" />
                     <output>2</output><br />
                     <small>Determinuje zadawane obrażenia w zwarciu, może być zwiększana przy awansie</small>
                 </div>
@@ -379,28 +379,28 @@
             <div class="col-6">
                 <div class="form-group">
                     <label>Wytrzymałość</label>
-                    <input type="range" id="endurance" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Endurance" />
+                    <input type="range" id="endurance" class="mySlider" min="1" max="20" step="1" asp-for="Creature.Endurance" />
                     <output>2</output><br />
                     <small>Determinuje ilość puntów życia i wytrzymałość na obrażenia, może być zwiększana przy awansie</small>
                 </div>
 
                 <div class="form-group">
                     <label>Siła woli</label>
-                    <input type="range" id="willpower" class="mySlider" value="2" min="1" max="20" step="1" asp-for="Creature.Willpower" />
+                    <input type="range" id="willpower" class="mySlider" min="1" max="20" step="1" asp-for="Creature.Willpower" />
                     <output>2</output><br />
                     <small>Determinuje ilość puntów many i wytrzymałość na obrażenia magiczne, może być zwiększana przy awansie</small>
                 </div>
 
                 <div class="form-group">
                     <label>Szybkość</label>
-                    <input type="range" id="speed" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Speed" />
+                    <input type="range" id="speed" class="mySlider" min="1" max="15" step="1" asp-for="Creature.Speed" />
                     <output>2</output><br />
                     <small>Determinuje ilość punków akcji i inicjatywy</small>
                 </div>
 
                 <div class="form-group">
                     <label>Zręczność</label>
-                    <input type="range" id="agility" class="mySlider" value="2" min="1" max="15" step="1" asp-for="Creature.Agility" />
+                    <input type="range" id="agility" class="mySlider" min="1" max="15" step="1" asp-for="Creature.Agility" />
                     <output>2</output><br />
                     <small>Determinuje szansę na unik, trafienie oraz punkty inicjatywy</small>
                 </div>
