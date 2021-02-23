@@ -3,4 +3,102 @@
 @{
 }
 
-<p>Start</p>
+<p class="text-center font-weight-bold mb-2">Wybierz walczących</p>
+
+<div class="row">
+    <div class="col-6">
+        
+        @if(Model.Hero == null) { <p>Wybrany bohater: <b>brak</b></p> }
+        else {<p>Wybrany bohater: <b>@Model.Hero.Name</b></p> }
+
+     <table class="table text-white text-center">
+         <thead>
+             <tr>
+                 <th>Imię</th>
+                 <th>Poziom</th>                 
+                 <th>PŻ</th>
+                 <th>PM</th>
+                 <th>PA</th>
+                 <th>•</th>
+             </tr>
+         </thead>
+         <tbody>
+             @foreach (var item in Model.Heroes)
+             {
+             <tr>
+                 <td>@item.Name</td>
+                 <td>@item.Level</td>
+                 <td>@item.MaxHP</td>
+                 <td>@item.MaxMana</td>
+                 <td>@item.ActionPoints</td>
+                 <td><form method="post"><button class="btn btn-outline-info" asp-page-handler="AssignHero" asp-route-id="@item.Id">Wybierz</button></form></td>
+                 
+             </tr>
+             }
+         </tbody>
+     </table>
+
+    </div>
+    <div class="col-6">
+
+        @if (Model.SelectedEnemies == null)
+        {<p>Wybrani przeciwnicy: <b>brak</b></p>}
+        else
+        {
+            <p>Wybrani przeciwnicy:</p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Imię</th>
+                        <th>Poziom</th>
+                        <th>PŻ</th>
+                        <th>PM</th>
+                        <th>PA</th>
+                        <th>•</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.SelectedEnemies)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Level</td>
+                            <td>@item.MaxHP</td>
+                            <td>@item.MaxMana</td>
+                            <td>@item.ActionPoints</td>
+                            <td><button class="btn btn-outline-info">Usuń</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <table class="table text-white text-center">
+            <thead>
+                <tr>
+                    <th>Imię</th>
+                    <th>Poziom</th>
+                    <th>PŻ</th>
+                    <th>PM</th>
+                    <th>PA</th>
+                    <th>•</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.EnemiesPool)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Level</td>
+                        <td>@item.MaxHP</td>
+                        <td>@item.MaxMana</td>
+                        <td>@item.ActionPoints</td>
+                        <td><button class="btn btn-outline-info">Dodaj</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
