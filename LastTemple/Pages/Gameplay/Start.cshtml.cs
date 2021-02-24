@@ -51,7 +51,19 @@ namespace LastTemple.Pages.Gameplay
 			return RedirectToPage("Start");
 		}
 
+		public IActionResult OnPostAddEnemy(int id)
+		{
+			BattleStatus.AddEnemy(id, _ctx);
 
+			return RedirectToPage("Start");
+		}
+
+		public IActionResult OnPostDeleteEnemy(int id)
+		{
+			BattleStatus.DeleteEnemy(id, _ctx);
+
+			return RedirectToPage("Start");
+		}
 
 
 

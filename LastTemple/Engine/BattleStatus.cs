@@ -29,6 +29,36 @@ namespace LastTemple.Engine
 			return true;
 		}
 
+		public static bool AddEnemy(int enemyId, ApplicationDbContext ctx)
+		{
+			_ctx = ctx;
+
+			Creature enemy = _ctx.Creatures
+				.Include(x => x.MagicBook)
+				.Include(x => x.Items).ThenInclude(x => x.Item)
+				.SingleOrDefault(x => x.Id == enemyId);
+
+			if (enemy == null) return false;
+
+			if (Enemies == null) Enemies = new List<Creature>();
+
+			Enemies.Add(enemy);
+
+			return true;
+		}
+
+		public static bool DeleteEnemy(int enemyId, ApplicationDbContext ctx)
+		{
+			_ctx = ctx;
+
+			Creature enemy = Enemies.FirstOrDefault(x => x.Id == enemyId);		
+
+			if (enemy == null) return false;			
+
+			Enemies.Remove(enemy);
+
+			return true;
+		}
 
 
 		public static void OrderOfBattle()
