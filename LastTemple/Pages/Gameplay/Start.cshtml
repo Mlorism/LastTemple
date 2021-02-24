@@ -11,7 +11,7 @@
         @if (Model.Hero == null) { <p>Wybrany bohater: <b>brak</b></p> }
         else {<p>Wybrany bohater: <b>@Model.Hero.Name</b></p> }
 
-     <table class="table text-white text-center">
+     <table class="table tableFixHead text-light text-center">
          <thead>
              <tr>
                  <th>Imię</th>
@@ -26,7 +26,7 @@
              @foreach (var item in Model.Heroes)
              {
              <tr>
-                 <td>@item.Name</td>
+                 <td><b>@item.Name</b></td>
                  <td>@item.Level</td>
                  <td>@item.MaxHP</td>
                  <td>@item.MaxMana</td>
@@ -47,7 +47,7 @@
         {
             <p>Wybrani przeciwnicy:</p>
 
-            <table class="table text-white text-center">
+            <table class="table tableFixHead text-light text-center">
                 <thead>
                     <tr>
                         <th>Imię</th>
@@ -62,7 +62,7 @@
                     @foreach (var item in Model.SelectedEnemies)
                     {
                         <tr>
-                            <td>@item.Name</td>
+                            <td><b>@item.Name</b></td>
                             <td>@item.Level</td>
                             <td>@item.MaxHP</td>
                             <td>@item.MaxMana</td>
@@ -74,7 +74,7 @@
             </table>
         }
 
-        <table class="table text-white text-center">
+        <table class="table tableFixHead text-light text-center">
             <thead>
                 <tr>
                     <th>Imię</th>
@@ -89,7 +89,7 @@
                 @foreach (var item in Model.EnemiesPool)
                 {
                     <tr>
-                        <td>@item.Name</td>
+                        <td><b>@item.Name</b></td>
                         <td>@item.Level</td>
                         <td>@item.MaxHP</td>
                         <td>@item.MaxMana</td>
@@ -99,6 +99,32 @@
                 }
             </tbody>
         </table>
+    </div>
 
+    <div class="col-12 text-center">
+        <input id="battleReady" type="hidden" value="@Model.battleReady"/>
+        <button id="battleButton" class="btn btn-danger">Rozpocznij!</button>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    var battleReady = document.getElementById("battleReady").value;
+    var battleButton = document.getElementById("battleButton");
+
+    setButton();
+
+    function setButton() {
+        if (battleReady == "No") {
+            battleButton.disabled = true;
+        }
+        else if (battleReady == "Yes") {
+            battleButton.disabled = false;
+        }
+        else {
+            alert(battleReady.value);
+        }
+    }
+
+
+</script>

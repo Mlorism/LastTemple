@@ -22,6 +22,7 @@ namespace LastTemple.Pages.Gameplay
 		[BindProperty]
 		public IEnumerable<Creature> EnemiesPool { get; set; }
 		public IEnumerable<Creature> SelectedEnemies { get; set; }
+		public string battleReady { get; set; }
 
 		public StartModel(ApplicationDbContext ctx)
 		{
@@ -30,15 +31,24 @@ namespace LastTemple.Pages.Gameplay
 
 		public void OnGet()
 		{
-			if(BattleStatus.Hero != null)
+			if (BattleStatus.Hero != null)
 			{
 				Hero = BattleStatus.Hero;
 			}
 
-			if(BattleStatus.Enemies != null)
+			if (BattleStatus.Enemies != null)
 			{
 				SelectedEnemies = BattleStatus.Enemies.ToList();
 			}
+
+			else SelectedEnemies = new List<Creature>();
+
+			if (Hero != null && SelectedEnemies.Count() > 0)
+			{
+				battleReady = "Yes";
+			}
+
+			else battleReady = "No";
 
 			Heroes = _ctx.Creatures.Where(x => x.Type == Enumerators.CreatureTypeEnum.Hero).ToList();
 			EnemiesPool = _ctx.Creatures.ToList().Except(Heroes);
