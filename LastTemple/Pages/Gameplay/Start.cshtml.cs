@@ -22,7 +22,7 @@ namespace LastTemple.Pages.Gameplay
 		[BindProperty]
 		public IEnumerable<Creature> EnemiesPool { get; set; }
 		public IEnumerable<Creature> SelectedEnemies { get; set; }
-		public string battleReady { get; set; }
+		public string BattleReady { get; set; }
 
 		public StartModel(ApplicationDbContext ctx)
 		{
@@ -45,10 +45,10 @@ namespace LastTemple.Pages.Gameplay
 
 			if (Hero != null && SelectedEnemies.Count() > 0)
 			{
-				battleReady = "Yes";
+				BattleReady = "Yes";
 			}
 
-			else battleReady = "No";
+			else BattleReady = "No";
 
 			Heroes = _ctx.Creatures.Where(x => x.Type == Enumerators.CreatureTypeEnum.Hero).ToList();
 			EnemiesPool = _ctx.Creatures.ToList().Except(Heroes);
@@ -74,6 +74,12 @@ namespace LastTemple.Pages.Gameplay
 
 			return RedirectToPage("Start");
 		}
+
+		public IActionResult OnPostStartBattle()
+		{
+			return RedirectToPage("BattleField");
+		}
+
 
 
 

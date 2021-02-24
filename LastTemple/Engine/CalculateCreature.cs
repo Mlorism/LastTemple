@@ -20,9 +20,9 @@ namespace LastTemple.Engine
 			if (target == null) return false;
 			
 			target.MaxHP = 15 + (creature.Strength + creature.Endurance * 2) * (creature.Level + 1);
-			target.HitPoints = creature.MaxHP;
+			target.HitPoints = 15 + (creature.Strength + creature.Endurance * 2) * (creature.Level + 1);
 			target.MaxMana = 4 + creature.Willpower * (creature.Level + 1);
-			target.Mana = creature.MaxMana;			
+			target.Mana = 4 + creature.Willpower * (creature.Level + 1);
 			target.ActionPoints = 5 + (int)Math.Floor(creature.Speed / 2.0);
 
 			if(creature.Armor != null)

@@ -25,15 +25,15 @@
          <tbody>
              @foreach (var item in Model.Heroes)
              {
-             <tr>
-                 <td><b>@item.Name</b></td>
-                 <td>@item.Level</td>
-                 <td>@item.MaxHP</td>
-                 <td>@item.MaxMana</td>
-                 <td>@item.ActionPoints</td>
-                 <td><form method="post"><button class="btn btn-outline-info" asp-page-handler="AssignHero" asp-route-id="@item.Id">Wybierz</button></form></td>
-                 
-             </tr>
+                <tr>
+                    <td><b>@item.Name</b></td>
+                    <td>@item.Level</td>
+                    <td>@item.MaxHP</td>
+                    <td>@item.MaxMana</td>
+                    <td>@item.ActionPoints</td>
+                    <td><form method="post"><button class="btn btn-outline-info" asp-page-handler="AssignHero" asp-route-id="@item.Id">Wybierz</button></form></td>
+                    
+                </tr>
              }
          </tbody>
      </table>
@@ -102,8 +102,8 @@
     </div>
 
     <div class="col-12 text-center">
-        <input id="battleReady" type="hidden" value="@Model.battleReady"/>
-        <button id="battleButton" class="btn btn-danger">Rozpocznij!</button>
+        <input id="battleReady" type="hidden" value="@Model.BattleReady"/>
+        <form method="post"><button id="battleButton" class="btn btn-danger" asp-page-handler="StartBattle">Rozpocznij!</button></form>
     </div>
 </div>
 
