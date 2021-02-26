@@ -63,9 +63,16 @@ namespace LastTemple.Engine
 
 		public static void OrderOfBattle()
 		{
+			if (Combatants == null) Combatants = new List<Creature>();
 			Combatants.Add(Hero);
 			Combatants.AddRange(Enemies);
 			Combatants.OrderBy(x => x.Initiative);
+
+			for (int i=0; i<Combatants.Count; i++)
+			{
+				Combatants[i].Id = i;
+			}
+
 		}
 
 	}

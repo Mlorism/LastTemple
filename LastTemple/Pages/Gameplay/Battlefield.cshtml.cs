@@ -13,11 +13,13 @@ namespace LastTemple.Pages.Gameplay
 
 		public Creature Hero { get; set; }
 		public List<Creature> Enemies { get; set; }
+		public int SelectedEnemy { get; set; }
 
 		public void OnGet()
 		{
+			BattleStatus.OrderOfBattle(); // ci¹gle przez to ³aduje i zmienia id
 			Hero = BattleStatus.Hero;
-			Enemies = BattleStatus.Enemies;
+			Enemies = BattleStatus.Enemies;			
 		}
 	}
 }

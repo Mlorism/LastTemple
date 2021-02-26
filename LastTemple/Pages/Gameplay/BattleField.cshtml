@@ -20,17 +20,19 @@
         <div id="enemies" class="col-2">
             @foreach(var item in Model.Enemies)
             {
-            <div class="form-group">
-                <div class="btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-warning">
-                        <input type="radio" /> @item.Name
-                    </label>
-                </div>
+             <div class="form-group">
 
-                <span>Życie @item.HitPoints / @item.MaxHP - @item.Alive</span> <br />
-                <span>Mana @item.Mana / @item.MaxMana</span> <br />
-                <span>Punkty Akcji @item.Mana / @item.MaxMana</span>
-            </div>
+                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                     <label class="btn btn-outline-warning" id="btnChose-@item.Id" onclick="choseEnemy(id)">                         
+                         <input type="radio" value="@item.Id" name="enemies"/> @item.Name
+                     </label>
+                 </div>
+
+                 <br />
+                 <span>Życie @item.HitPoints / @item.MaxHP - @item.Alive</span> <br />
+                 <span>Mana @item.Mana / @item.MaxMana</span> <br />
+                 <span>Punkty Akcji @item.Mana / @item.MaxMana</span>
+             </div>
                 
                
             }
@@ -48,3 +50,21 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">   
+    
+    function choseEnemy(id) {
+        var enemies = document.getElementsByName("enemies");
+
+        for (i = 0; i < enemies.length; i++)
+        {
+            if (enemies[i].parentElement.id != id) {
+                if (enemies[i].parentElement.classList.contains("active"))
+                {
+                    enemies[i].parentElement.classList.remove("active");
+                }
+            }
+        }        
+    }
+
+</script>
