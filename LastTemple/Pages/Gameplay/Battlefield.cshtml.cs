@@ -11,15 +11,26 @@ namespace LastTemple.Pages.Gameplay
 	public class BattlefieldModel : PageModel
 	{
 
-		public Creature Hero { get; set; }
+		public Creature Hero { get; set; }	
 		public List<Creature> Enemies { get; set; }
+		[BindProperty]
 		public int SelectedEnemy { get; set; }
+		public List<string> BattleLog { get; set; }
 
 		public void OnGet()
 		{
-			BattleStatus.OrderOfBattle(); // ci¹gle przez to ³aduje i zmienia id
+			BattleStatus.PrepareBattle(); 
 			Hero = BattleStatus.Hero;
-			Enemies = BattleStatus.Enemies;			
+			Enemies = BattleStatus.Enemies;
+			BattleLog = BattleStatus.BattleLog;
 		}
+		public IActionResult OnPostAttack(int attackerId)
+		{
+			BattleStatus.Attack(attackerId, SelectedEnemy);		
+
+			return RedirectToPage("BattleField");
+		}
+
+
 	}
 }

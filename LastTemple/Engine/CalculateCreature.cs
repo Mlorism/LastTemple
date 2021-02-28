@@ -23,9 +23,10 @@ namespace LastTemple.Engine
 			target.HitPoints = 15 + (creature.Strength + creature.Endurance * 2) * (creature.Level + 1);
 			target.MaxMana = 4 + creature.Willpower * (creature.Level + 1);
 			target.Mana = 4 + creature.Willpower * (creature.Level + 1);
+			target.MaxAP = 5 + (int)Math.Floor(creature.Speed / 2.0);
 			target.ActionPoints = 5 + (int)Math.Floor(creature.Speed / 2.0);
 
-			if(creature.Armor != null)
+			if (creature.Armor != null)
 			{
 				target.DamageResistance = creature.Armor.DamageResistance + creature.Endurance;
 				target.MagicResistance = creature.Armor.MagicResistance + creature.Endurance;
@@ -71,9 +72,11 @@ namespace LastTemple.Engine
 				if (item.ItemType == Enumerators.ItemTypeEnum.SpeedBooster) { target.Speed -= item.Strength; }
 				if (item.ItemType == Enumerators.ItemTypeEnum.StrengthBooster) { target.Strength -= item.Strength; }
 				if (item.ItemType == Enumerators.ItemTypeEnum.WillpowerBooster) { target.Willpower -= item.Strength; }
-			}			
+			}
 
 			_ctx.SaveChanges();
+
+			DerivedStatistics(creature, ctx);
 
 			return true;
 		} // ItemsEffect()

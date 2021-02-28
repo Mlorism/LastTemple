@@ -20,7 +20,10 @@ namespace LastTemple.CRUD
 		{
 			return _ctx.Creatures
 				.Include(i => i.Items)
+				.ThenInclude(i => i.Item)
 				.Include(m => m.MagicBook)
+				.Include(w => w.Weapon)
+				.Include(a => a.Armor)
 				.FirstOrDefault(x => x.Id == id);
 		} // Get()
 	}

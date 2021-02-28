@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace LastTemple
 {
 	public class Creature
-	{	
-
+	{
+		#region main 
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public CreatureTypeEnum Type { get; set; } // defines fighting style
@@ -17,6 +17,7 @@ namespace LastTemple
 		public int Experience { get; set; } // gained by defeating enemies and making major discoveries/events 
 		public int Supplies { get; set; } // used to travel to next location on map and during rest between battles
 		public bool Alive { get; set; }
+		#endregion	
 
 		#region Attributes
 		public int Strength { get; set; } // strength is used to calculate damage dealt using primary weapon
@@ -36,7 +37,8 @@ namespace LastTemple
 		public int HitPoints { get; set; } // MaxHP - damage
 		public int MaxMana { get; set; } // derived from Willpower and Level
 		public int Mana { get; set; } // MaxMana - used mana
-		public int ActionPoints { get; set; } // derived from Speed			
+		public int MaxAP { get; set; } // derived from Speed			
+		public int ActionPoints { get; set; } // current AP			
 		public int DamageResistance { get; set; } // derived from Endurance and equipped armor or natural hide/shell => property Armor
 		public int MagicResistance { get; set; } // derived from Willpower and equipped armor or natural hide/shell => property Armor
 		public int Initiative { get; set; } // derived from Speed and Agility

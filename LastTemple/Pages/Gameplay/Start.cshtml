@@ -6,12 +6,12 @@
 <p class="text-center font-weight-bold mb-2">Wybierz walczących</p>
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-6 tableFixHead">
         
         @if (Model.Hero == null) { <p>Wybrany bohater: <b>brak</b></p> }
         else {<p>Wybrany bohater: <b>@Model.Hero.Name</b></p> }
 
-     <table class="table tableFixHead text-light text-center">
+     <table class="table text-light text-center">
          <thead>
              <tr>
                  <th>Imię</th>
@@ -39,15 +39,17 @@
      </table>
 
     </div>
-    <div class="col-6">
+    <div class="col-6 tableFixHead">
 
         @if (Model.SelectedEnemies == null || Model.SelectedEnemies.Count() == 0)
-        {<p>Wybrani przeciwnicy: <b>brak</b></p>}
+        {
+            <p>Wybrani przeciwnicy: <b>brak</b></p>
+        }
         else
         {
             <p>Wybrani przeciwnicy:</p>
 
-            <table class="table tableFixHead text-light text-center">
+            <table class="table text-light text-center">
                 <thead>
                     <tr>
                         <th>Imię</th>

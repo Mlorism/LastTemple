@@ -4,57 +4,82 @@
 }
 
 <div>
-    <div class="row">
-        <div id="logDiv" style="background:#505050; border-top:20px; border-color:white; overflow: auto; height:400px;" class="col-10">
-            <ul>
-                <li>@Model.Hero.Name atakuje Szczur i zadaje mu 3 puntków obrażeń</li>
-                <li>@Model.Hero.Name atakuje Szczur i zadaje mu 1 puntków obrażeń</li> 
-                <li>@Model.Hero.Name atakuje Szczur i pudłuje</li>
-                <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
-                <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>           
-                <li>@Model.Hero.Name atakuje Szczur i zadaje mu 5 puntków obrażeń co kończy się jego śmiercią</li>
+   
+        <div class="row">
+            <div id="logDiv" style="background:#505050; border-top:20px; border-color:white; overflow: auto; height:400px;" class="col-10">
+                <ul>
+                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 3 puntków obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 1 puntków obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i pudłuje</li>
+                    <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
+                    <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 5 puntków obrażeń co kończy się jego śmiercią</li>
 
-            </ul>
+                    @foreach (var log in Model.BattleLog)
+                    {
+                        <li>@log</li>
+                    }
+
+                </ul>
+            </div>
+
+            <div id="enemies" class="col-2">
+                @foreach (var item in Model.Enemies)
+                {
+                    <div class="form-group">
+                        <div class="btn-group @*btn-group-toggle*@" data-toggle="buttons">
+                            <label class="btn btn-outline-warning" id="btnChose-@item.Id" onclick="choseEnemy(id)">
+                                <input type="radio" value="@item.Id" name="SelectedEnemy" form="battleForm"/> @item.Name
+                            </label>
+                        </div>
+
+                        <br />
+                        <span>Życie @item.HitPoints / @item.MaxHP - @item.Alive</span> <br />
+                        <span>Mana @item.Mana / @item.MaxMana</span> <br />
+                        <span>Punkty Akcji @item.ActionPoints / @item.MaxAP</span>
+                    </div>
+                }
+            </div>
+
         </div>
+        <div class="row">
+            <div class="col-10 offset-1 text-center">
+                <p><h3>@Model.Hero.Name</h3></p>
+                <p>Zdrowie: @Model.Hero.HitPoints/@Model.Hero.MaxHP Mana: @Model.Hero.Mana/@Model.Hero.MaxMana Punkty Akcji: @Model.Hero.ActionPoints/@Model.Hero.MaxAP</p>
+                <form id="battleForm" method="post">
+                    <button class="btn btn-outline-info">Szybki</button>
+                    <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" type="submit">Zwykły</button>
+                    <button class="btn btn-outline-info">Silny</button>
+                    <button class="btn btn-outline-info">Przedmiot</button>
+                    <button class="btn btn-outline-info">Zaklęcie</button>
 
-        <div id="enemies" class="col-2">
-            @foreach(var item in Model.Enemies)
-            {
-             <div class="form-group">
-
-                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                     <label class="btn btn-outline-warning" id="btnChose-@item.Id" onclick="choseEnemy(id)">                         
-                         <input type="radio" value="@item.Id" name="enemies"/> @item.Name
-                     </label>
-                 </div>
-
-                 <br />
-                 <span>Życie @item.HitPoints / @item.MaxHP - @item.Alive</span> <br />
-                 <span>Mana @item.Mana / @item.MaxMana</span> <br />
-                 <span>Punkty Akcji @item.Mana / @item.MaxMana</span>
-             </div>
-                
-               
-            }
+                    <br /> <br />
+                    <select class="form-control bg-secondary text-light col-3" style="display:inline-block">
+                        <option>Przedmiot</option>
+                        @foreach (var item in Model.Hero.Items)
+                        {
+                            <option> @item.Item.Name (@item.Qty) - @item.Item.ActionCost PA</option>
+                        }
+                    </select>
+                    <select class="form-control bg-secondary text-light col-3" style="display:inline-block">
+                        <option>Zaklęcie</option>
+                        @foreach (var item in Model.Hero.MagicBook)
+                        {
+                            <option> @item.Name - @item.ManaCost PM - @item.ActionCost PA</option>
+                        }
+                    </select>
+                    <br /><br />
+                    <button class="btn btn-outline-danger">Koniec tury</button>
+                </form>
+            </div>
         </div>
-
-    </div>
-    <div class="row">
-        <div class="col-10 offset-1 text-center">
-            <p>@Model.Hero.Name</p>
-            <button class="btn btn-outline-info">xxx</button>
-            <button class="btn btn-outline-info">xxxxx</button>
-            <button class="btn btn-outline-info">xxxxxxxxx</button>
-            <button class="btn btn-outline-info">xxxxxx</button>
-            <button class="btn btn-outline-info">xxxx</button>
-        </div>
-    </div>
+    
 </div>
 
 <script type="text/javascript">   
-    
+
     function choseEnemy(id) {
-        var enemies = document.getElementsByName("enemies");
+        var enemies = document.getElementsByName("SelectedEnemy");
 
         for (i = 0; i < enemies.length; i++)
         {
