@@ -160,12 +160,39 @@ namespace LastTemple.Engine
 				item.Qty -= 1;
 			}
 
-
 		} // UseItem
 
 		public static void CastSpell(int userId, int targetId, int spellId)
 		{
+			Creature user = Combatants.SingleOrDefault(x => x.Id == userId);
+			Creature target = Combatants.SingleOrDefault(x => x.Id == targetId);
+			Spell spell = new GetSpell(_ctx).Get(spellId);
 
+			if (spell.Type == Enumerators.SpellTypeEnum.Healing)
+			{
+				user.HitPoints += spell.Strength;
+
+				if (user.HitPoints > user.MaxHP)
+				{
+					user.HitPoints = user.MaxHP;
+				}
+			}
+
+			else
+			{
+				int damage = spell.Strength - target.MagicResistance;
+
+				if (damage > 0)
+				{
+					target.HitPoints -= damage;
+				}
+			}
+
+			user.Mana -= spell.ManaCost;
+			user.ActionPoints -= spell.ActionCost;
+
+			// dodge chance and spell succes rate?
+			
 
 		} // CastSpell
 
