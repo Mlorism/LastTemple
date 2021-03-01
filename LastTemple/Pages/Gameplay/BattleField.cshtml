@@ -14,6 +14,21 @@
                     <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
                     <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>
                     <li>@Model.Hero.Name atakuje Szczur i zadaje mu 5 puntków obrażeń co kończy się jego śmiercią</li>
+                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 3 puntków obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 1 puntków obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i pudłuje</li>
+                    <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
+                    <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 3 puntków obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 1 puntków obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i pudłuje</li>
+                    <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
+                    <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 3 puntków obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 1 puntków obrażeń</li>
+                    <li>@Model.Hero.Name atakuje Szczur i pudłuje</li>
+                    <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
+                    <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>
 
                     @foreach (var log in Model.BattleLog)
                     {
@@ -78,6 +93,13 @@
 
 <script type="text/javascript">   
 
+    scrollLog();
+
+    function scrollLog() {
+        var logDiv = document.getElementById("logDiv");
+        logDiv.scrollTop = logDiv.scrollHeight;
+    }
+    
     function choseEnemy(id) {
         var enemies = document.getElementsByName("SelectedEnemy");
 
