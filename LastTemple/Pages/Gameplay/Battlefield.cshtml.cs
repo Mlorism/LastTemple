@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LastTemple.CRUD;
 using LastTemple.Engine;
+using LastTemple.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,12 +12,19 @@ namespace LastTemple.Pages.Gameplay
 {
 	public class BattlefieldModel : PageModel
 	{
+		private readonly ApplicationDbContext _ctx;
 
 		public Creature Hero { get; set; }	
-		public List<Creature> Enemies { get; set; }
-		[BindProperty]
+		public List<Creature> Enemies { get; set; }		
 		public int SelectedEnemy { get; set; }
+		public int SelectedItem { get; set; }
+		public int SelectedSpell { get; set; }
 		public List<string> BattleLog { get; set; }
+
+		public BattlefieldModel(ApplicationDbContext ctx)
+		{
+			_ctx = ctx;
+		}
 
 		public void OnGet()
 		{
@@ -31,13 +40,29 @@ namespace LastTemple.Pages.Gameplay
 			return RedirectToPage("BattleField");
 		}
 
-		public IActionResult OnPostUseItem(int userId, int itemId)
+		public IActionResult OnPostUseItem(int userId)
 		{
-			BattleStatus.UseItem(userId, itemId);
+			BattleStatus.UseItem(userId, SelectedItem);
 
 			return RedirectToPage("BattleField");
 		}
 
+		public IActionResult OnPostCastSpell(int userId)
+		{
+			Spell spell = new GetSpell(_ctx).Get(SelectedSpell);
+
+			if(spell.Type == Enumerators.SpellTypeEnum.Healing)
+			{
+				BattleStatus.CastSpell(userId, userId, SelectedSpell);
+			}
+
+			else
+			{
+				BattleStatus.CastSpell(userId, SelectedEnemy, SelectedSpell);
+			}			
+
+			return RedirectToPage("BattleField");
+		}
 
 	}
 }

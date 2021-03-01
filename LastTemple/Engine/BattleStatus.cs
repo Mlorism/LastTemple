@@ -125,6 +125,40 @@ namespace LastTemple.Engine
 
 		public static void UseItem(int userId, int itemId)
 		{
+			Creature user = Combatants.SingleOrDefault(x => x.Id == userId);
+			CreatureItem item = user.Items.SingleOrDefault(x => x.ItemId == itemId);					
+
+			if (item.Item.ItemType == Enumerators.ItemTypeEnum.Healing)
+			{
+				user.HitPoints += item.Item.Strength;
+
+				if (user.HitPoints > user.MaxHP)
+				{
+					user.HitPoints = user.MaxHP;
+				}
+			}
+
+			else if (item.Item.ItemType == Enumerators.ItemTypeEnum.Mana)
+			{
+				user.Mana += item.Item.Strength;
+
+				if(user.Mana > user.MaxMana)
+				{
+					user.Mana = user.MaxMana;
+				}
+			}
+
+			user.ActionPoints -= item.Item.ActionCost;
+
+			if (item.Qty == 1)
+			{
+				user.Items.Remove(item);
+			}
+
+			else
+			{
+				item.Qty -= 1;
+			}
 
 
 		} // UseItem
