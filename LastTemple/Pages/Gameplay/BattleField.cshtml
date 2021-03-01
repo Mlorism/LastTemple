@@ -62,9 +62,9 @@
                 <p><h3>@Model.Hero.Name</h3></p>
                 <p>Zdrowie: @Model.Hero.HitPoints/@Model.Hero.MaxHP Mana: @Model.Hero.Mana/@Model.Hero.MaxMana Punkty Akcji: @Model.Hero.ActionPoints/@Model.Hero.MaxAP</p>
                 <form id="battleForm" method="post">
-                    <button class="btn btn-outline-info">Szybki</button>
-                    <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" type="submit">Zwykły</button>
-                    <button class="btn btn-outline-info">Silny</button>
+                    <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="0" type="submit">Szybki</button>
+                    <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="1" type="submit">Zwykły</button>
+                    <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="2" type="submit">Silny</button>
                     <button class="btn btn-outline-info">Przedmiot</button>
                     <button class="btn btn-outline-info">Zaklęcie</button>
 

@@ -24,9 +24,16 @@ namespace LastTemple.Pages.Gameplay
 			Enemies = BattleStatus.Enemies;
 			BattleLog = BattleStatus.BattleLog;
 		}
-		public IActionResult OnPostAttack(int attackerId)
+		public IActionResult OnPostAttack(int attackerId, int attackType)
 		{
-			BattleStatus.Attack(attackerId, SelectedEnemy);		
+			BattleStatus.Attack(attackerId, attackType, SelectedEnemy);		
+
+			return RedirectToPage("BattleField");
+		}
+
+		public IActionResult OnPostUseItem(int userId, int itemId)
+		{
+			BattleStatus.UseItem(userId, itemId);
 
 			return RedirectToPage("BattleField");
 		}

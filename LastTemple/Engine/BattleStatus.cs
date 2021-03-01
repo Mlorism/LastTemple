@@ -89,9 +89,10 @@ namespace LastTemple.Engine
 			BattleLog.Add(message);
 		}
 
-		public static void Attack(int attackerId, int targetId)
+		public static void Attack(int attackerId, int attackType, int targetId)
 		{
-			var temp = Combatants;
+
+			//attackType 0 - fast, 1 - normal, 2 - strong
 
 			Creature attacker = Combatants.FirstOrDefault(x => x.Id == attackerId);
 			Creature target = Combatants.FirstOrDefault(x => x.Id == targetId);
@@ -117,13 +118,22 @@ namespace LastTemple.Engine
 				string message = new string($"{attacker.Name} chybia.");
 				BattleLog.Add(message);
 			}
-				
+
 
 			/// add magic resistance
+		} // Attack
 
-		}
+		public static void UseItem(int userId, int itemId)
+		{
 
 
+		} // UseItem
+
+		public static void CastSpell(int userId, int targetId, int spellId)
+		{
+
+
+		} // CastSpell
 
 
 	}
