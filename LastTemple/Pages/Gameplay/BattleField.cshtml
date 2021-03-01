@@ -42,7 +42,7 @@
                 @foreach (var item in Model.Enemies)
                 {
                     <div class="form-group">
-                        <div class="btn-group @*btn-group-toggle*@" data-toggle="buttons">
+                        <div class="btn-group @*btn-group-toggle*@" data-toggle="buttons">                            
                             <label class="btn btn-outline-warning" id="btnChose-@item.Id" onclick="choseEnemy(id)">
                                 <input type="radio" value="@item.Id" name="SelectedEnemy" form="battleForm"/> @item.Name
                             </label>
@@ -65,22 +65,22 @@
                     <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="0" type="submit">Szybki</button>
                     <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="1" type="submit">Zwykły</button>
                     <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="2" type="submit">Silny</button>
-                    <button class="btn btn-outline-info">Przedmiot</button>
-                    <button class="btn btn-outline-info">Zaklęcie</button>
+                    <button class="btn btn-outline-info" asp-page-handler="UseItem" asp-route-userId="@Model.Hero.Id">Przedmiot</button>
+                    <button class="btn btn-outline-info" asp-page-handler="CastSpell" asp-route-userId="@Model.Hero.Id">Zaklęcie</button>
 
                     <br /> <br />
-                    <select class="form-control bg-secondary text-light col-3" style="display:inline-block">
-                        <option>Przedmiot</option>
+                    <select class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedItem">
+                        <option value="-1">Przedmiot</option>
                         @foreach (var item in Model.Hero.Items)
                         {
-                            <option> @item.Item.Name (@item.Qty) - @item.Item.ActionCost PA</option>
+                            <option value="@item.ItemId"> @item.Item.Name (@item.Qty) - @item.Item.ActionCost PA</option>
                         }
                     </select>
-                    <select class="form-control bg-secondary text-light col-3" style="display:inline-block">
-                        <option>Zaklęcie</option>
+                    <select class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedSpell">
+                        <option value="-1">Zaklęcie</option>
                         @foreach (var item in Model.Hero.MagicBook)
                         {
-                            <option> @item.Name - @item.ManaCost PM - @item.ActionCost PA</option>
+                            <option value="@item.Id"> @item.Name - @item.ManaCost PM - @item.ActionCost PA</option>
                         }
                     </select>
                     <br /><br />

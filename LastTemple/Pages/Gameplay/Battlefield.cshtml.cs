@@ -16,8 +16,11 @@ namespace LastTemple.Pages.Gameplay
 
 		public Creature Hero { get; set; }	
 		public List<Creature> Enemies { get; set; }		
+		[BindProperty]
 		public int SelectedEnemy { get; set; }
+		[BindProperty]
 		public int SelectedItem { get; set; }
+		[BindProperty]
 		public int SelectedSpell { get; set; }
 		public List<string> BattleLog { get; set; }
 
@@ -35,31 +38,37 @@ namespace LastTemple.Pages.Gameplay
 		}
 		public IActionResult OnPostAttack(int attackerId, int attackType)
 		{
-			BattleStatus.Attack(attackerId, attackType, SelectedEnemy);		
+			BattleStatus.Attack(attackerId, attackType, SelectedEnemy);			
 
 			return RedirectToPage("BattleField");
 		}
 
 		public IActionResult OnPostUseItem(int userId)
 		{
-			BattleStatus.UseItem(userId, SelectedItem);
+			if (SelectedItem != -1)
+			{
+				BattleStatus.UseItem(userId, SelectedItem);
+			}
 
 			return RedirectToPage("BattleField");
 		}
 
 		public IActionResult OnPostCastSpell(int userId)
 		{
-			Spell spell = new GetSpell(_ctx).Get(SelectedSpell);
-
-			if(spell.Type == Enumerators.SpellTypeEnum.Healing)
+			if (SelectedSpell != -1)
 			{
-				BattleStatus.CastSpell(userId, userId, SelectedSpell);
+				Spell spell = new GetSpell(_ctx).Get(SelectedSpell);
+
+				if (spell.Type == Enumerators.SpellTypeEnum.Healing)
+				{
+					BattleStatus.CastSpell(userId, userId, SelectedSpell, _ctx);
+				}
+
+				else
+				{
+					BattleStatus.CastSpell(userId, SelectedEnemy, SelectedSpell, _ctx);
+				}
 			}
-
-			else
-			{
-				BattleStatus.CastSpell(userId, SelectedEnemy, SelectedSpell);
-			}			
 
 			return RedirectToPage("BattleField");
 		}

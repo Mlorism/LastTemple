@@ -15,8 +15,7 @@ namespace LastTemple.Engine
 		public static List<Creature> Enemies { get; set; }
 		public static List<Creature> Combatants { get; set; }
 		public static List<string> BattleLog { get; set; }
-		public static bool Status { get; set; } // after the battle shoud be set to false
-
+		public static bool Status { get; set; } // after the battle should be set to false
 
 		public static bool AssignHero(int heroId, ApplicationDbContext ctx)
 		{
@@ -57,7 +56,6 @@ namespace LastTemple.Engine
 			return true;
 		}
 
-
 		public static void OrderOfBattle()
 		{
 			if (Combatants == null) Combatants = new List<Creature>();
@@ -83,9 +81,9 @@ namespace LastTemple.Engine
 			
 		}
 
-		public static void AddToLog(int targetId)
+		public static void AddToLog(string text)
 		{
-			string message = new string($"{targetId}");
+			string message = new string(text);
 			BattleLog.Add(message);
 		}
 
@@ -136,6 +134,9 @@ namespace LastTemple.Engine
 				{
 					user.HitPoints = user.MaxHP;
 				}
+
+				string message = new string($"{user.Name} używa {item.Item.Name}, które przywraca {item.Item.Strength} punktów zdrowia.");
+				BattleLog.Add(message);
 			}
 
 			else if (item.Item.ItemType == Enumerators.ItemTypeEnum.Mana)
@@ -146,6 +147,9 @@ namespace LastTemple.Engine
 				{
 					user.Mana = user.MaxMana;
 				}
+
+				string message = new string($"{user.Name} używa {item.Item.Name}, które przywraca {item.Item.Strength} punktów many.");
+				BattleLog.Add(message);
 			}
 
 			user.ActionPoints -= item.Item.ActionCost;
@@ -162,10 +166,24 @@ namespace LastTemple.Engine
 
 		} // UseItem
 
-		public static void CastSpell(int userId, int targetId, int spellId)
+		public static void CastSpell(int userId, int targetId, int spellId, ApplicationDbContext ctx)
 		{
+
+			_ctx = ctx;
+
 			Creature user = Combatants.SingleOrDefault(x => x.Id == userId);
-			Creature target = Combatants.SingleOrDefault(x => x.Id == targetId);
+			Creature target;
+
+			if (userId != targetId)
+			{
+				target = Combatants.SingleOrDefault(x => x.Id == targetId);
+			}
+			
+			else
+			{
+				target = user;
+			}
+
 			Spell spell = new GetSpell(_ctx).Get(spellId);
 
 			if (spell.Type == Enumerators.SpellTypeEnum.Healing)
@@ -176,6 +194,9 @@ namespace LastTemple.Engine
 				{
 					user.HitPoints = user.MaxHP;
 				}
+
+				string message = new string($"{user.Name} rzuca {spell.Name}, które przywraca {spell.Strength} punktów zdrowia.");
+				BattleLog.Add(message);
 			}
 
 			else
@@ -186,13 +207,16 @@ namespace LastTemple.Engine
 				{
 					target.HitPoints -= damage;
 				}
+
+				string message = new string($"{user.Name} rzuca {spell.Name}, które trafia {target.Name} zadając mu {damage} punktów obrażeń.");
+				BattleLog.Add(message);
 			}
 
 			user.Mana -= spell.ManaCost;
 			user.ActionPoints -= spell.ActionCost;
 
 			// dodge chance and spell succes rate?
-			
+
 
 		} // CastSpell
 
