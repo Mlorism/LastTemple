@@ -8,33 +8,10 @@
         <div class="row">
             <div id="logDiv" style="background:#505050; border-top:20px; border-color:white; overflow: auto; height:400px;" class="col-10">
                 <ul>
-                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 3 puntków obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 1 puntków obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i pudłuje</li>
-                    <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
-                    <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 5 puntków obrażeń co kończy się jego śmiercią</li>
-                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 3 puntków obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 1 puntków obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i pudłuje</li>
-                    <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
-                    <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 3 puntków obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 1 puntków obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i pudłuje</li>
-                    <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
-                    <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 3 puntków obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i zadaje mu 1 puntków obrażeń</li>
-                    <li>@Model.Hero.Name atakuje Szczur i pudłuje</li>
-                    <li>Szczur atakuje @Model.Hero.Name i zadaje 3 punkty obrażeń</li>
-                    <li>Szczur atakuje @Model.Hero.Name i zadaje 2 punkty obrażeń</li>
-
                     @foreach (var log in Model.BattleLog)
                     {
                         <li>@log</li>
                     }
-
                 </ul>
             </div>
 
@@ -62,21 +39,21 @@
                 <p><h3>@Model.Hero.Name</h3></p>
                 <p>Zdrowie: @Model.Hero.HitPoints/@Model.Hero.MaxHP Mana: @Model.Hero.Mana/@Model.Hero.MaxMana Punkty Akcji: @Model.Hero.ActionPoints/@Model.Hero.MaxAP</p>
                 <form id="battleForm" method="post">
-                    <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="0" type="submit">Szybki</button>
-                    <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="1" type="submit">Zwykły</button>
-                    <button class="btn btn-outline-info" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="2" type="submit">Silny</button>
-                    <button class="btn btn-outline-info" asp-page-handler="UseItem" asp-route-userId="@Model.Hero.Id">Przedmiot</button>
-                    <button class="btn btn-outline-info" asp-page-handler="CastSpell" asp-route-userId="@Model.Hero.Id">Zaklęcie</button>
+                    <button class="btn btn-outline-info" id="fastAttackBtn" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="1" type="submit" disabled>Zwykły</button>
+                    <button class="btn btn-outline-info" id="normalAttackBtn" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="0" type="submit" disabled>Szybki</button>
+                    <button class="btn btn-outline-info" id="strongAttackBtn" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="2" type="submit" disabled>Silny</button>
+                    <button class="btn btn-outline-info" id="itemBtn" asp-page-handler="UseItem" asp-route-userId="@Model.Hero.Id" disabled>Przedmiot</button>
+                    <button class="btn btn-outline-info" id="spellBtn" asp-page-handler="CastSpell" asp-route-userId="@Model.Hero.Id" disabled>Zaklęcie</button>
 
                     <br /> <br />
-                    <select class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedItem">
+                    <select id="selectItem" class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedItem">
                         <option value="-1">Przedmiot</option>
                         @foreach (var item in Model.Hero.Items)
                         {
                             <option value="@item.ItemId"> @item.Item.Name (@item.Qty) - @item.Item.ActionCost PA</option>
                         }
                     </select>
-                    <select class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedSpell">
+                    <select id="selectSpell" class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedSpell">
                         <option value="-1">Zaklęcie</option>
                         @foreach (var item in Model.Hero.MagicBook)
                         {
@@ -93,7 +70,26 @@
 
 <script type="text/javascript">   
 
-    scrollLog();
+    var selectItem = document.getElementById("selectItem");
+
+    scrollLog();       
+
+    selectItem.oninput = function () { checkItem(); }
+
+    document.getElementById("selectSpell").oninput = function () { /*alert("xxx");*/ }
+
+    function checkItem() {
+        if ($(selectItem).val() == -1)
+            $("#itemBtn").attr("disabled", true);
+        else 
+            $("#itemBtn").attr("disabled", false);
+    }
+
+    $("input:radio").change(function () {
+        $("#fastAttackBtn").attr("disabled", false);
+        $("#normalAttackBtn").attr("disabled", false);
+        $("#strongAttackBtn").attr("disabled", false);
+    });
 
     function scrollLog() {
         var logDiv = document.getElementById("logDiv");
