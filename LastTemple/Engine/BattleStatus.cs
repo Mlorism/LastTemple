@@ -168,7 +168,6 @@ namespace LastTemple.Engine
 
 		public static void CastSpell(int userId, int targetId, int spellId, ApplicationDbContext ctx)
 		{
-
 			_ctx = ctx;
 
 			Creature user = Combatants.SingleOrDefault(x => x.Id == userId);

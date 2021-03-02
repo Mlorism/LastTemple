@@ -36,6 +36,7 @@
         </div>
         <div class="row">
             <div class="col-10 offset-1 text-center">
+                <div id="hero" data-AC="@Model.Hero.ActionPoints"></div> @*information about hero for js*@         
                 <p><h3>@Model.Hero.Name</h3></p>
                 <p>Zdrowie: @Model.Hero.HitPoints/@Model.Hero.MaxHP Mana: @Model.Hero.Mana/@Model.Hero.MaxMana Punkty Akcji: @Model.Hero.ActionPoints/@Model.Hero.MaxAP</p>
                 <form id="battleForm" method="post">
@@ -46,11 +47,11 @@
                     <button class="btn btn-outline-info" id="spellBtn" asp-page-handler="CastSpell" asp-route-userId="@Model.Hero.Id" disabled>Zaklęcie</button>
 
                     <br /> <br />
-                    <select id="selectItem" class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedItem">
+                    <select id="selectItem" class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedItem" onchange="test()">
                         <option value="-1">Przedmiot</option>
                         @foreach (var item in Model.Hero.Items)
                         {
-                            <option value="@item.ItemId"> @item.Item.Name (@item.Qty) - @item.Item.ActionCost PA</option>
+                            <option data-AC="@item.Item.ActionCost" value="@item.ItemId"> @item.Item.Name (@item.Qty) - @item.Item.ActionCost PA</option>
                         }
                     </select>
                     <select id="selectSpell" class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedSpell">
@@ -72,11 +73,19 @@
 
     var selectItem = document.getElementById("selectItem");
     var selectSpell = document.getElementById("selectSpell");
+    var hero = document.getElementById("hero");
 
     scrollLog();       
 
-    selectItem.oninput = function () { checkItem(); }
+    selectItem.oninput = function () {  checkItem(); }
     selectSpell.oninput = function () { checkSpell(); }
+
+    function test() {
+        var buff = selectItem.options[selectItem.selectedIndex].dataset.ac; // pokazuje ile kosztuje punktów akcji użycie
+        var buff2 = hero.dataset.ac; // pokazuje ile zostało punktów akcji bohaterowi
+        alert(buff2);
+        
+    }
 
     function checkItem() {
         if ($(selectItem).val() == -1)
