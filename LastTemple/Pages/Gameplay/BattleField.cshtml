@@ -71,18 +71,25 @@
 <script type="text/javascript">   
 
     var selectItem = document.getElementById("selectItem");
+    var selectSpell = document.getElementById("selectSpell");
 
     scrollLog();       
 
     selectItem.oninput = function () { checkItem(); }
-
-    document.getElementById("selectSpell").oninput = function () { /*alert("xxx");*/ }
+    selectSpell.oninput = function () { checkSpell(); }
 
     function checkItem() {
         if ($(selectItem).val() == -1)
             $("#itemBtn").attr("disabled", true);
         else 
             $("#itemBtn").attr("disabled", false);
+    }
+
+    function checkSpell() {
+        if ($(selectSpell).val() == -1)
+            $("#spellBtn").attr("disabled", true);
+        else
+            $("#spellBtn").attr("disabled", false);
     }
 
     $("input:radio").change(function () {
