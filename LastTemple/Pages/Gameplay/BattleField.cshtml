@@ -19,9 +19,9 @@
                 @foreach (var item in Model.Enemies)
                 {
                     <div class="form-group">
-                        <div class="btn-group @*btn-group-toggle*@" data-toggle="buttons">                            
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">                            
                             <label class="btn btn-outline-warning" id="btnChose-@item.Id" onclick="choseEnemy(id)">
-                                <input type="radio" value="@item.Id" name="SelectedEnemy" form="battleForm"/> @item.Name
+                                <input type="radio" value="@item.Id" name="SelectedEnemy" form="battleForm" onchange="checkSpell()"/> @item.Name
                             </label>
                         </div>
 
@@ -36,7 +36,7 @@
         </div>
         <div class="row">
             <div class="col-10 offset-1 text-center">
-                <div id="hero" data-AC="@Model.Hero.ActionPoints"></div> @*information about hero for js*@         
+                <div id="hero" data-AC="@Model.Hero.ActionPoints" data-Mana="@Model.Hero.Mana"></div> @*information about hero for js*@         
                 <p><h3>@Model.Hero.Name</h3></p>
                 <p>Zdrowie: @Model.Hero.HitPoints/@Model.Hero.MaxHP Mana: @Model.Hero.Mana/@Model.Hero.MaxMana Punkty Akcji: @Model.Hero.ActionPoints/@Model.Hero.MaxAP</p>
                 <form id="battleForm" method="post">
@@ -47,7 +47,7 @@
                     <button class="btn btn-outline-info" id="spellBtn" asp-page-handler="CastSpell" asp-route-userId="@Model.Hero.Id" disabled>Zaklęcie</button>
 
                     <br /> <br />
-                    <select id="selectItem" class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedItem" onchange="test()">
+                    <select id="selectItem" class="form-control bg-secondary text-light col-3" style="display:inline-block" asp-for="@Model.SelectedItem">
                         <option value="-1">Przedmiot</option>
                         @foreach (var item in Model.Hero.Items)
                         {
@@ -58,11 +58,11 @@
                         <option value="-1">Zaklęcie</option>
                         @foreach (var item in Model.Hero.MagicBook)
                         {
-                            <option value="@item.Id"> @item.Name - @item.ManaCost PM - @item.ActionCost PA</option>
+                            <option data-AC="@item.ActionCost" data-ManaCost="@item.ManaCost" data-spellType="@item.Type" value="@item.Id"> @item.Name - @item.ManaCost PM - @item.ActionCost PA</option>
                         }
                     </select>
                     <br /><br />
-                    <button class="btn btn-outline-danger">Koniec tury</button>
+                    <button class="btn btn-outline-danger" type="submit" asp-page-handler="EndTurn">Koniec tury</button>
                 </form>
             </div>
         </div>
@@ -71,34 +71,70 @@
 
 <script type="text/javascript">   
 
+    var enemySelected = false;
     var selectItem = document.getElementById("selectItem");
     var selectSpell = document.getElementById("selectSpell");
     var hero = document.getElementById("hero");
+    var APs = hero.dataset.ac*1; 
 
     scrollLog();       
 
-    selectItem.oninput = function () {  checkItem(); }
+    selectItem.oninput = function () { checkItem(); }
     selectSpell.oninput = function () { checkSpell(); }
 
-    function test() {
-        var buff = selectItem.options[selectItem.selectedIndex].dataset.ac; // pokazuje ile kosztuje punktów akcji użycie
-        var buff2 = hero.dataset.ac; // pokazuje ile zostało punktów akcji bohaterowi
-        alert(buff2);
-        
+    function enemySelection()
+    {
+        var enemies = document.getElementsByName("SelectedEnemy");       
+        for (i = 0; i < enemies.length; i++) {
+
+            if (enemies[i].checked) {              
+                enemySelected = true;
+                break;
+            }
+        }
     }
 
     function checkItem() {
-        if ($(selectItem).val() == -1)
-            $("#itemBtn").attr("disabled", true);
+        var APcost = selectItem.options[selectItem.selectedIndex].dataset.ac;        
+
+        if ($(selectItem).val() == -1 || APcost>APs)
+            $("#itemBtn").attr("disabled", true);       
         else 
             $("#itemBtn").attr("disabled", false);
     }
 
     function checkSpell() {
-        if ($(selectSpell).val() == -1)
-            $("#spellBtn").attr("disabled", true);
+        var APcost = selectSpell.options[selectSpell.selectedIndex].dataset.ac;
+        var heroMana = hero.dataset.mana * 1;
+        var manaCost = selectSpell.options[selectSpell.selectedIndex].dataset.manacost;
+        var spellType = selectSpell.options[selectSpell.selectedIndex].dataset.spelltype;
+        
+        if ($(selectSpell).val() != -1)
+        {           
+            if (APs >= APcost && heroMana >= manaCost) {
+
+                //alert("checkSpell");
+
+                if (spellType == 'Offensive') {
+                    enemySelection();
+                    if (enemySelected == true) {
+                        $("#spellBtn").attr("disabled", false);
+                    }
+                    else {
+                        $("#spellBtn").attr("disabled", true);
+                    }
+                }
+                else if (spellType == 'Healing') {
+                    $("#spellBtn").attr("disabled", false);
+                }
+            }
+
+            else
+                $("#spellBtn").attr("disabled", true);
+        }
+
         else
-            $("#spellBtn").attr("disabled", false);
+            $("#spellBtn").attr("disabled", true);            
     }
 
     $("input:radio").change(function () {

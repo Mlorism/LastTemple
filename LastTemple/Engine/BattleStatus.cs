@@ -220,5 +220,14 @@ namespace LastTemple.Engine
 		} // CastSpell
 
 
+		public static void EndTurn()
+		{
+			foreach (var item in Combatants)
+			{
+				item.ActionPoints = item.MaxAP;
+			}
+		} 
+
+
 	}
 }

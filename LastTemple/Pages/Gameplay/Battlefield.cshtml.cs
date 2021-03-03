@@ -73,5 +73,11 @@ namespace LastTemple.Pages.Gameplay
 			return RedirectToPage("BattleField");
 		}
 
+		public IActionResult OnPostEndTurn()
+		{
+			BattleStatus.EndTurn();
+			return RedirectToPage("BattleField");
+		}
+
 	}
 }
