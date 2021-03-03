@@ -58,7 +58,7 @@ namespace LastTemple.Engine
 
 		public static void OrderOfBattle()
 		{
-			if (Combatants == null) Combatants = new List<Creature>();
+			Combatants = new List<Creature>();
 
 			Combatants.Add(Hero);
 			Combatants.AddRange(Enemies);
@@ -89,7 +89,6 @@ namespace LastTemple.Engine
 
 		public static void Attack(int attackerId, int attackType, int targetId)
 		{
-
 			//attackType 0 - fast, 1 - normal, 2 - strong
 
 			Creature attacker = Combatants.FirstOrDefault(x => x.Id == attackerId);
@@ -237,8 +236,13 @@ namespace LastTemple.Engine
 			Creature target = Combatants.FirstOrDefault(x => x.Id == targetId);
 
 			if(target.HitPoints < 1)
-			{
+			{	
 				target.Alive = false;
+
+				if (target.HitPoints < 0)
+				{
+					target.HitPoints = 0;
+				}
 			}
 
 		} // VerifyStatus

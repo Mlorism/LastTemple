@@ -19,9 +19,9 @@
                 @foreach (var item in Model.Enemies)
                 {
                     <div class="form-group">
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons">                            
-                            <label class="btn btn-outline-warning" id="btnChose-@item.Id" onclick="choseEnemy(id)">
-                                <input type="radio" value="@item.Id" name="SelectedEnemy" form="battleForm" onchange="checkSpell()"/> @item.Name
+                        <div class="btn-group @*btn-group-toggle*@" data-toggle="buttons">                            
+                            <label class="btn btn-outline-warning" id="btnChose-@item.Id" onclick="choseEnemy()">
+                                <input type="radio" value="@item.Id" name="SelectedEnemy" form="battleForm" onchange="checkSpell()" data-alive="@item.Alive"/> @item.Name
                             </label>
                         </div>
 
@@ -77,7 +77,8 @@
     var hero = document.getElementById("hero");
     var APs = hero.dataset.ac * 1; 
 
-    scrollLog();       
+    scrollLog(); 
+    aliveStatus();
 
     $("input:radio").change(function () {
         $("#fastAttackBtn").attr("disabled", false);
@@ -87,6 +88,19 @@
 
     selectItem.oninput = function () { checkItem(); }
     selectSpell.oninput = function () { checkSpell(); }
+  
+
+    function aliveStatus() {
+        var enemies = document.getElementsByName("SelectedEnemy");
+        
+        for (i = 0; i < enemies.length; i++) {            
+
+            if (enemies[i].dataset.alive == 'False') {                
+                $(enemies[i]).attr("disabled", true); 
+            }
+        }
+
+    }
 
     function enemySelection()
     {
@@ -146,18 +160,25 @@
         logDiv.scrollTop = logDiv.scrollHeight;
     }
     
-    function choseEnemy(id) {
+    function choseEnemy() {
         var enemies = document.getElementsByName("SelectedEnemy");
 
         for (i = 0; i < enemies.length; i++)
         {
-            if (enemies[i].parentElement.id != id) {
-                if (enemies[i].parentElement.classList.contains("active"))
-                {
+            if (enemies[i].checked)
+            {
+                if (!enemies[i].parentElement.classList.contains("active")) {
+                    enemies[i].parentElement.classList.add("active");
+                }
+            }
+
+            else
+            {
+                if (enemies[i].parentElement.classList.contains("active")) {
                     enemies[i].parentElement.classList.remove("active");
                 }
             }
         }        
-    }
-
+    } // choseEnemy()
+   
 </script>

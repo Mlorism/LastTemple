@@ -77,6 +77,7 @@ namespace LastTemple.Pages.Gameplay
 
 		public IActionResult OnPostStartBattle()
 		{
+			BattleStatus.Status = false;
 			return RedirectToPage("BattleField");
 		}
 
