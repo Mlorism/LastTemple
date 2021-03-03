@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace LastTemple.Enumerators
+namespace LastTemple.Converters
 {
 	public static class EnumConverter
 	{

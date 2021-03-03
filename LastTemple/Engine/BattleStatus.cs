@@ -119,6 +119,8 @@ namespace LastTemple.Engine
 
 
 			/// add magic resistance
+			
+			VerifyStatus(targetId);
 		} // Attack
 
 		public static void UseItem(int userId, int itemId)
@@ -207,6 +209,8 @@ namespace LastTemple.Engine
 					target.HitPoints -= damage;
 				}
 
+				VerifyStatus(targetId);
+
 				string message = new string($"{user.Name} rzuca {spell.Name}, które trafia {target.Name} zadając mu {damage} punktów obrażeń.");
 				BattleLog.Add(message);
 			}
@@ -226,7 +230,18 @@ namespace LastTemple.Engine
 			{
 				item.ActionPoints = item.MaxAP;
 			}
-		} 
+		} // EndTurn()
+
+		public static void VerifyStatus(int targetId)
+		{
+			Creature target = Combatants.FirstOrDefault(x => x.Id == targetId);
+
+			if(target.HitPoints < 1)
+			{
+				target.Alive = false;
+			}
+
+		} // VerifyStatus
 
 
 	}

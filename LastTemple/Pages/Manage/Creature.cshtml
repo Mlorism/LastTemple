@@ -44,7 +44,7 @@
                             <tr>
                                 <td>@item.Id</td>
                                 <td>@item.Name</td>
-                                <td>@Enumerators.EnumConverter.Result(item.Type)</td>
+                                <td>@Converters.EnumConverter.Result(item.Type)</td>
                                 <td>@item.Level</td>
                                 <td>@item.Experience</td>
                                 <td>@item.Supplies</td>
@@ -226,7 +226,7 @@
                                         {
                                             <tr>
                                                 <td>@item.Item.Name</td>
-                                                <td>@Enumerators.EnumConverter.Result(item.Item.ItemType)</td>
+                                                <td>@Converters.EnumConverter.Result(item.Item.ItemType)</td>
                                                 <td>@item.Item.Strength</td>
                                                 <td>@item.Item.ActionCost</td>
                                                 <td>@item.Qty</td>
@@ -253,7 +253,7 @@
                                 <select id="item" class="form-control bg-secondary text-light" asp-for="ItemId">
                                     @foreach (var item in Model.Items)
                                     {
-                                        <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.ItemType) | @item.Strength | @item.ActionCost PA </option>
+                                        <option value="@item.Id">@item.Name - @Converters.EnumConverter.Result(item.ItemType) | @item.Strength | @item.ActionCost PA </option>
                                     }
                                 </select>
                                 <button class="btn btn-outline-warning m-2" asp-page-handler="AddItem">Dodaj</button>
@@ -281,7 +281,7 @@
                                         {
                                             <tr>
                                                 <td>@item.Name</td>
-                                                <td>@Enumerators.EnumConverter.Result(item.Type)</td>
+                                                <td>@Converters.EnumConverter.Result(item.Type)</td>
                                                 <td>@item.Strength</td>
                                                 <td>@item.ActionCost</td>
                                                 <td><button type="submit" asp-page-handler="DeleteSpell" asp-route-id="@item.Id" class="btn btn-outline-warning">Usuń</button></td>
@@ -307,7 +307,7 @@
                                 <select id="spell" class="form-control bg-secondary text-light" asp-for="SpellId">
                                     @foreach (var item in Model.Spells)
                                     {
-                                        <option value="@item.Id">@item.Name - @Enumerators.EnumConverter.Result(item.Type) | @item.Strength | @item.ActionCost PA</option>
+                                        <option value="@item.Id">@item.Name - @Converters.EnumConverter.Result(item.Type) | @item.Strength | @item.ActionCost PA</option>
                                     }
                                 </select>
                                 <button type="submit" asp-page-handler="AddSpell" class="btn btn-outline-warning m-2">Dodaj</button>

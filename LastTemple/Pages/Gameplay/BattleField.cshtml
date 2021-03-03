@@ -26,7 +26,7 @@
                         </div>
 
                         <br />
-                        <span>Życie @item.HitPoints / @item.MaxHP - @item.Alive</span> <br />
+                        <span>Życie @item.HitPoints / @item.MaxHP - @Converters.CreatureStatusConverter.Status(item)</span> <br />
                         <span>Mana @item.Mana / @item.MaxMana</span> <br />
                         <span>Punkty Akcji @item.ActionPoints / @item.MaxAP</span>
                     </div>
@@ -75,9 +75,15 @@
     var selectItem = document.getElementById("selectItem");
     var selectSpell = document.getElementById("selectSpell");
     var hero = document.getElementById("hero");
-    var APs = hero.dataset.ac*1; 
+    var APs = hero.dataset.ac * 1; 
 
     scrollLog();       
+
+    $("input:radio").change(function () {
+        $("#fastAttackBtn").attr("disabled", false);
+        $("#normalAttackBtn").attr("disabled", false);
+        $("#strongAttackBtn").attr("disabled", false);
+    });
 
     selectItem.oninput = function () { checkItem(); }
     selectSpell.oninput = function () { checkSpell(); }
@@ -111,10 +117,8 @@
         
         if ($(selectSpell).val() != -1)
         {           
-            if (APs >= APcost && heroMana >= manaCost) {
-
-                //alert("checkSpell");
-
+            if (APs >= APcost && heroMana >= manaCost)
+            {
                 if (spellType == 'Offensive') {
                     enemySelection();
                     if (enemySelected == true) {
@@ -135,13 +139,7 @@
 
         else
             $("#spellBtn").attr("disabled", true);            
-    }
-
-    $("input:radio").change(function () {
-        $("#fastAttackBtn").attr("disabled", false);
-        $("#normalAttackBtn").attr("disabled", false);
-        $("#strongAttackBtn").attr("disabled", false);
-    });
+    }   
 
     function scrollLog() {
         var logDiv = document.getElementById("logDiv");
