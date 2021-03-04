@@ -22,7 +22,7 @@ namespace LastTemple.CRUD
 			if (item == null)
 			{
 				return false;
-			}
+			}			
 
 			_ctx.Spells.Remove(item);
 			await _ctx.SaveChangesAsync();

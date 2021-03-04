@@ -1,4 +1,5 @@
 ﻿using LastTemple.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace LastTemple.CRUD
 
 		public async Task<bool> Delete(int id)
 		{
-			Item item = _ctx.Items.Find(id);
+			Item item = _ctx.Items.Find(id);			
 
 			if (item == null)
 			{
 				return false;
-			}
+			}	
 
 			_ctx.Items.Remove(item);
 			await _ctx.SaveChangesAsync();

@@ -24,6 +24,13 @@ namespace LastTemple.CRUD
 				return false;
 			}
 
+			List<Creature> creatures = _ctx.Creatures.Where(x => x.Armor.Id == id).ToList();
+
+			foreach(var armor in creatures)
+			{
+				armor.Armor = null;
+			}
+
 			_ctx.Armors.Remove(item);
 			await _ctx.SaveChangesAsync();
 
