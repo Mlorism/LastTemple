@@ -36,13 +36,14 @@
         </div>
         <div class="row">
             <div class="col-10 offset-1 text-center">
-                <div id="hero" data-AC="@Model.Hero.ActionPoints" data-Mana="@Model.Hero.Mana"></div> @*information about hero for js*@         
+                <div id="hero" data-AP="@Model.Hero.ActionPoints" data-Mana="@Model.Hero.Mana"></div> @*information about hero for js*@         
                 <p><h3>@Model.Hero.Name</h3></p>
                 <p>Zdrowie: @Model.Hero.HitPoints/@Model.Hero.MaxHP Mana: @Model.Hero.Mana/@Model.Hero.MaxMana Punkty Akcji: @Model.Hero.ActionPoints/@Model.Hero.MaxAP</p>
                 <form id="battleForm" method="post">
-                    <button class="btn btn-outline-info" id="fastAttackBtn" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="1" type="submit" disabled>Zwykły</button>
-                    <button class="btn btn-outline-info" id="normalAttackBtn" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="0" type="submit" disabled>Szybki</button>
-                    <button class="btn btn-outline-info" id="strongAttackBtn" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="2" type="submit" disabled>Silny</button>
+                    <button class="btn btn-outline-info" id="fastAttackBtn"   data-AC="@Model.Hero.Weapon.ActionCost" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="1" type="submit" disabled>Zwykły</button>
+                    <button class="btn btn-outline-info" id="normalAttackBtn" data-AC="@Model.Hero.Weapon.ActionCost" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="0" type="submit" disabled>Szybki</button>
+                    <button class="btn btn-outline-info" id="strongAttackBtn" data-AC="@Model.Hero.Weapon.ActionCost" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="2" type="submit" disabled>Silny</button>
+                    
                     <button class="btn btn-outline-info" id="itemBtn" asp-page-handler="UseItem" asp-route-userId="@Model.Hero.Id" disabled>Przedmiot</button>
                     <button class="btn btn-outline-info" id="spellBtn" asp-page-handler="CastSpell" asp-route-userId="@Model.Hero.Id" disabled>Zaklęcie</button>
 
@@ -75,16 +76,23 @@
     var selectItem = document.getElementById("selectItem");
     var selectSpell = document.getElementById("selectSpell");
     var hero = document.getElementById("hero");
-    var APs = hero.dataset.ac * 1; 
+    var APs = hero.dataset.ap * 1; 
 
-    scrollLog(); 
+    scrollLog();
     aliveStatus();
 
     $("input:radio").change(function () {
+        var actionCost = parseInt(document.getElementById("normalAttackBtn").dataset.ac, 10);
         
-        $("#fastAttackBtn").attr("disabled", false);
-        $("#normalAttackBtn").attr("disabled", false);
-        $("#strongAttackBtn").attr("disabled", false);
+        if (APs >= (actionCost-1)) {
+            $("#fastAttackBtn").attr("disabled", false);
+        }
+        if (APs >= actionCost) {
+            $("#normalAttackBtn").attr("disabled", false);
+        }
+        if (APs >= (actionCost-1)) {
+            $("#strongAttackBtn").attr("disabled", false);
+        }      
     });
 
     selectItem.oninput = function () { checkItem(); }
