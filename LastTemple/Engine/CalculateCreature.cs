@@ -19,26 +19,32 @@ namespace LastTemple.Engine
 
 			if (target == null) return false;
 			
-			target.MaxHP = 15 + (creature.Strength + creature.Endurance * 2) * (creature.Level + 1);
-			target.HitPoints = 15 + (creature.Strength + creature.Endurance * 2) * (creature.Level + 1);
-			target.MaxMana = 4 + creature.Willpower * (creature.Level + 1);
-			target.Mana = 4 + creature.Willpower * (creature.Level + 1);
-			target.MaxAP = 5 + (int)Math.Floor(creature.Speed / 2.0);
-			target.ActionPoints = 5 + (int)Math.Floor(creature.Speed / 2.0);
+			target.MaxHP = 15 + (target.Strength + target.Endurance * 2) * (target.Level + 1);
+			target.HitPoints = 15 + (target.Strength + target.Endurance * 2) * (target.Level + 1);
+			target.MaxMana = 4 + target.Willpower * (target.Level + 1);
+			target.Mana = 4 + target.Willpower * (target.Level + 1);
+			target.MaxAP = 5 + (int)Math.Floor(target.Speed / 2.0);
+			target.ActionPoints = 5 + (int)Math.Floor(target.Speed / 2.0);
 
 			if (creature.Armor != null)
 			{
-				target.DamageResistance = creature.Armor.DamageResistance + creature.Endurance;
-				target.MagicResistance = creature.Armor.MagicResistance + creature.Endurance;
+				target.DamageResistance = creature.Armor.DamageResistance + target.Endurance;
+				target.MagicResistance = creature.Armor.MagicResistance + target.Endurance;
+			}
+
+			else if (target.Armor != null)
+			{
+				target.DamageResistance = target.Armor.DamageResistance + target.Endurance;
+				target.MagicResistance = target.Armor.MagicResistance + target.Endurance;
 			}
 
 			else
 			{
-				target.DamageResistance = creature.Endurance;
-				target.MagicResistance = creature.Endurance;
+				target.DamageResistance = target.Endurance;
+				target.MagicResistance = target.Endurance;
 			}
 
-			target.Initiative = creature.Speed + creature.Agility;
+			target.Initiative = target.Speed + target.Agility;
 
 			_ctx.SaveChanges();
 
