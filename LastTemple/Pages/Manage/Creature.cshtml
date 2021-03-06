@@ -167,7 +167,7 @@
                         <input type="hidden" asp-for="Creature.Id" />
                         <input type="hidden" asp-for="UrlString" value="@HttpContext.Request.Scheme://@HttpContext.Request.Host@HttpContext.Request.Path@HttpContext.Request.QueryString" />
 
-                        <div id="weaponDiv" class="col-6 text-center">
+                        <div id="weaponDiv" class="col-7 text-center">
                             <p class="font-weight-bold">Broń</p>
                             <div class="form-group">
                                 <label>obrażenia | obr. magiczne | koszt akcji | szansa trafienia</label>
@@ -184,7 +184,7 @@
                             </div>
                         </div>
 
-                        <div id="armorDiv" class="col-6 text-center">
+                        <div id="armorDiv" class="col-5 text-center">
                             <p class="font-weight-bold">Pancerz</p>
                             <div class="form-group">
                                 <label>odporność fizyczna | odporność magiczna</label>
@@ -206,7 +206,7 @@
                         <input type="hidden" asp-for="Creature.Id" />
                         <input type="hidden" asp-for="UrlString" value="@HttpContext.Request.Scheme://@HttpContext.Request.Host@HttpContext.Request.Path@HttpContext.Request.QueryString" />
 
-                        <div id="itemsDiv" class="col-7 text-center">
+                        <div id="itemsDiv" class="col-7 tableFixHead">
                             <p class="font-weight-bold">Przedmioty</p>
                             <table class="table tableFixHead text-light text-center">
                                 <thead>
@@ -261,7 +261,7 @@
 
                         </div>
 
-                        <div id="spellsDiv" class="col-5 text-center">
+                        <div id="spellsDiv" class="col-5 tableFixHead">
                             <p class="font-weight-bold">Zaklęcia</p>
                             <table class="table tableFixHead text-light text-center">
                                 <thead>

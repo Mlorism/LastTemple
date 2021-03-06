@@ -6,7 +6,7 @@
 <div>
    
         <div class="row">
-            <div id="logDiv" style="background:#505050; border-top:20px; border-color:white; overflow: auto; height:400px;" class="col-10">
+            <div id="logDiv" style="background:#505050; border-style: solid; border-color:white; overflow: auto; height:400px;" class="col-10">
                 <ul>
                     @foreach (var log in Model.BattleLog)
                     {
@@ -40,9 +40,14 @@
                 <p><h3>@Model.Hero.Name</h3></p>
                 <p>Zdrowie: @Model.Hero.HitPoints/@Model.Hero.MaxHP Mana: @Model.Hero.Mana/@Model.Hero.MaxMana Punkty Akcji: @Model.Hero.ActionPoints/@Model.Hero.MaxAP</p>
                 <form id="battleForm" method="post">
-                    <button class="btn btn-outline-info" id="fastAttackBtn"   data-AC="@Model.Hero.Weapon.ActionCost" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="1" type="submit" disabled>Zwykły</button>
-                    <button class="btn btn-outline-info" id="normalAttackBtn" data-AC="@Model.Hero.Weapon.ActionCost" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="0" type="submit" disabled>Szybki</button>
-                    <button class="btn btn-outline-info" id="strongAttackBtn" data-AC="@Model.Hero.Weapon.ActionCost" asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="2" type="submit" disabled>Silny</button>
+                    <button class="btn btn-outline-info" id="fastAttackBtn" data-AC="@Model.Hero.Weapon.ActionCost" data-tooltip="PA: "
+                            asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="0" type="submit" disabled>Szybki</button>
+
+                    <button class="btn btn-outline-info" id="normalAttackBtn"   data-AC="@Model.Hero.Weapon.ActionCost" data-tooltip="PA: "
+                            asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="1" type="submit" disabled>Zwykły</button>
+
+                    <button class="btn btn-outline-info" id="strongAttackBtn" data-AC="@Model.Hero.Weapon.ActionCost" data-tooltip="PA: "
+                            asp-page-handler="Attack" asp-route-attackerId="@Model.Hero.Id" asp-route-attackType="2" type="submit" disabled>Silny</button>
                     
                     <button class="btn btn-outline-info" id="itemBtn" asp-page-handler="UseItem" asp-route-userId="@Model.Hero.Id" disabled>Przedmiot</button>
                     <button class="btn btn-outline-info" id="spellBtn" asp-page-handler="CastSpell" asp-route-userId="@Model.Hero.Id" disabled>Zaklęcie</button>
@@ -77,20 +82,26 @@
     var selectSpell = document.getElementById("selectSpell");
     var hero = document.getElementById("hero");
     var APs = hero.dataset.ap * 1; 
+    let actionCost = parseInt(document.getElementById("normalAttackBtn").dataset.ac, 10);
 
     scrollLog();
     aliveStatus();
+    addTitles();
 
-    $("input:radio").change(function () {
-        var actionCost = parseInt(document.getElementById("normalAttackBtn").dataset.ac, 10);
-        
+    function addTitles() {     
+        document.getElementById("fastAttackBtn").dataset.tooltip += (actionCost - 1);
+        document.getElementById("normalAttackBtn").dataset.tooltip += actionCost;
+        document.getElementById("strongAttackBtn").dataset.tooltip += (actionCost + 1);
+    }
+
+    $("input:radio").change(function () {       
         if (APs >= (actionCost-1)) {
             $("#fastAttackBtn").attr("disabled", false);
         }
         if (APs >= actionCost) {
             $("#normalAttackBtn").attr("disabled", false);
         }
-        if (APs >= (actionCost-1)) {
+        if (APs >= (actionCost+1)) {
             $("#strongAttackBtn").attr("disabled", false);
         }      
     });
