@@ -86,7 +86,7 @@
 
     scrollLog();
     aliveStatus();
-    addTitles();
+    addTitles();    
 
     function addTitles() {     
         document.getElementById("fastAttackBtn").dataset.tooltip += (actionCost - 1);
@@ -117,6 +117,10 @@
 
             if (enemies[i].dataset.alive == 'False') {                
                 $(enemies[i]).attr("disabled", true); 
+                if (enemies[i].parentElement.classList.contains("btn-outline-warning")) {
+                    enemies[i].parentElement.classList.remove("btn-outline-warning");
+                    enemies[i].parentElement.classList.add("btn-secondary");                   
+                }
             }
         }
 
