@@ -28,7 +28,7 @@ namespace LastTemple
 										   // can be increased as the character level up
 		public int Speed { get; set; } // speed is used to calculate ActionPoints and Initiative
 									   // the upper limit is 10 and cannot be changed even after level up, only by modifiers / events
-		public int Agility { get; set; } // agility is used to calculate chance to doge, hit and Initiative
+		public int Agility { get; set; } // agility is used to calculate chance to doge and Initiative
 										 // the upper limit is 10 and cannot be changed even after level up, only by modifiers / events
 		#endregion
 
