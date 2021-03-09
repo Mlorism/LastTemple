@@ -16,6 +16,9 @@ namespace LastTemple.Engine
 		public static List<Creature> Combatants { get; set; }
 		public static List<string> BattleLog { get; set; }
 
+		static int combatantsCount;
+		static int combatantTurn;
+
 		static Random random;		
 		public static bool Status { get; set; } // after the battle should be set to false
 
@@ -69,6 +72,7 @@ namespace LastTemple.Engine
 			for (int i = 0; i < Combatants.Count; i++)
 			{
 				Combatants[i].Id = i;
+				Combatants[i].Items.OrderByDescending(x => x.Item.Strength);
 			}
 		} // OrderOfBattle()
 
@@ -80,8 +84,13 @@ namespace LastTemple.Engine
 				OrderOfBattle();
 				BattleLog = new List<string>();
 				Status = true;
+				combatantsCount = Combatants.Count();
+				combatantTurn = 0;
+				var first = Combatants.First();
+				AddToLog(new string($"Walka rozpoczęta, jako pierwszy uderza {first.Name}"));
 			}
 
+			BattleTurn();	 
 		} // PrepareBattle()
 
 		public static void AddToLog(string text)
@@ -238,8 +247,7 @@ namespace LastTemple.Engine
 					user.HitPoints = user.MaxHP;
 				}
 
-				AddToLog(new string($"{user.Name} używa {item.Item.Name}, które przywraca {item.Item.Strength} punktów zdrowia."));
-				
+				AddToLog(new string($"{user.Name} używa {item.Item.Name}, które przywraca {item.Item.Strength} punktów zdrowia."));				
 			}
 
 			else if (item.Item.ItemType == Enumerators.ItemTypeEnum.Mana)
@@ -353,6 +361,8 @@ namespace LastTemple.Engine
 			{
 				item.ActionPoints = item.MaxAP;
 			}
+
+			combatantTurn = (combatantTurn + 1) % combatantsCount;
 		} // EndTurn()
 
 		public static void VerifyStatus(int targetId)
@@ -395,6 +405,122 @@ namespace LastTemple.Engine
 				
 			}
 		} // VerifyStatus()
+
+		public static void BattleTurn()
+		{
+			while(combatantTurn != Hero.Id)
+			{
+				if (combatantTurn != Hero.Id)
+				{
+					var fighter = Combatants[combatantTurn];
+					if (fighter.Alive != false)
+					{
+						EnemyLogic(fighter);
+					}
+				}
+
+				combatantTurn = (combatantTurn + 1) % combatantsCount;
+			}
+
+		} // BattleTurn()
+
+		public static void EnemyLogic(Creature fighter)
+		{
+			double healthRemaining = (fighter.HitPoints / fighter.MaxHP);
+
+			if (fighter.Type == Enumerators.CreatureTypeEnum.Standard)
+			{
+				while (fighter.ActionPoints > 0)
+				{
+					#region heal
+					if (healthRemaining < 0.5)
+					{
+						Item chosenItem = new Item();
+
+						if (fighter.Items.Count > 0)
+						{
+							foreach (var item in fighter.Items)
+							{
+								if (item.Item.ItemType == Enumerators.ItemTypeEnum.Healing && item.Qty > 0)
+								{
+									if (item.Item.Strength > chosenItem.Strength)
+									{
+										chosenItem = item.Item;
+									} // chose the strongest healing item
+								}
+							}
+
+							if (chosenItem.ItemType == Enumerators.ItemTypeEnum.Healing)
+							{
+								if (fighter.ActionPoints >= chosenItem.ActionCost)
+								{
+									UseItem(fighter.Id, chosenItem.Id);
+								}
+							} // if healing item was assign to chosenItem (exist)
+						} // if creature have any items						
+					} // healing item
+					#endregion
+
+					#region chose attack type
+					int attackType = -1;
+
+					if (fighter.ActionPoints >= (fighter.Weapon.ActionCost + 1))
+					{
+						attackType = 2; // strong attack
+					}
+
+					else if (fighter.ActionPoints >= fighter.Weapon.ActionCost)
+					{
+						attackType = 1; // normal attack
+					}
+
+					else if (fighter.ActionPoints >= (fighter.Weapon.ActionCost - 1))
+					{
+						attackType = 0; // fast attack
+					}
+
+					if (attackType > -1)
+					{
+						attackType = random.Next(0, attackType);
+						Attack(fighter.Id, attackType, Hero.Id);
+					}
+					#endregion
+
+					#region AP remain
+					if ((fighter.Weapon.ActionCost-1) > fighter.ActionPoints)
+					{
+						fighter.ActionPoints = 0;
+					}
+					#endregion
+
+				} // (while) AP remain
+			} // CreatureTypeEnum.Standard
+
+			else if (fighter.Type == Enumerators.CreatureTypeEnum.Magical)
+			{
+				//while (fighter.ActionPoints > 0)
+				//{
+
+				//}
+			} // CreatureTypeEnum.Magical
+
+			else if (fighter.Type == Enumerators.CreatureTypeEnum.Hybrid)
+			{
+				//while (fighter.ActionPoints > 0)
+				//{
+
+				//}
+			} // CreatureTypeEnum.Hybrid
+
+			else
+			{
+				return; // hero type controlled by the player
+			}
+
+		} // EnemyLogic()
+
+
+
 
 
 	}
