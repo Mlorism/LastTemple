@@ -71,8 +71,7 @@ namespace LastTemple.Engine
 
 			for (int i = 0; i < Combatants.Count; i++)
 			{
-				Combatants[i].Id = i;
-				Combatants[i].Items.OrderByDescending(x => x.Item.Strength);
+				Combatants[i].Id = i;				
 			}
 		} // OrderOfBattle()
 
@@ -131,7 +130,7 @@ namespace LastTemple.Engine
 				attacker.ActionPoints -= (attacker.Weapon.ActionCost + 1);
 			}
 
-			#region hit chance
+			#region Hit chance
 			if (targetId != attackerId)
 			{
 				if (attackType == 0)
@@ -167,10 +166,11 @@ namespace LastTemple.Engine
 			{
 				HitSucces = true;
 			}
-			
+
 			#endregion
 
-			if(HitSucces == true)
+			#region  HitSucces true
+			if (HitSucces == true)
 			{				
 				double attackPower = (double)attacker.Weapon.BaseDamage;
 				double attackMagicPower = (double)attacker.Weapon.MagicDamage;
@@ -183,20 +183,48 @@ namespace LastTemple.Engine
 
 				if (attackType == 0)
 				{
-					attackPower *= (double)(attacker.Strength / 4) * (random.NextDouble() * (0.8 - 0.65) + 0.65); 
-					attackMagicPower *= (double)(attacker.Strength / 4) * (random.NextDouble() * (0.8 - 0.65) + 0.65);
+					if (attacker.Strength >= 4)
+					{
+						attackPower *= (double)attacker.Strength / 4 * (random.NextDouble() * (0.8 - 0.65) + 0.65);
+						attackMagicPower *= (double)attacker.Strength / 4 * (random.NextDouble() * (0.8 - 0.65) + 0.65);
+					}
+
+					else
+					{
+						attackPower *= 2 * random.NextDouble() * (0.8 - 0.65) + 0.65;
+						attackMagicPower *= 2 * random.NextDouble() * (0.8 - 0.65) + 0.65;
+					}
+					
 				}
 
 				else if (attackType == 1)
 				{
-					attackPower *= (double)(attacker.Strength / 4) * (random.NextDouble() * (1.1 - 0.9) + 0.9);
-					attackMagicPower *= (double)(attacker.Strength / 4) * (random.NextDouble() * (1.1 - 0.9) + 0.9);
+					if (attacker.Strength >= 4)
+					{
+						attackPower *= (double)attacker.Strength / 4 * (random.NextDouble() * (1.1 - 0.9) + 0.9);
+						attackMagicPower *= (double)attacker.Strength / 4 * (random.NextDouble() * (1.1 - 0.9) + 0.9);
+					}
+
+					else
+					{
+						attackPower *= 2 * random.NextDouble() * (1.1 - 0.9) + 0.9;
+						attackMagicPower *= 2 * random.NextDouble() * (1.1 - 0.9) + 0.9;
+					}						
 				}
 
 				else
 				{
-					attackPower *= (double)(attacker.Strength / 4) * (random.NextDouble() * (1.35 - 1.2) + 1.2);
-					attackMagicPower *= (double)(attacker.Strength / 4) * (random.NextDouble() * (1.35 - 1.2) + 1.2);
+					if (attacker.Strength >= 4)
+					{
+						attackPower *= (double)attacker.Strength / 4 * (random.NextDouble() * (1.35 - 1.2) + 1.2);
+						attackMagicPower *= (double)attacker.Strength / 4 * (random.NextDouble() * (1.35 - 1.2) + 1.2);
+					}
+
+					else
+					{
+						attackPower *= 2 * random.NextDouble() * (1.35 - 1.2) + 1.2;
+						attackMagicPower *= 2 * random.NextDouble() * (1.35 - 1.2) + 1.2;
+					}						
 				}
 
 				double damage = (attackPower * (100 / (100 + (double)target.DamageResistance)) - attackPower/2) * criticalSuccess;
@@ -230,7 +258,8 @@ namespace LastTemple.Engine
 				}	
 								
 				VerifyStatus(targetId);
-			}
+			} // HitSucces true
+			#endregion 
 		} // Attack()
 
 		public static void UseItem(int userId, int itemId)
@@ -407,21 +436,19 @@ namespace LastTemple.Engine
 		} // VerifyStatus()
 
 		public static void BattleTurn()
-		{
-			while(combatantTurn != Hero.Id)
+		{	
+			while (combatantTurn != Hero.Id)
 			{
-				if (combatantTurn != Hero.Id)
-				{
-					var fighter = Combatants[combatantTurn];
-					if (fighter.Alive != false)
-					{
-						EnemyLogic(fighter);
-					}
-				}
+				var fighter = Combatants[combatantTurn];
 
+				if (fighter.Alive == true && Hero.Alive == true)
+				{
+					AddToLog("---");
+					EnemyLogic(fighter);
+				}
+				
 				combatantTurn = (combatantTurn + 1) % combatantsCount;
 			}
-
 		} // BattleTurn()
 
 		public static void EnemyLogic(Creature fighter)
@@ -482,6 +509,7 @@ namespace LastTemple.Engine
 					if (attackType > -1)
 					{
 						attackType = random.Next(0, attackType);
+						AddToLog(new string($"Typ ataku: {attackType}"));
 						Attack(fighter.Id, attackType, Hero.Id);
 					}
 					#endregion
@@ -490,6 +518,13 @@ namespace LastTemple.Engine
 					if ((fighter.Weapon.ActionCost-1) > fighter.ActionPoints)
 					{
 						fighter.ActionPoints = 0;
+					}
+					#endregion
+
+					#region hero defeted
+					if(Hero.Alive == false)
+					{
+						break;
 					}
 					#endregion
 
