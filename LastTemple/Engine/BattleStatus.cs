@@ -508,8 +508,7 @@ namespace LastTemple.Engine
 
 					if (attackType > -1)
 					{
-						attackType = random.Next(0, attackType);
-						AddToLog(new string($"Typ ataku: {attackType}"));
+						attackType = random.Next((attackType+1));						
 						Attack(fighter.Id, attackType, Hero.Id);
 					}
 					#endregion
