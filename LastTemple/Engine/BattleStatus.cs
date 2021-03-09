@@ -15,7 +15,8 @@ namespace LastTemple.Engine
 		public static List<Creature> Enemies { get; set; }
 		public static List<Creature> Combatants { get; set; }
 		public static List<string> BattleLog { get; set; }
-		public static Random random;
+
+		static Random random;		
 		public static bool Status { get; set; } // after the battle should be set to false
 
 		public static bool AssignHero(int heroId, ApplicationDbContext ctx)
@@ -68,8 +69,8 @@ namespace LastTemple.Engine
 			for (int i = 0; i < Combatants.Count; i++)
 			{
 				Combatants[i].Id = i;
-			}			
-		}
+			}
+		} // OrderOfBattle()
 
 		public static void PrepareBattle()
 		{
@@ -80,33 +81,29 @@ namespace LastTemple.Engine
 				BattleLog = new List<string>();
 				Status = true;
 			}
-			
-		}
+
+		} // PrepareBattle()
 
 		public static void AddToLog(string text)
-		{
-			string message = new string(text);
-			BattleLog.Add(message);
-		}
+		{			
+			BattleLog.Add(text);
+		} // AddToLog()
 
 		public static void Attack(int attackerId, int attackType, int targetId)
 		{
 			//attackType 0 - fast, 1 - normal, 2 - strong
 
 			int chanceLevel = 0;
-			bool HitSucces = false;
-			string message = "message text";
+			bool HitSucces = false;			
 
 			Creature attacker = Combatants.FirstOrDefault(x => x.Id == attackerId);
 
-			if (random.Next(0, 100) == 1)
+			if (random.Next(1, 100) == 50)
 			{
 				targetId = attackerId;
 
-				message = new string($"{attacker.Name} chybia krytycznie cel raniąc siebie.");
-				BattleLog.Add(message);							
-
-			} // fail - the attacker hitting itself
+				AddToLog(new string($"{attacker.Name} chybia cel raniąc siebie."));		
+			} // fail - 1% chance, the attacker hitting itself
 
 			Creature target = Combatants.FirstOrDefault(x => x.Id == targetId);			
 
@@ -153,8 +150,7 @@ namespace LastTemple.Engine
 				else
 				{
 					HitSucces = false;
-					message = new string($"{attacker.Name} chybia.");
-					BattleLog.Add(message);
+					AddToLog($"{attacker.Name} chybia.");					
 				}
 			}
 
@@ -169,7 +165,13 @@ namespace LastTemple.Engine
 			{				
 				double attackPower = (double)attacker.Weapon.BaseDamage;
 				double attackMagicPower = (double)attacker.Weapon.MagicDamage;
-				
+				double criticalSuccess = 1;
+
+				if(random.Next(1, 100) == 50)
+				{
+					criticalSuccess = 2;
+				} // 1% chance to deal double damage
+
 				if (attackType == 0)
 				{
 					attackPower *= (double)(attacker.Strength / 4) * (random.NextDouble() * (0.8 - 0.65) + 0.65); 
@@ -188,32 +190,35 @@ namespace LastTemple.Engine
 					attackMagicPower *= (double)(attacker.Strength / 4) * (random.NextDouble() * (1.35 - 1.2) + 1.2);
 				}
 
-				double damage = attackPower * (100 / (100 + (double)target.DamageResistance)) - attackPower/2;
-				double MDamage = attackMagicPower * (100 / (100 + (double)target.MagicResistance)) - attackPower/2;
+				double damage = (attackPower * (100 / (100 + (double)target.DamageResistance)) - attackPower/2) * criticalSuccess;
+				double MDamage = (attackMagicPower * (100 / (100 + (double)target.MagicResistance)) - attackPower/2)  * criticalSuccess;
 				
 				int realDMG = (int)Math.Round(damage);
-				int realMDMG = (int)Math.Round(MDamage);				
+				int realMDMG = (int)Math.Round(MDamage);
+
+				if (criticalSuccess == 2)
+				{
+					AddToLog(new string($"Cios jaki wyprowadza {attacker.Name} uderza ze zdwojoną siłą."));
+				}
 
 				if (realDMG > 0 && realMDMG > 0)
 				{
 					target.HitPoints -= realDMG;
 					target.HitPoints -= realMDMG;
-					message = new string($"{attacker.Name} trafia {target.Name} zadając {realDMG} fizycznych i {realMDMG} magicznych puntków obrażeń.");
+					AddToLog(new string($"{attacker.Name} trafia {target.Name} zadając {realDMG} fizycznych i {realMDMG} magicznych puntków obrażeń."));
 				}
 				
 				else if (realDMG > 0)
 				{
 					target.HitPoints -= realDMG;
-					message = new string($"{attacker.Name} trafia {target.Name} zadając {realDMG} puntków obrażeń.");
+					AddToLog(new string($"{attacker.Name} trafia {target.Name} zadając {realDMG} puntków obrażeń."));
 				}
 
 				else if (realMDMG > 0)
 				{
 					target.HitPoints -= realMDMG;
-					message = new string($"{attacker.Name} trafia {target.Name} zadając {realMDMG} magicznych puntków obrażeń.");
-				}			
-								
-				BattleLog.Add(message);	
+					AddToLog(new string($"{attacker.Name} trafia {target.Name} zadając {realMDMG} magicznych puntków obrażeń."));
+				}	
 								
 				VerifyStatus(targetId);
 			}
@@ -233,8 +238,8 @@ namespace LastTemple.Engine
 					user.HitPoints = user.MaxHP;
 				}
 
-				string message = new string($"{user.Name} używa {item.Item.Name}, które przywraca {item.Item.Strength} punktów zdrowia.");
-				BattleLog.Add(message);
+				AddToLog(new string($"{user.Name} używa {item.Item.Name}, które przywraca {item.Item.Strength} punktów zdrowia."));
+				
 			}
 
 			else if (item.Item.ItemType == Enumerators.ItemTypeEnum.Mana)
@@ -246,8 +251,7 @@ namespace LastTemple.Engine
 					user.Mana = user.MaxMana;
 				}
 
-				string message = new string($"{user.Name} używa {item.Item.Name}, które przywraca {item.Item.Strength} punktów many.");
-				BattleLog.Add(message);
+				AddToLog(new string($"{user.Name} używa {item.Item.Name}, które przywraca {item.Item.Strength} punktów many."));				
 			}
 
 			user.ActionPoints -= item.Item.ActionCost;
@@ -270,55 +274,78 @@ namespace LastTemple.Engine
 
 			Creature user = Combatants.SingleOrDefault(x => x.Id == userId);
 			Creature target;
-
-			if (userId != targetId)
-			{
-				target = Combatants.SingleOrDefault(x => x.Id == targetId);
-			}
-			
-			else
-			{
-				target = user;
-			}
-
 			Spell spell = new GetSpell(_ctx).Get(spellId);
-
-			if (spell.Type == Enumerators.SpellTypeEnum.Healing)
-			{
-				user.HitPoints += spell.Strength;
-
-				if (user.HitPoints > user.MaxHP)
-				{
-					user.HitPoints = user.MaxHP;
-				}
-
-				string message = new string($"{user.Name} rzuca {spell.Name}, które przywraca {spell.Strength} punktów zdrowia.");
-				BattleLog.Add(message);
-			}
-
-			else
-			{
-				int damage = spell.Strength - target.MagicResistance;
-
-				if (damage > 0)
-				{
-					target.HitPoints -= damage;
-				}
-
-				string message = new string($"{user.Name} rzuca {spell.Name}, które trafia {target.Name} zadając mu {damage} punktów obrażeń.");
-				BattleLog.Add(message);
-
-				VerifyStatus(targetId);
-			}
 
 			user.Mana -= spell.ManaCost;
 			user.ActionPoints -= spell.ActionCost;
 
-			// dodge chance and spell succes rate?
+			if ((spell.Level * 10) >= random.Next(1, 100))
+			{
+				int selfharm;
+				selfharm = (int)Math.Round((double)(spell.Strength / 4));
+				user.HitPoints -= selfharm;
+
+				if (spell.Type== Enumerators.SpellTypeEnum.Healing)
+				{					
+					AddToLog(new string($"Zaklęcie {spell.Name} wymyka się spod kontoli i {user.Name} zamiast uleczyć rani się tracąc {selfharm} punktów życia."));
+				}
+
+				else
+				{					
+					AddToLog(new string($"Zaklęcie {spell.Name} wymyka się spod kontoli i {user.Name} zamiast trafić w przeciwnika rani siebie tracąc {selfharm} punktów życia."));
+				}
+								
+			} /// higher spell level means higher chance for failure and % of dmg done to the caster 0 - 0% , 10 - 10%
+
+			else
+			{
+				if (userId != targetId)
+				{
+					target = Combatants.SingleOrDefault(x => x.Id == targetId);
+				}
+
+				else
+				{
+					target = user;
+				}
+
+				if (spell.Type == Enumerators.SpellTypeEnum.Healing)
+				{
+					user.HitPoints += spell.Strength;
+
+					if (user.HitPoints > user.MaxHP)
+					{
+						user.HitPoints = user.MaxHP;
+					}
+
+					AddToLog(new string($"{user.Name} rzuca {spell.Name}, które przywraca {spell.Strength} punktów zdrowia."));
+				}
+
+				else
+				{
+					if (random.Next(0, 100) < target.Willpower)
+					{
+						AddToLog(new string($"{target.Name} dzięki sile woli odrzuca zaklęcie wychodząc z ataku bez szwanku."));
+					}
+
+					else
+					{
+						int damage = (int)Math.Round((double)(spell.Strength * (100 / (100 + (double)target.MagicResistance))));						
+
+						if (damage > 0)
+						{
+							target.HitPoints -= damage;
+						}
+
+						AddToLog(new string($"{user.Name} rzuca {spell.Name}, które trafia {target.Name} zadając mu {damage} punktów obrażeń."));
+					}
+				}				
+
+				VerifyStatus(targetId);
+			}			
 
 
 		} // CastSpell()
-
 
 		public static void EndTurn()
 		{
@@ -341,16 +368,12 @@ namespace LastTemple.Engine
 					target.HitPoints = 0;
 				}
 
-				string message = new string($"W skutek odniesionych ran {target.Name} pada martwy.");
-
-				BattleLog.Add(message);
+				AddToLog(new string($"W skutek odniesionych ran {target.Name} pada martwy."));				
 			}
 
 			if (Hero.Alive == false)
 			{
-				string message = new string($"To koniec podróży. Oczy {Hero.Name} już na zawsze pozostaną zamknięte. Inni zostaną wysłani, ale czy ktokolwiek odniesie sukces?");
-
-				BattleLog.Add(message);
+				AddToLog(new string($"To koniec podróży. Oczy {Hero.Name} już na zawsze pozostaną zamknięte. Inni zostaną wysłani, ale czy ktokolwiek odniesie sukces?"));				
 			}
 
 			else
@@ -367,9 +390,7 @@ namespace LastTemple.Engine
 
 				if(Enemies.Count == deadCount)
 				{
-					string message = new string($"{Hero.Name} rozgromił wszystkich przeciwników, których resztki leżą rozrzucone na ziemii. Walka skończona.");
-
-					BattleLog.Add(message);
+					AddToLog(new string($"{Hero.Name} rozgromił wszystkich przeciwników, których resztki leżą rozrzucone na ziemii. Walka skończona."));
 				}
 				
 			}
