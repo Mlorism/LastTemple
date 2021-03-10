@@ -24,6 +24,16 @@ namespace LastTemple.Engine
 			return Dialogues[DialogId];
 		}
 
+		public static List<Dialogue> GetDialogues()
+		{
+			if (Dialogues == null)
+			{
+				Dialogues = new List<Dialogue>();
+				CreateSampleDialog();
+			}
+
+			return Dialogues;
+		}
 		public static void SetDialogue(int id)
 		{
 			DialogId = id;
@@ -41,6 +51,7 @@ namespace LastTemple.Engine
 			Dialogue = new Dialogue
 			{
 				Id = 0,
+				Description = "Przybycie do Teb",
 				SubDialogues = new List<SubDialogue>()
 			};
 

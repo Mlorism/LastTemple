@@ -1,0 +1,43 @@
+﻿@page
+@model LastTemple.Pages.Manage.DialoguesModel
+@{
+}
+
+<div class="row">
+    <div class="col-4 text-center">
+        <div>
+            @foreach (var item in Model.Dialogues)
+            {
+                <span>@item.Id - @item.Description</span><br />
+            }
+        </div>
+
+        <br /><br />
+
+        <div>
+            <button class="btn btn-success">Nowy dialog</button>
+        </div>
+    </div>
+
+    <div class="col-4 text-center">
+        <span>
+            <button class="btn btn-warning"><</button>
+            <button class="btn btn-warning"><b>+</b></button>
+            <button class="btn btn-warning">></button>
+        </span> <br />
+
+        <div class="text-justify">
+            @foreach (var item in Model.Dialogues[0].SubDialogues[0].Content)
+            {
+                <span>@item</span><br />
+            }
+        </div>
+    </div>
+
+    <div class="col-4">
+        @foreach (var item in Model.Dialogues)
+        {
+            <span>@item</span><br />
+        }
+    </div>
+</div>

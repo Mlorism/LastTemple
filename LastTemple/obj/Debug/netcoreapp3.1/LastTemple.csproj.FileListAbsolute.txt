@@ -389,3 +389,4 @@ E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstand
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Battlefield.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Start.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Conversation.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Dialogues.cshtml.g.cs
