@@ -388,3 +388,4 @@ E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\M
 E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Battlefield.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Start.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Conversation.cshtml.g.cs

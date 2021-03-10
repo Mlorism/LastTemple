@@ -2,3 +2,29 @@
 @model LastTemple.Pages.Gameplay.ConversationModel
 @{
 }
+
+<div class="row">
+    <div class="col-10 offset-1">
+       
+        <div class="p-2" style="background:#505050; border-style: solid; border-color:white;">
+            @foreach (var item in Model.Dialogue.SubDialogues[Model.SubDialogueId].Content)
+            {        
+               <div class="mb-1">&emsp; @item</div>
+            }
+        </div>
+              
+
+        <div class="row">
+            <div class="col-10 offset-1">
+                <form method="post">
+                    @foreach (var item in Model.Dialogue.SubDialogues[Model.SubDialogueId].Options)
+                    {
+                        <button class="btn btn-outline-info m-2 text-left" style="background: #111" asp-page-handler="Option" asp-route-id="@item.OptionDestinationId">
+                            @item.Content
+                        </button>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

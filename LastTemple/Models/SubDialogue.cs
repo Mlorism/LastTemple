@@ -9,7 +9,7 @@ namespace LastTemple.Models
 	{
 		public int Id { get; set; }
 
-		public string Content { get; set; }
+		public List<string> Content { get; set; }
 		public List<DialogueOption> Options { get; set; }
 	}
 }
