@@ -392,6 +392,8 @@ namespace LastTemple.Engine
 			}
 
 			combatantTurn = (combatantTurn + 1) % combatantsCount;
+
+			AddToLog("---");
 		} // EndTurn()
 
 		public static void VerifyStatus(int targetId)
@@ -442,13 +444,15 @@ namespace LastTemple.Engine
 				var fighter = Combatants[combatantTurn];
 
 				if (fighter.Alive == true && Hero.Alive == true)
-				{
-					AddToLog("---");
+				{					
 					EnemyLogic(fighter);
+					AddToLog("---");
 				}
 				
 				combatantTurn = (combatantTurn + 1) % combatantsCount;
 			}
+
+			
 		} // BattleTurn()
 
 		public static void EnemyLogic(Creature fighter)

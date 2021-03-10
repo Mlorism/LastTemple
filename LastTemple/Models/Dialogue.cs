@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace LastTemple.Models
+{
+	public class Dialogue
+	{
+		public int Id { get; set; }
+		public List<SubDialogue> SubDialogues { get; set; }
+	}
+}
