@@ -9,7 +9,7 @@ namespace LastTemple.Engine
 	public static class DialogueSystem
 	{
 
-		public static int DialogId { get; set; } = 0;
+		public static int DialogueId { get; set; } = 0;
 		public static int SubDialogueId { get; set; }
 		public static List<Dialogue> Dialogues { get; set; }
 
@@ -21,7 +21,7 @@ namespace LastTemple.Engine
 				CreateSampleDialog();
 			}
 
-			return Dialogues[DialogId];
+			return Dialogues[DialogueId];
 		}
 
 		public static List<Dialogue> GetDialogues()
@@ -36,13 +36,36 @@ namespace LastTemple.Engine
 		}
 		public static void SetDialogue(int id)
 		{
-			DialogId = id;
+			DialogueId = id;
 		} // SetDialogue()
 
 		public static void SetSubDialogue(int id)
 		{
 			SubDialogueId = id;
 		} // SetSubDialogue()
+
+
+		public static void CreateDialogue(string name)
+		{
+			Dialogue dialogue = new Dialogue
+			{
+				Description = name,
+				Id = Dialogues.Count
+			};
+
+			Dialogues.Add(dialogue);
+		}
+
+		public static void EditDialogueName(int id, string name)
+		{
+			var dialogue = Dialogues.SingleOrDefault(x => x.Id == id);
+
+			if(dialogue != null)
+			{
+				dialogue.Description = name;
+			}
+
+		}
 
 		public static void CreateSampleDialog()
 		{

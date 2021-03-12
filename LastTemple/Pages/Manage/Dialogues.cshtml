@@ -5,19 +5,18 @@
 
 <div class="row">
     <div class="col-3 text-center">
-        <div>
-            <select class="form-control bg-secondary text-light m-2" size="@Model.Dialogues.Count">
+        <form method="post">        
+            <select class="form-control bg-secondary text-light m-2" size="@Model.Dialogues.Count" asp-for="DialogueId">
                 @foreach (var item in Model.Dialogues)
                 {
-                    <option> (#@item.Id) @item.Description</option>                   
+                    <option value="@item.Id"> (#@item.Id) @item.Description</option>                   
                 }
-            </select>            
-        </div>
+            </select>
 
-        <form method="post">
-            <input class="form-control bg-secondary text-light m-2" type="text" min="3" name="Tytuł dialogu" value="Tytuł dialogu" onclick="selectPlaceholder(this)" onfocusout="deselectPlaceholder(this)"/>                    
-            <button class="btn btn-outline-success m-2">Nowy dialog</button>        
-            <button class="btn btn-outline-warning m-2">Edytuj tytuł</button>        
+            <input class="form-control bg-secondary text-light m-2" type="text" min="3" data-default="Tytuł dialogu" name="DialogueName" value="Tytuł dialogu" onclick="selectPlaceholder(this)" onfocusout="deselectPlaceholder(this)" asp-for="DialogueName"/>                    
+            <button class="btn btn-outline-success m-2" type="submit" asp-page-handler="CreateDialogue">Nowy dialog</button>        
+            <button class="btn btn-outline-warning m-2" type="submit" asp-page-handler="EditName">Edytuj tytuł</button>        
+            <button class="btn btn-outline-danger m-2" type="submit" asp-page-handler="DeleteDialogue">Usuń dialog</button>        
         </form>
     </div>
 
@@ -56,7 +55,7 @@
 
     function deselectPlaceholder(input) {
         if (input.value == "") {
-            let x = input.name;
+            let x = input.dataset.default;
             input.value = x;
         }
     }

@@ -12,9 +12,26 @@ namespace LastTemple.Pages.Manage
 	public class DialoguesModel : PageModel
 	{
 		public List<Dialogue> Dialogues { get; set; }
+		[BindProperty]
+		public string DialogueName { get; set; }
+		[BindProperty]
+		public int DialogueId { get; set; }
 		public void OnGet()
 		{
 			Dialogues = DialogueSystem.GetDialogues();
+		}
+
+		public IActionResult OnPostCreateDialogue()
+		{
+			DialogueSystem.CreateDialogue(DialogueName);
+
+			return RedirectToPage("Dialogues");
+		}
+		public IActionResult OnPostEditName()
+		{
+			DialogueSystem.EditDialogueName(DialogueId, DialogueName);
+
+			return RedirectToPage("Dialogues");
 		}
 	}
 }
