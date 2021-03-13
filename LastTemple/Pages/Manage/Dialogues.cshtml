@@ -5,26 +5,33 @@
 
 <div class="row">
     <div class="col-3 text-center">
-        <form method="post">        
+        <form method="post">
             <select class="form-control bg-secondary text-light m-2" size="@Model.Dialogues.Count" asp-for="DialogueId">
                 @foreach (var item in Model.Dialogues)
                 {
-                    <option value="@item.Id"> (#@item.Id) @item.Description</option>                   
+                    <option value="@item.Id"> (#@item.Id) @item.Description</option>
+
                 }
             </select>
 
-            <input class="form-control bg-secondary text-light m-2" type="text" min="3" data-default="Tytuł dialogu" name="DialogueName" value="Tytuł dialogu" onclick="selectPlaceholder(this)" onfocusout="deselectPlaceholder(this)" asp-for="DialogueName"/>                    
-            <button class="btn btn-outline-success m-2" type="submit" asp-page-handler="CreateDialogue">Nowy dialog</button>        
-            <button class="btn btn-outline-warning m-2" type="submit" asp-page-handler="EditName">Edytuj tytuł</button>        
-            <button class="btn btn-outline-danger m-2" type="submit" asp-page-handler="DeleteDialogue">Usuń dialog</button>        
+            <div class="m-3">
+                <span data-tooltip="Zmniejsz (wyżej)"><button class="btn btn-warning font-weight-bold" style="font-size: large">🠕</button></span>                
+                <span class="m-2">Nr dialogu</span>
+                <span data-tooltip="Zwiększ (niżej)"><button class="btn btn-warning font-weight-bold" style="font-size: large">🠗</button></span>
+            </div>
+         
+            <input class="form-control bg-secondary text-light m-2" type="text" min="3" data-default="Tytuł dialogu" name="DialogueName" value="Tytuł dialogu" onclick="selectPlaceholder(this)" onfocusout="deselectPlaceholder(this)" asp-for="DialogueName" />
+            <button class="btn btn-outline-success m-2" type="submit" asp-page-handler="CreateDialogue">Nowy dialog</button>
+            <button class="btn btn-outline-warning m-2" type="submit" asp-page-handler="EditName">Edytuj tytuł</button>
+            <button class="btn btn-outline-danger m-2" type="submit" asp-page-handler="DeleteDialogue">Usuń dialog</button>
         </form>
     </div>
 
     <div class="col-4 text-center">
         <span>
-            <button class="btn btn-warning">    <   </button>
+            <button class="btn btn-warning font-weight-bold">    🠔   </button>
             <button class="btn btn-warning">    <b>+</b>    </button>
-            <button class="btn btn-warning">    >   </button>
+            <button class="btn btn-warning font-weight-bold">    🠖   </button>
         </span> <br />
 
         <span class="font-weight-bold">0/x</span>
@@ -32,7 +39,7 @@
         <div class="text-justify">
             @foreach (var item in Model.Dialogues[0].SubDialogues[0].Content)
             {
-                <span>@item</span><br />
+                <textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item</textarea><br />
             }
         </div>
     </div>
@@ -47,6 +54,9 @@
 
 <script type="text/javascript">
 
+
+    resizeTextareas();
+
     function selectPlaceholder(input) {
         if (input.value == "Tytuł dialogu") {
             input.value = "";
@@ -59,6 +69,26 @@
             input.value = x;
         }
     }
+
+    function resizeTextareas() {
+        let list = document.getElementsByTagName("textarea");        
+
+        for (i = 0; i < list.length; i++) {
+            if (list[i].value == "") {
+                list[i].rows = 1;
+            }
+            else {
+                resizeTextarea(list[i]);           
+            }
+            
+        } // for
+    } // resizeTextareas()
+
+    function resizeTextarea(element) {        
+        element.style.height = 'auto';
+        element.style.height = element.scrollHeight + 2 + 'px';
+    } //resizeTextarea()
+
 
 
 </script>
