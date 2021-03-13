@@ -6,6 +6,13 @@
 <div class="row">
     <div class="col-3 text-center">
         <form method="post">
+
+            <div class="m-3">
+                <span data-tooltip="Zmniejsz (wyżej)"><button class="btn btn-warning font-weight-bold" style="font-size: large" asp-page-handler="DecreaseDialogueIndex">🠕</button></span>
+                <span class="m-2">Nr dialogu</span>
+                <span data-tooltip="Zwiększ (niżej)"><button class="btn btn-warning font-weight-bold" style="font-size: large" asp-page-handler="IncreaseDialogueIndex">🠗</button></span>
+            </div>
+
             <select class="form-control bg-secondary text-light m-2" size="@Model.Dialogues.Count" asp-for="DialogueId">
                 @foreach (var item in Model.Dialogues)
                 {
@@ -14,12 +21,8 @@
                 }
             </select>
 
-            <div class="m-3">
-                <span data-tooltip="Zmniejsz (wyżej)"><button class="btn btn-warning font-weight-bold" style="font-size: large">🠕</button></span>                
-                <span class="m-2">Nr dialogu</span>
-                <span data-tooltip="Zwiększ (niżej)"><button class="btn btn-warning font-weight-bold" style="font-size: large">🠗</button></span>
-            </div>
-         
+
+
             <input class="form-control bg-secondary text-light m-2" type="text" min="3" data-default="Tytuł dialogu" name="DialogueName" value="Tytuł dialogu" onclick="selectPlaceholder(this)" onfocusout="deselectPlaceholder(this)" asp-for="DialogueName" />
             <button class="btn btn-outline-success m-2" type="submit" asp-page-handler="CreateDialogue">Nowy dialog</button>
             <button class="btn btn-outline-warning m-2" type="submit" asp-page-handler="EditName">Edytuj tytuł</button>
@@ -37,9 +40,12 @@
         <span class="font-weight-bold">0/x</span>
 
         <div class="text-justify">
-            @foreach (var item in Model.Dialogues[0].SubDialogues[0].Content)
+            @if (Model.Dialogues[0].SubDialogues.Count > 0)
             {
-                <textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item</textarea><br />
+                @foreach (var item in Model.Dialogues[0].SubDialogues[0].Content)
+                {
+                    <textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item</textarea><br />
+                }
             }
         </div>
     </div>

@@ -50,11 +50,12 @@ namespace LastTemple.Engine
 			Dialogue dialogue = new Dialogue
 			{
 				Description = name,
-				Id = Dialogues.Count
+				Id = Dialogues.Count,
+				SubDialogues = new List<SubDialogue>()
 			};
 
 			Dialogues.Add(dialogue);
-		}
+		} // CreateDialogue()
 
 		public static void EditDialogueName(int id, string name)
 		{
@@ -65,7 +66,83 @@ namespace LastTemple.Engine
 				dialogue.Description = name;
 			}
 
-		}
+		} // EditDialogueName()
+
+		public static void DeleteDialogue(int id)
+		{
+			var selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == id);
+			if (selectedDialogue != null)
+			{
+				Dialogues.Remove(selectedDialogue);
+			}
+			else return;
+
+		} // DeleteDialogue()
+
+		public static void ChangeDialogueIndex(char x, int id)
+		{
+			var selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == id);
+
+			if(selectedDialogue != null)
+			{
+				if (x == '+')
+				{
+					if (((Dialogues.Count - 1) > id) && (Dialogues.Count > 1))
+					{
+						for (int i = 0; i < Dialogues.Count; i++)
+						{
+							if (i == id || i == (id + 1))
+							{
+								if (Dialogues[i].Id == id)
+								{
+									Dialogues[i].Id++;
+								}
+
+								else 
+								{
+									Dialogues[i].Id--;
+								}
+							} // change id only for dialogues with equal to selected dialogue id and next
+						} // for()
+					} // change id only for dialogues with smaller id than max id and if there is more dialogues than 1
+				}
+
+
+				else if (x == '-')
+				{
+					if ((0 < id) && (Dialogues.Count > 1))
+					{
+						for (int i = 0; i < Dialogues.Count; i++)
+						{
+							if (i == id || i == (id - 1))
+							{
+								if (Dialogues[i].Id == id)
+								{
+									Dialogues[i].Id--;
+								}
+
+								else
+								{
+									Dialogues[i].Id++;
+								}
+							} // change id only for dialogues with equal to selected dialogue id and previous
+						} // for()
+					} // change id only for dialogues with bigger id than 0 and if there is more dialogues than 1
+				}
+
+				else return;
+
+				Dialogues = Dialogues.OrderBy(x => x.Id).ToList();				
+			}
+		} // ChangeDialogueIndex()
+
+
+
+
+
+
+
+
 
 		public static void CreateSampleDialog()
 		{
