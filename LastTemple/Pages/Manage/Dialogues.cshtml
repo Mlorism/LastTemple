@@ -16,14 +16,12 @@
             <select class="form-control bg-secondary text-light m-2" size="@Model.Dialogues.Count" asp-for="DialogueId">
                 @foreach (var item in Model.Dialogues)
                 {
-                    <option value="@item.Id"> (#@item.Id) @item.Description</option>
+                    <option value="@item.Id" onclick="setSelectedDialogueName(this)"> (#@item.Id) @item.Description</option>
 
                 }
             </select>
 
-
-
-            <input class="form-control bg-secondary text-light m-2" type="text" min="3" data-default="Tytuł dialogu" name="DialogueName" value="Tytuł dialogu" onclick="selectPlaceholder(this)" onfocusout="deselectPlaceholder(this)" asp-for="DialogueName" />
+            <input id="dialogueName" class="form-control bg-secondary text-light m-2" type="text" min="3" data-default="Tytuł dialogu" name="DialogueName" value="Tytuł dialogu" onclick="selectPlaceholder(this)" onfocusout="deselectPlaceholder(this)" asp-for="DialogueName" />
             <button class="btn btn-outline-success m-2" type="submit" asp-page-handler="CreateDialogue">Nowy dialog</button>
             <button class="btn btn-outline-warning m-2" type="submit" asp-page-handler="EditName">Edytuj tytuł</button>
             <button class="btn btn-outline-danger m-2" type="submit" asp-page-handler="DeleteDialogue">Usuń dialog</button>
@@ -63,18 +61,18 @@
 
     resizeTextareas();
 
-    function selectPlaceholder(input) {
+    function deselectPlaceholder(input) {
         if (input.value == "Tytuł dialogu") {
             input.value = "";
         }
-    }
+    } // deselectPlaceholder()
 
     function deselectPlaceholder(input) {
         if (input.value == "") {
             let x = input.dataset.default;
             input.value = x;
         }
-    }
+    } // deselectPlaceholder()
 
     function resizeTextareas() {
         let list = document.getElementsByTagName("textarea");        
@@ -94,6 +92,13 @@
         element.style.height = 'auto';
         element.style.height = element.scrollHeight + 2 + 'px';
     } //resizeTextarea()
+
+    function setSelectedDialogueName(element) {
+        let text = element.text;
+        let bracketEnd = text.indexOf(")");
+        text = text.slice((bracketEnd + 1), (text.length + 1));
+        document.getElementById("dialogueName").value = text;
+    } // setSelectedDialogueName()
 
 
 
