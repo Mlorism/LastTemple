@@ -17,12 +17,12 @@
                 @foreach (var item in Model.Dialogues)
                 {
                     <option value="@item.Id" onclick="setSelectedDialogueName(this)"> (#@item.Id) @item.Description</option>
-
                 }
             </select>
 
             <input id="dialogueName" class="form-control bg-secondary text-light m-2" type="text" min="3" data-default="Tytuł dialogu" name="DialogueName" value="Tytuł dialogu" onclick="selectText(this)" onfocusout="deselectPlaceholder(this)" asp-for="DialogueName" />
-            <button class="btn btn-outline-success m-2" type="submit" asp-page-handler="CreateDialogue">Nowy dialog</button>
+            <button class="btn btn-success m-2" type="submit" asp-page-handler="CreateDialogue">Nowy dialog</button>
+            <button class="btn btn-outline-success m-2" type="submit" asp-page-handler="ChooseDialogue">Wybierz dialog</button>
             <button class="btn btn-outline-warning m-2" type="submit" asp-page-handler="EditName">Edytuj tytuł</button>
             <button class="btn btn-outline-danger m-2" type="submit" asp-page-handler="DeleteDialogue">Usuń dialog</button>
         </form>
@@ -33,33 +33,40 @@
         <div class="m-3">
             <button class="btn btn-warning font-weight-bold" style="font-size: larger">    🠔   </button>
             <span id="subDialogueContentIndex" class="m-2">
-                @if (Model.Dialogues[0].SubDialogues.Count > 0)
+                @if (Model.DialogueId >= 0)
                 {
-                    <text><b>0/@Model.Dialogues[0].SubDialogues.Count</b></text>
-                }
+                    @if (Model.Dialogues[Model.DialogueId].SubDialogues.Count > 0)
+                    {
+                        <text><b>@Model.SubDialogueId/@Model.Dialogues[Model.DialogueId].SubDialogues.Count</b></text>
+                    }
 
-                else
-                {
-                    <text><b>0/0</b></text>
+                    else
+                    {
+                        <text><b>0/0</b></text>
+                    }
                 }
             </span>
             <button class="btn btn-warning font-weight-bold" style="font-size: larger">    🠖   </button>
-        </div> 
+        </div>
 
-        @if (Model.Dialogues[0].SubDialogues.Count > 0)
+        @if (Model.DialogueId >= 0)
         {
-            @foreach (var item in Model.Dialogues[0].SubDialogues[0].Content)
+            @if (Model.Dialogues[Model.DialogueId].SubDialogues.Count > 0)
             {
-                <div class="row">
-                    <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item</textarea></div>
-                    <div class="col-1 pl-0 d-flex align-items-center"><button class="btn btn-danger" data-tooltip="Usuń akapit">-</button></div>                        
-                </div>
+                @foreach (var item in Model.Dialogues[Model.DialogueId].SubDialogues[Model.SubDialogueId].Content)
+                {
+                    <div class="row">
+                        <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item</textarea></div>
+                        <div class="col-1 pl-0 d-flex align-items-center"><button class="btn btn-danger" data-tooltip="Usuń akapit">-</button></div>
+                    </div>
+                }
             }
         }
-        
-        <div class="text-center">                
+
+
+        <div class="text-center">
             <button class="btn btn-success mr-5" data-tooltip="Nowy akapit">+</button>
-        </div>       
+        </div>
     </div>
 
     <div class="col-4">
@@ -67,23 +74,26 @@
             <span id="subDialogueContentIndex" class="m-2"><b>Opcje</b></span>
         </div>
 
-        @foreach (var item in Model.Dialogues[0].SubDialogues[0].Options)
+        @if (Model.DialogueId >= 0)
         {
-            <div class="row mb-1">
-                <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light">@item.Content</textarea></div>
+            @foreach (var item in Model.Dialogues[Model.DialogueId].SubDialogues[Model.SubDialogueId].Options)
+            {
+                <div class="row mb-1">
+                    <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light">@item.Content</textarea></div>
 
-                <div class="col-1 align-self-center">
-                   <div class="row mb-1">
-                       <input type="text" class="form-control bg-secondary text-light" asp-for="@item.OptionDestinationId" value="@item.OptionDestinationId"/>
-                   </div>
+                    <div class="col-1 align-self-center">
+                        <div class="row mb-1">
+                            <input type="text" class="form-control bg-secondary text-light" asp-for="@item.OptionDestinationId" value="@item.OptionDestinationId" />
+                        </div>
 
-                   <div class="row">
-                       <button class="btn btn-danger" data-tooltip="Usuń opcję">-</button>
-                   </div>                        
-                </div>                
-            </div>
-         }
-       
+                        <div class="row">
+                            <button class="btn btn-danger" data-tooltip="Usuń opcję">-</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
 
         <div class="text-center">
             <button class="btn btn-success mr-5" data-tooltip="Nowa opcja">+</button>

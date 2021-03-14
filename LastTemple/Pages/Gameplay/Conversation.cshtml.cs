@@ -16,9 +16,9 @@ namespace LastTemple.Pages.Gameplay
 
 		public void OnGet()
 		{
-			DialogueSystem.SetDialogue(1);
-			Dialogue = DialogueSystem.GetDialogue();
-			SubDialogueId = DialogueSystem.SubDialogueId;
+			//DialogueSystem.DialogueId();
+			//Dialogue = DialogueSystem.GetDialogue();
+			//SubDialogueId = DialogueSystem.SubDialogueId;
 		}
 
 		public IActionResult OnPostOption(int id)

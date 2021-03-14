@@ -15,16 +15,26 @@ namespace LastTemple.Pages.Manage
 		[BindProperty]
 		public string DialogueName { get; set; }
 		[BindProperty]
-		public int DialogueId { get; set; } = -1;
+		public int DialogueId { get; set; }
+		[BindProperty]
+		public int SubDialogueId { get; set; }
 		public void OnGet()
 		{
 			Dialogues = DialogueSystem.GetDialogues();
+			DialogueId = DialogueSystem.DialogueId;
+			SubDialogueId = DialogueSystem.SubDialogueId;
 		}
 
 		public IActionResult OnPostCreateDialogue()
 		{
 			DialogueSystem.CreateDialogue(DialogueName);
 
+			return RedirectToPage("Dialogues");
+		}
+
+		public IActionResult OnPostChooseDialogue()
+		{
+			DialogueSystem.ChooseDialogue(DialogueId);
 			return RedirectToPage("Dialogues");
 		}
 		public IActionResult OnPostEditName()
@@ -62,5 +72,41 @@ namespace LastTemple.Pages.Manage
 			}
 			return RedirectToPage("Dialogues");
 		}
+
+		public IActionResult OnPostNextSubDialogue()
+		{
+			DialogueSystem.ChangeSubDialogue(DialogueId, '+');
+
+			return RedirectToPage("Dialogues");
+		}
+
+		public IActionResult OnPostPreviousSubDialogue()
+		{
+			DialogueSystem.ChangeSubDialogue(DialogueId, '-');
+
+			return RedirectToPage("Dialogues");
+		}
+
+		public IActionResult OnPostDeleteParagraph()
+		{
+
+			return RedirectToPage("Dialogues");
+		}
+
+		public IActionResult OnPostAddParagraph()
+		{
+			return RedirectToPage("Dialogues");
+		}
+
+
+
+
+
+
+
+
+
+
+
 	}
 }

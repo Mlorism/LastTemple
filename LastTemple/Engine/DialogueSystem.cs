@@ -9,8 +9,8 @@ namespace LastTemple.Engine
 	public static class DialogueSystem
 	{
 
-		public static int DialogueId { get; set; } = 0;
-		public static int SubDialogueId { get; set; }
+		public static int DialogueId { get; set; } = -1;
+		public static int SubDialogueId { get; set; } = -1;
 		public static List<Dialogue> Dialogues { get; set; }
 
 		public static Dialogue GetDialogue()
@@ -34,15 +34,49 @@ namespace LastTemple.Engine
 
 			return Dialogues;
 		}
-		public static void SetDialogue(int id)
+		public static void ChooseDialogue(int id)
 		{
 			DialogueId = id;
+
+			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == id);
+
+			if (selectedDialogue != null)
+			{
+				if(selectedDialogue.SubDialogues.Count > 0)
+				{
+					SetSubDialogue(0);
+				} // when changing dialogue change selected subdialogue for 0 index if subdialogues exist
+			}
 		} // SetDialogue()
 
 		public static void SetSubDialogue(int id)
 		{
 			SubDialogueId = id;
 		} // SetSubDialogue()
+
+		public static void ChangeSubDialogue(int dialogueId, char x)
+		{
+			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
+
+			if(selectedDialogue != null)
+			{
+				if (x == '+')
+				{
+					if (SubDialogueId < (selectedDialogue.SubDialogues.Count - 1))
+					{
+						SubDialogueId++;
+					}
+				}
+
+				else if (x == '-')
+				{
+					if (SubDialogueId > 0)
+					{
+						SubDialogueId--;
+					}
+				}
+			}
+		} // ChangeDialogue
 
 
 		public static void CreateDialogue(string name)
@@ -74,6 +108,11 @@ namespace LastTemple.Engine
 			if (selectedDialogue != null)
 			{
 				Dialogues.Remove(selectedDialogue);
+			}
+
+			if (DialogueId == id)
+			{
+				DialogueId = -1;
 			}
 			else return;
 
@@ -136,13 +175,21 @@ namespace LastTemple.Engine
 			}
 		} // ChangeDialogueIndex()
 
+		public static void AddParagraph(int dialogueId, int subDialogueId)
+		{
+			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == dialogueId);
+			SubDialogue selectedSubDialogue;
 
+			if (selectedDialogue != null)
+			{
+				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogueId);
 
-
-
-
-
-
+				if(selectedSubDialogue != null)
+				{
+					selectedSubDialogue.Content.Add("");
+				}
+			}
+		} // AddParagraph
 
 		public static void CreateSampleDialog()
 		{
