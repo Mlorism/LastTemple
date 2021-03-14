@@ -62,7 +62,7 @@ namespace LastTemple.Engine
 			{
 				if (x == '+')
 				{
-					if (SubDialogueId < (selectedDialogue.SubDialogues.Count - 1))
+					if (SubDialogueId < (selectedDialogue.SubDialogues.Count))
 					{
 						SubDialogueId++;
 					}
@@ -88,7 +88,7 @@ namespace LastTemple.Engine
 				SubDialogues = new List<SubDialogue>()
 			};
 
-			Dialogues.Add(dialogue);
+			Dialogues.Add(dialogue);			
 		} // CreateDialogue()
 
 		public static void EditDialogueName(int id, string name)
@@ -108,6 +108,14 @@ namespace LastTemple.Engine
 			if (selectedDialogue != null)
 			{
 				Dialogues.Remove(selectedDialogue);
+				
+				if (Dialogues.Count > 0)
+				{
+					for (int i = 0; i < Dialogues.Count; i++)
+					{
+						Dialogues[i].Id = i;
+					}
+				}
 			}
 
 			if (DialogueId == id)
@@ -190,6 +198,28 @@ namespace LastTemple.Engine
 				}
 			}
 		} // AddParagraph
+
+		public static void DeleteParagraph(int dialogueId, int subDialogueId, int paragraphIndex)
+		{
+			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == dialogueId);
+			SubDialogue selectedSubDialogue;
+			string paragraph;
+
+			if (selectedDialogue != null)
+			{
+				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogueId);
+
+				if (selectedSubDialogue != null)
+				{
+					paragraph = selectedSubDialogue.Content[paragraphIndex];
+
+					if (paragraph != null)
+					{
+						selectedSubDialogue.Content.RemoveAt(paragraphIndex);
+					}
+				}
+			}
+		} // DeleteParagraph
 
 		public static void CreateSampleDialog()
 		{

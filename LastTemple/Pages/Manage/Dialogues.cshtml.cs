@@ -46,7 +46,7 @@ namespace LastTemple.Pages.Manage
 
 		public IActionResult OnPostDeleteDialogue()
 		{
-			if(DialogueId != -1) 
+			if (DialogueId != -1) 
 			{ 
 				DialogueSystem.DeleteDialogue(DialogueId); 
 			}		
@@ -87,14 +87,16 @@ namespace LastTemple.Pages.Manage
 			return RedirectToPage("Dialogues");
 		}
 
-		public IActionResult OnPostDeleteParagraph()
+		public IActionResult OnPostDeleteParagraph(int paragraphId)
 		{
-
+			DialogueSystem.DeleteParagraph(DialogueId, SubDialogueId, paragraphId);
 			return RedirectToPage("Dialogues");
 		}
 
 		public IActionResult OnPostAddParagraph()
 		{
+
+			DialogueSystem.AddParagraph(DialogueId, SubDialogueId);
 			return RedirectToPage("Dialogues");
 		}
 
