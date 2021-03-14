@@ -9,7 +9,7 @@
 
             <div class="m-3">
                 <span data-tooltip="Zmniejsz (wyżej)"><button class="btn btn-warning font-weight-bold" style="font-size: large" asp-page-handler="DecreaseDialogueIndex">🠕</button></span>
-                <span class="m-2">Nr dialogu</span>
+                <span class="m-2"><b>Nr dialogu</b></span>
                 <span data-tooltip="Zwiększ (niżej)"><button class="btn btn-warning font-weight-bold" style="font-size: large" asp-page-handler="IncreaseDialogueIndex">🠗</button></span>
             </div>
 
@@ -21,38 +21,73 @@
                 }
             </select>
 
-            <input id="dialogueName" class="form-control bg-secondary text-light m-2" type="text" min="3" data-default="Tytuł dialogu" name="DialogueName" value="Tytuł dialogu" onclick="selectPlaceholder(this)" onfocusout="deselectPlaceholder(this)" asp-for="DialogueName" />
+            <input id="dialogueName" class="form-control bg-secondary text-light m-2" type="text" min="3" data-default="Tytuł dialogu" name="DialogueName" value="Tytuł dialogu" onclick="selectText(this)" onfocusout="deselectPlaceholder(this)" asp-for="DialogueName" />
             <button class="btn btn-outline-success m-2" type="submit" asp-page-handler="CreateDialogue">Nowy dialog</button>
             <button class="btn btn-outline-warning m-2" type="submit" asp-page-handler="EditName">Edytuj tytuł</button>
             <button class="btn btn-outline-danger m-2" type="submit" asp-page-handler="DeleteDialogue">Usuń dialog</button>
         </form>
     </div>
 
-    <div class="col-4 text-center">
-        <span>
-            <button class="btn btn-warning font-weight-bold">    🠔   </button>
-            <button class="btn btn-warning">    <b>+</b>    </button>
-            <button class="btn btn-warning font-weight-bold">    🠖   </button>
-        </span> <br />
+    <div class="col-5 text-center">
 
-        <span class="font-weight-bold">0/x</span>
-
-        <div class="text-justify">
-            @if (Model.Dialogues[0].SubDialogues.Count > 0)
-            {
-                @foreach (var item in Model.Dialogues[0].SubDialogues[0].Content)
+        <div class="m-3">
+            <button class="btn btn-warning font-weight-bold" style="font-size: larger">    🠔   </button>
+            <span id="subDialogueContentIndex" class="m-2">
+                @if (Model.Dialogues[0].SubDialogues.Count > 0)
                 {
-                    <textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item</textarea><br />
+                    <text><b>0/@Model.Dialogues[0].SubDialogues.Count</b></text>
                 }
+
+                else
+                {
+                    <text><b>0/0</b></text>
+                }
+            </span>
+            <button class="btn btn-warning font-weight-bold" style="font-size: larger">    🠖   </button>
+        </div> 
+
+        @if (Model.Dialogues[0].SubDialogues.Count > 0)
+        {
+            @foreach (var item in Model.Dialogues[0].SubDialogues[0].Content)
+            {
+                <div class="row">
+                    <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item</textarea></div>
+                    <div class="col-1 pl-0 d-flex align-items-center"><button class="btn btn-danger" data-tooltip="Usuń akapit">-</button></div>                        
+                </div>
             }
-        </div>
+        }
+        
+        <div class="text-center">                
+            <button class="btn btn-success mr-5" data-tooltip="Nowy akapit">+</button>
+        </div>       
     </div>
 
-    <div class="col-5">
-        @foreach (var item in Model.Dialogues)
+    <div class="col-4">
+        <div class="mb-4 mt-4 text-center">
+            <span id="subDialogueContentIndex" class="m-2"><b>Opcje</b></span>
+        </div>
+
+        @foreach (var item in Model.Dialogues[0].SubDialogues[0].Options)
         {
-            <span>@item</span><br />
-        }
+            <div class="row mb-1">
+                <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light">@item.Content</textarea></div>
+
+                <div class="col-1 align-self-center">
+                   <div class="row mb-1">
+                       <input type="text" class="form-control bg-secondary text-light" asp-for="@item.OptionDestinationId" value="@item.OptionDestinationId"/>
+                   </div>
+
+                   <div class="row">
+                       <button class="btn btn-danger" data-tooltip="Usuń opcję">-</button>
+                   </div>                        
+                </div>                
+            </div>
+         }
+       
+
+        <div class="text-center">
+            <button class="btn btn-success mr-5" data-tooltip="Nowa opcja">+</button>
+        </div>
     </div>
 </div>
 
@@ -62,18 +97,15 @@
     resizeTextareas();
 
     function deselectPlaceholder(input) {
-        if (input.value == "Tytuł dialogu") {
-            input.value = "";
-        }
-    } // deselectPlaceholder()
+        
 
-    function deselectPlaceholder(input) {
         if (input.value == "") {
             let x = input.dataset.default;
             input.value = x;
         }
     } // deselectPlaceholder()
 
+    
     function resizeTextareas() {
         let list = document.getElementsByTagName("textarea");        
 
@@ -100,6 +132,15 @@
         document.getElementById("dialogueName").value = text;
     } // setSelectedDialogueName()
 
+    function selectText(element) {
+        if (element.value == "Tytuł dialogu") {
+            element.value = "";
+        }
+
+        else {
+            element.select();
+        }
+    } // selectText()
 
 
 </script>
