@@ -110,8 +110,19 @@ namespace LastTemple.Pages.Manage
 			DialogueSystem.DeleteOption(DialogueId, SubDialogueId, optionIndex);
 			return RedirectToPage("Dialogues");
 		}
+		
+		public IActionResult OnPostDeleteSubDialogue()
+		{			
+			DialogueSystem.DeleteSubDialogue(DialogueId, SubDialogueId);
+			return RedirectToPage("Dialogues");
+		}
 
-
+		public IActionResult SaveChanges()
+		{
+			SubDialogue subDialogue = Dialogues[DialogueId].SubDialogues[SubDialogueId];
+			DialogueSystem.SaveChanges(DialogueId, SubDialogueId, subDialogue);
+			return RedirectToPage("Dialogues");
+		}
 
 
 

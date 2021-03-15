@@ -64,9 +64,23 @@
                     }
                 }
         
-                <div class="text-center">
+        <div class="text-center">
+
+            @if (Model.DialogueId >= 0)
+            {
+                @if (Model.Dialogues[Model.DialogueId].SubDialogues.Count > 0)
+                {
+                    <button class="btn btn-success mr-5" data-tooltip="Zapisz zmiany" asp-page-handler="SaveParagraphs">Zapisz</button>
                     <button class="btn btn-success mr-5" data-tooltip="Nowy akapit" asp-page-handler="AddParagraph">+</button>
-                </div>               
+                    <button class="btn btn-danger mr-5" data-tooltip="Usuń subdialog" asp-page-handler="DeleteSubDialogue">Usuń</button>
+                }
+
+                else
+                {
+                    <button class="btn btn-success mr-5" data-tooltip="Nowy akapit" asp-page-handler="AddParagraph">+</button>
+                }
+            }
+        </div>               
         </div>
         
         <div class="col-4">
@@ -76,16 +90,16 @@
         
             @if (Model.DialogueId >= 0 && Model.SubDialogueId >= 0)
             {
-                @for (int i=0; i< Model.Dialogues[Model.DialogueId].SubDialogues[Model.SubDialogueId].Options.Count(); i++)
+                @for (int i=0; i < Model.Dialogues[Model.DialogueId].SubDialogues[Model.SubDialogueId].Options.Count(); i++)
                 {
                     var item = Model.Dialogues[Model.DialogueId].SubDialogues[Model.SubDialogueId].Options[i];
                 
                     <div class="row mb-1">
-                        <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light">@item.Content</textarea></div>
+                        <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item.Content</textarea></div>
         
                         <div class="col-1 align-self-center">
-                            <div class="row mb-1">
-                                <input type="text" class="form-control bg-secondary text-light" asp-for="@item.OptionDestinationId" value="@item.OptionDestinationId" />
+                            <div class="row mb-1"  data-tooltip="Nr subdialogu">
+                                <input type="text" class="form-control bg-secondary text-light text-center p-1" asp-for="@item.OptionDestinationId" value="@item.OptionDestinationId"/>
                             </div>
         
                             <div class="row">
@@ -97,7 +111,7 @@
             }        
         
             <div class="text-center">
-                <button class="btn btn-success mr-5" data-tooltip="Nowa opcja" asp-page-handler="AddOption">+</button>
+                <button class="btn btn-success mr-5" data-tooltip="Nowa opcja" asp-page-handler="AddOption">+</button>                
             </div>
         </div>
     </div>
@@ -122,13 +136,12 @@
         let list = document.getElementsByTagName("textarea");        
 
         for (i = 0; i < list.length; i++) {
-            if (list[i].value == "") {
-                list[i].rows = 1;
-            }
-            else {
-                resizeTextarea(list[i]);           
-            }
-            
+
+            list[i].rows = 1;
+
+            if (list[i].value != "") {
+                resizeTextarea(list[i]);      
+            }            
         } // for
     } // resizeTextareas()
 

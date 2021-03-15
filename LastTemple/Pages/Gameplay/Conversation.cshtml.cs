@@ -23,7 +23,7 @@ namespace LastTemple.Pages.Gameplay
 
 		public IActionResult OnPostOption(int id)
 		{
-			DialogueSystem.SetSubDialogue(id);
+			//DialogueSystem.SetSubDialogue(id);
 
 			return RedirectToPage("Conversation");
 		}
