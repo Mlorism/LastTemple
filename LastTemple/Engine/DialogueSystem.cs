@@ -62,7 +62,7 @@ namespace LastTemple.Engine
 			{
 				if (x == '+')
 				{
-					if (SubDialogueId < (selectedDialogue.SubDialogues.Count))
+					if (SubDialogueId < (selectedDialogue.SubDialogues.Count-1))
 					{
 						SubDialogueId++;
 					}
@@ -77,7 +77,6 @@ namespace LastTemple.Engine
 				}
 			}
 		} // ChangeDialogue
-
 
 		public static void CreateDialogue(string name)
 		{
@@ -220,6 +219,33 @@ namespace LastTemple.Engine
 				}
 			}
 		} // DeleteParagraph
+
+		public static void AddOption(int dialogueId, int subDialogueId)
+		{
+			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
+			SubDialogue selectedSubDialogue;
+
+			if (selectedDialogue != null)
+			{
+				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogueId);
+
+				if(selectedSubDialogue != null)
+				{
+					selectedSubDialogue.Options.Add(new DialogueOption());
+				}
+			}
+		} // AddOption()
+
+
+
+
+
+
+
+
+
+
+
 
 		public static void CreateSampleDialog()
 		{

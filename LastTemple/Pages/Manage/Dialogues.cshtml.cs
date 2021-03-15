@@ -87,22 +87,28 @@ namespace LastTemple.Pages.Manage
 			return RedirectToPage("Dialogues");
 		}
 
-		public IActionResult OnPostDeleteParagraph(int paragraphId)
+		public IActionResult OnPostDeleteParagraph(int paragraphIndex)
 		{
-			DialogueSystem.DeleteParagraph(DialogueId, SubDialogueId, paragraphId);
+			DialogueSystem.DeleteParagraph(DialogueId, SubDialogueId, paragraphIndex);
 			return RedirectToPage("Dialogues");
 		}
 
 		public IActionResult OnPostAddParagraph()
 		{
-
 			DialogueSystem.AddParagraph(DialogueId, SubDialogueId);
 			return RedirectToPage("Dialogues");
 		}
 
+		public IActionResult OnPostAddOption()
+		{
+			DialogueSystem.AddOption(DialogueId, SubDialogueId);
+			return RedirectToPage("Dialogues");
+		}
 
-
-
+		public IActionResult OnPostDeleteOption(int optionIndex)
+		{
+			return RedirectToPage("Dialogues");
+		}
 
 
 
