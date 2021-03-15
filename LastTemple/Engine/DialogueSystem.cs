@@ -13,6 +13,7 @@ namespace LastTemple.Engine
 		public static int SubDialogueId { get; set; } = -1;
 		public static List<Dialogue> Dialogues { get; set; }
 
+
 		public static Dialogue GetDialogue()
 		{
 			if (Dialogues == null)
@@ -78,6 +79,7 @@ namespace LastTemple.Engine
 			}
 		} // ChangeDialogue
 
+		#region Create/Add
 		public static void CreateDialogue(string name)
 		{
 			Dialogue dialogue = new Dialogue
@@ -103,7 +105,66 @@ namespace LastTemple.Engine
 
 			Dialogues.Add(dialogue);
 		} // CreateDialogue()
+		public static void CreateSubDialogue(int dialogueId)
+		{
+			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
 
+			if (selectedDialogue != null)
+			{
+				SubDialogue createdSubDialogue = new SubDialogue { 
+				Id = selectedDialogue.SubDialogues.Count(),
+				Content = new List<string>(),
+				Options = new List<DialogueOption>()				
+				};
+
+				createdSubDialogue.Content.Add("");
+				createdSubDialogue.Options.Add(new DialogueOption
+				{
+					Content = "",
+					OptionDestinationId = 0
+				});
+
+				selectedDialogue.SubDialogues.Add(createdSubDialogue);			
+			}
+		} // CreateSubDialogue()
+		public static void AddParagraph(int dialogueId, int subDialogueId)
+		{
+			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == dialogueId);
+			SubDialogue selectedSubDialogue;
+
+			if (selectedDialogue != null)
+			{
+				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogueId);
+
+				if (selectedSubDialogue != null)
+				{
+					selectedSubDialogue.Content.Add("");
+
+					if (SubDialogueId == -1)
+					{
+						SubDialogueId = 0;
+					}
+				}
+			}
+		} // AddParagraph
+		public static void AddOption(int dialogueId, int subDialogueId)
+		{
+			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
+			SubDialogue selectedSubDialogue;
+
+			if (selectedDialogue != null)
+			{
+				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogueId);
+
+				if (selectedSubDialogue != null)
+				{
+					selectedSubDialogue.Options.Add(new DialogueOption());
+				}
+			}
+		} // AddOption()
+		#endregion
+
+		#region Edit/Change
 		public static void EditDialogueName(int id, string name)
 		{
 			var dialogue = Dialogues.SingleOrDefault(x => x.Id == id);
@@ -114,30 +175,6 @@ namespace LastTemple.Engine
 			}
 
 		} // EditDialogueName()
-
-		public static void DeleteDialogue(int id)
-		{
-			var selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == id);
-			if (selectedDialogue != null)
-			{
-				Dialogues.Remove(selectedDialogue);
-
-				if (Dialogues.Count > 0)
-				{
-					for (int i = 0; i < Dialogues.Count; i++)
-					{
-						Dialogues[i].Id = i;
-					}
-				}
-			}
-
-			if (DialogueId == id)
-			{
-				DialogueId = -1;
-			}
-			else return;
-
-		} // DeleteDialogue()
 
 		public static void ChangeDialogueIndex(char x, int id)
 		{
@@ -195,28 +232,32 @@ namespace LastTemple.Engine
 				Dialogues = Dialogues.OrderBy(x => x.Id).ToList();
 			}
 		} // ChangeDialogueIndex()
+		#endregion
 
-		public static void AddParagraph(int dialogueId, int subDialogueId)
+		#region Delete
+		public static void DeleteDialogue(int id)
 		{
-			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == dialogueId);
-			SubDialogue selectedSubDialogue;
-
+			var selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == id);
 			if (selectedDialogue != null)
 			{
-				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogueId);
+				Dialogues.Remove(selectedDialogue);
 
-				if (selectedSubDialogue != null)
+				if (Dialogues.Count > 0)
 				{
-					selectedSubDialogue.Content.Add("");
-
-					if (SubDialogueId == -1)
+					for (int i = 0; i < Dialogues.Count; i++)
 					{
-						SubDialogueId = 0;
+						Dialogues[i].Id = i;
 					}
 				}
 			}
-		} // AddParagraph
 
+			if (DialogueId == id)
+			{
+				DialogueId = -1;
+			}
+			else return;
+
+		} // DeleteDialogue()
 		public static void DeleteParagraph(int dialogueId, int subDialogueId, int paragraphIndex)
 		{
 			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == dialogueId);
@@ -239,22 +280,6 @@ namespace LastTemple.Engine
 			}
 		} // DeleteParagraph
 
-		public static void AddOption(int dialogueId, int subDialogueId)
-		{
-			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
-			SubDialogue selectedSubDialogue;
-
-			if (selectedDialogue != null)
-			{
-				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogueId);
-
-				if (selectedSubDialogue != null)
-				{
-					selectedSubDialogue.Options.Add(new DialogueOption());
-				}
-			}
-		} // AddOption()
-
 		public static void DeleteOption(int dialogueId, int subDialogueId, int optionIndex)
 		{
 			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
@@ -266,9 +291,12 @@ namespace LastTemple.Engine
 
 				if (selectedSubDialogue != null)
 				{
-					if (optionIndex < selectedSubDialogue.Options.Count)
+					if (selectedSubDialogue.Options.Count() > 1)
 					{
-						selectedSubDialogue.Options.RemoveAt(optionIndex);
+						if (optionIndex < selectedSubDialogue.Options.Count() )
+						{
+							selectedSubDialogue.Options.RemoveAt(optionIndex);
+						}
 					}
 				}
 			}
@@ -298,15 +326,12 @@ namespace LastTemple.Engine
 						{
 							SubDialogueId = 0;
 						}
-
-						else
-						{
-							SubDialogueId = -1;
-						}
 					}
 				}
 			}
 		} // DeleteSubDialogue()
+		#endregion
+
 
 
 

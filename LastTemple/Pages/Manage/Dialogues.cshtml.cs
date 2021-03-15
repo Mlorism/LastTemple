@@ -11,7 +11,7 @@ namespace LastTemple.Pages.Manage
 {
 	public class DialoguesModel : PageModel
 	{
-		public List<Dialogue> Dialogues { get; set; }
+		public List<Dialogue> Dialogues { get; set; } = new List<Dialogue>();
 		[BindProperty]
 		public string DialogueName { get; set; }
 		[BindProperty]
@@ -114,6 +114,12 @@ namespace LastTemple.Pages.Manage
 		public IActionResult OnPostDeleteSubDialogue()
 		{			
 			DialogueSystem.DeleteSubDialogue(DialogueId, SubDialogueId);
+			return RedirectToPage("Dialogues");
+		}
+
+		public IActionResult OnPostAddSubdialogue()
+		{
+			DialogueSystem.CreateSubDialogue(DialogueId);
 			return RedirectToPage("Dialogues");
 		}
 
