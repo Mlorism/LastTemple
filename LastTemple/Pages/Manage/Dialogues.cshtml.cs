@@ -107,6 +107,7 @@ namespace LastTemple.Pages.Manage
 
 		public IActionResult OnPostDeleteOption(int optionIndex)
 		{
+			DialogueSystem.DeleteOption(DialogueId, SubDialogueId, optionIndex);
 			return RedirectToPage("Dialogues");
 		}
 

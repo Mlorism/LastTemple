@@ -236,7 +236,24 @@ namespace LastTemple.Engine
 			}
 		} // AddOption()
 
+		public static void DeleteOption(int dialogueId, int subDialogueId, int optionIndex)
+		{
+			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
+			SubDialogue selectedSubDialogue;			
 
+			if (selectedDialogue != null)
+			{
+				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogueId);
+
+				if (selectedSubDialogue != null)
+				{
+					if (optionIndex < selectedSubDialogue.Options.Count)
+					{
+						selectedSubDialogue.Options.RemoveAt(optionIndex);
+					}
+				}
+			}
+		} // DeleteOption()
 
 
 
