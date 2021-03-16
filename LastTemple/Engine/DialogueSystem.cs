@@ -13,17 +13,37 @@ namespace LastTemple.Engine
 		public static int SubDialogueId { get; set; } = -1;
 		public static List<Dialogue> Dialogues { get; set; }
 
-
-		public static Dialogue GetDialogue()
+		public static Dialogue GetDialogue(int dialogueId)
 		{
 			if (Dialogues == null)
 			{
 				Dialogues = new List<Dialogue>();
 				CreateSampleDialog();
 			}
+			
+			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
 
-			return Dialogues[DialogueId];
-		}
+			if (selectedDialogue != null)
+			{
+				return selectedDialogue;
+			}
+
+			else return new Dialogue();
+		} // GetDialogue()
+
+		public static SubDialogue GetSubDialogue(int dialogueId, int subDialogueId)
+		{
+			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
+			SubDialogue selectedSubDialogue = new SubDialogue();
+
+			if (selectedDialogue != null)
+			{
+				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogueId);
+			}
+
+			return selectedSubDialogue;
+
+		} // GetSubDialogue()
 
 		public static List<Dialogue> GetDialogues()
 		{
@@ -35,6 +55,7 @@ namespace LastTemple.Engine
 
 			return Dialogues;
 		}
+
 		public static void ChooseDialogue(int id)
 		{
 			DialogueId = id;
@@ -105,6 +126,7 @@ namespace LastTemple.Engine
 
 			Dialogues.Add(dialogue);
 		} // CreateDialogue()
+
 		public static void CreateSubDialogue(int dialogueId)
 		{
 			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
@@ -127,6 +149,7 @@ namespace LastTemple.Engine
 				selectedDialogue.SubDialogues.Add(createdSubDialogue);			
 			}
 		} // CreateSubDialogue()
+
 		public static void AddParagraph(int dialogueId, int subDialogueId)
 		{
 			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == dialogueId);
@@ -147,6 +170,7 @@ namespace LastTemple.Engine
 				}
 			}
 		} // AddParagraph
+
 		public static void AddOption(int dialogueId, int subDialogueId)
 		{
 			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
@@ -235,9 +259,9 @@ namespace LastTemple.Engine
 		#endregion
 
 		#region Delete
-		public static void DeleteDialogue(int id)
+		public static void DeleteDialogue(int dialogueId)
 		{
-			var selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == id);
+			var selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == dialogueId);
 			if (selectedDialogue != null)
 			{
 				Dialogues.Remove(selectedDialogue);
@@ -251,13 +275,14 @@ namespace LastTemple.Engine
 				}
 			}
 
-			if (DialogueId == id)
+			if (DialogueId == dialogueId)
 			{
 				DialogueId = -1;
 			}
 			else return;
 
 		} // DeleteDialogue()
+
 		public static void DeleteParagraph(int dialogueId, int subDialogueId, int paragraphIndex)
 		{
 			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == dialogueId);
@@ -270,12 +295,16 @@ namespace LastTemple.Engine
 
 				if (selectedSubDialogue != null)
 				{
-					paragraph = selectedSubDialogue.Content[paragraphIndex];
-
-					if (paragraph != null)
+					if (selectedSubDialogue.Content.Count > 1)
 					{
-						selectedSubDialogue.Content.RemoveAt(paragraphIndex);
+						paragraph = selectedSubDialogue.Content[paragraphIndex];
+
+						if (paragraph != null)
+						{
+							selectedSubDialogue.Content.RemoveAt(paragraphIndex);
+						}
 					}
+					
 				}
 			}
 		} // DeleteParagraph
@@ -332,15 +361,28 @@ namespace LastTemple.Engine
 		} // DeleteSubDialogue()
 		#endregion
 
-
-
-
-		public static void SaveChanges(int dialogueId, int subDialogueId, SubDialogue subdialogue)
+		public static void SaveChanges(int dialogueId, SubDialogue subDialogue)
 		{
+			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == dialogueId);
+			SubDialogue selectedSubDialogue;
 
+			if (selectedDialogue != null)
+			{
+				selectedSubDialogue = selectedDialogue.SubDialogues.FirstOrDefault(x => x.Id == subDialogue.Id);
 
+				if (selectedSubDialogue != null)
+				{
+					for (int i=0; i < selectedSubDialogue.Content.Count(); i++)
+					{
+						selectedSubDialogue.Content[i] = subDialogue.Content[i];
+					}
 
-
+					for (int i=0; i < selectedSubDialogue.Options.Count(); i++)
+					{
+						selectedSubDialogue.Options[i] = subDialogue.Options[i];
+					}
+				}
+			}
 
 		} // SaveChanges()
 

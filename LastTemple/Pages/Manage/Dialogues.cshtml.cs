@@ -11,6 +11,7 @@ namespace LastTemple.Pages.Manage
 {
 	public class DialoguesModel : PageModel
 	{
+		[BindProperty]
 		public List<Dialogue> Dialogues { get; set; } = new List<Dialogue>();
 		[BindProperty]
 		public string DialogueName { get; set; }
@@ -18,11 +19,14 @@ namespace LastTemple.Pages.Manage
 		public int DialogueId { get; set; }
 		[BindProperty]
 		public int SubDialogueId { get; set; }
+		[BindProperty]
+		public SubDialogue SubDialogue { get; set; }
 		public void OnGet()
 		{
 			Dialogues = DialogueSystem.GetDialogues();
 			DialogueId = DialogueSystem.DialogueId;
 			SubDialogueId = DialogueSystem.SubDialogueId;
+			SubDialogue = DialogueSystem.GetSubDialogue(DialogueId, SubDialogueId);
 		}
 		public IActionResult OnPostCreateDialogue()
 		{
@@ -123,10 +127,9 @@ namespace LastTemple.Pages.Manage
 			return RedirectToPage("Dialogues");
 		}
 
-		public IActionResult SaveChanges()
-		{
-			SubDialogue subDialogue = Dialogues[DialogueId].SubDialogues[SubDialogueId];
-			DialogueSystem.SaveChanges(DialogueId, SubDialogueId, subDialogue);
+		public IActionResult OnPostSaveChanges()
+		{		
+			DialogueSystem.SaveChanges(DialogueId, SubDialogue);
 			return RedirectToPage("Dialogues");
 		}
 
