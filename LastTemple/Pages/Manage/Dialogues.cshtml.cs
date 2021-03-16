@@ -24,7 +24,6 @@ namespace LastTemple.Pages.Manage
 			DialogueId = DialogueSystem.DialogueId;
 			SubDialogueId = DialogueSystem.SubDialogueId;
 		}
-
 		public IActionResult OnPostCreateDialogue()
 		{
 			DialogueSystem.CreateDialogue(DialogueName);
@@ -37,6 +36,7 @@ namespace LastTemple.Pages.Manage
 			DialogueSystem.ChooseDialogue(DialogueId);
 			return RedirectToPage("Dialogues");
 		}
+
 		public IActionResult OnPostEditName()
 		{
 			DialogueSystem.EditDialogueName(DialogueId, DialogueName);

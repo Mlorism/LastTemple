@@ -117,7 +117,7 @@
                         var item = Model.Dialogues[Model.DialogueId].SubDialogues[Model.SubDialogueId].Options[i];
 
                         <div class="row mb-1">
-                            <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item.Content</textarea></div>
+                            <div class="col-11 mb-2"><textarea name="optionTextarea" class="form-control bg-secondary text-light" oninput="resizeTextarea(this)">@item.Content</textarea></div>
 
                             <div class="col-1 align-self-center">
                                 <div class="row mb-1" data-tooltip="Nr subdialogu">
@@ -146,8 +146,6 @@
     resizeTextareas();
 
     function deselectPlaceholder(input) {
-        
-
         if (input.value == "") {
             let x = input.dataset.default;
             input.value = x;
@@ -162,15 +160,28 @@
 
             list[i].rows = 1;
 
-            if (list[i].value != "") {
-                resizeTextarea(list[i]);      
-            }            
+            resizeTextarea(list[i]);      
+                        
         } // for
     } // resizeTextareas()
 
-    function resizeTextarea(element) {        
+    function resizeTextarea(element) {    
         element.style.height = 'auto';
-        element.style.height = element.scrollHeight + 2 + 'px';
+
+        if (element.name == "optionTextarea") {
+
+            if (element.parentElement.parentElement.offsetHeight > element.scrollHeight) {
+                element.style.height = element.parentElement.parentElement.offsetHeight + 'px';                
+            }
+            
+            else {
+                element.style.height = element.scrollHeight + 2 + 'px';            
+            }                 
+        }
+
+        else {            
+            element.style.height = element.scrollHeight + 2 + 'px';
+        }       
     } //resizeTextarea()
 
     function setSelectedDialogueName(element) {
