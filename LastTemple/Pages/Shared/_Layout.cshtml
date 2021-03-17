@@ -49,20 +49,30 @@
                                 <a class="dropdown-item" asp-area="" asp-page="/Manage/Spell">Zaklęcia</a>
                                 <a class="dropdown-item" asp-area="" asp-page="/Manage/Dialogues">Dialogi</a>
                             </div>
-
-
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Index">Świat</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/World">Świat</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Index">O autorze</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/Author">O autorze</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Index">Logout</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" data-toggle="dropdown" role="button"
+                               aria-expanded="false" id="subMenu" aria-haspopup="true">
+                                Rozgrywka
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="subMenu">
+                                <a class="dropdown-item" asp-area="" asp-page="/Gameplay/BattleManager">Ustaw walkę</a>
+                                <a class="dropdown-item" asp-area="" asp-page="/Gameplay/BattleField">Bitwa</a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" asp-area="" asp-page="/Gameplay/Conversation">Dialogi</a>
+                                <a class="dropdown-item" asp-area="" asp-page="/Gameplay/Map">Mapa</a>
+                            </div>
                         </li>
 
                     </ul>

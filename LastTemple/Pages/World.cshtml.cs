@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LastTemple.Pages
 {
-    public class ContributionModel : PageModel
+    public class WorldModel : PageModel
     {
         public void OnGet()
         {

@@ -364,7 +364,6 @@ E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAna
 E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
 E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\LastTemple.MvcApplicationPartsAssemblyInfo.cs
-E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Contribution.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Creature.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Item.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Spell.cshtml.g.cs
@@ -387,6 +386,10 @@ E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\M
 E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 E:\Repos\LastTemple\LastTemple\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Battlefield.cshtml.g.cs
-E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Start.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Conversation.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Manage\Dialogues.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Author.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Game.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\BattleManager.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Map.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\World.cshtml.g.cs

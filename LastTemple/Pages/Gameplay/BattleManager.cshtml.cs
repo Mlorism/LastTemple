@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LastTemple.Pages.Gameplay
 {
-	public class StartModel : PageModel
+	public class BattleManager : PageModel
 	{
 		private readonly ApplicationDbContext _ctx;
 
@@ -24,7 +24,7 @@ namespace LastTemple.Pages.Gameplay
 		public IEnumerable<Creature> SelectedEnemies { get; set; }
 		public string BattleReady { get; set; }
 
-		public StartModel(ApplicationDbContext ctx)
+		public BattleManager(ApplicationDbContext ctx)
 		{
 			_ctx = ctx; 
 		}

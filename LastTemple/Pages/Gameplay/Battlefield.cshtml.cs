@@ -79,5 +79,10 @@ namespace LastTemple.Pages.Gameplay
 			return RedirectToPage("BattleField");
 		}
 
+		public IActionResult OnPostEscape()
+		{
+			return RedirectToPage("/Index");
+		}
+
 	}
 }
