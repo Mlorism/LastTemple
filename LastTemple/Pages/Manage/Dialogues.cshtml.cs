@@ -13,14 +13,19 @@ namespace LastTemple.Pages.Manage
 	{
 		[BindProperty]
 		public List<Dialogue> Dialogues { get; set; } = new List<Dialogue>();
+
 		[BindProperty]
 		public string DialogueName { get; set; }
+
 		[BindProperty]
 		public int DialogueId { get; set; }
+
 		[BindProperty]
 		public int SubDialogueId { get; set; }
+
 		[BindProperty]
 		public SubDialogue SubDialogue { get; set; }
+
 		public void OnGet()
 		{
 			Dialogues = DialogueSystem.GetDialogues();
@@ -99,12 +104,14 @@ namespace LastTemple.Pages.Manage
 
 		public IActionResult OnPostAddParagraph()
 		{
+			DialogueSystem.SaveChanges(DialogueId, SubDialogue);
 			DialogueSystem.AddParagraph(DialogueId, SubDialogueId);
 			return RedirectToPage("Dialogues");
 		}
 
 		public IActionResult OnPostAddOption()
 		{
+			DialogueSystem.SaveChanges(DialogueId, SubDialogue);
 			DialogueSystem.AddOption(DialogueId, SubDialogueId);
 			return RedirectToPage("Dialogues");
 		}
@@ -123,6 +130,7 @@ namespace LastTemple.Pages.Manage
 
 		public IActionResult OnPostAddSubdialogue()
 		{
+			DialogueSystem.SaveChanges(DialogueId, SubDialogue);
 			DialogueSystem.CreateSubDialogue(DialogueId);
 			return RedirectToPage("Dialogues");
 		}

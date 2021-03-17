@@ -4,9 +4,8 @@
 }
 
 <form method="post">
-    <input type="hidden" asp-for="SubDialogueId"/>    
-    <input type="hidden" asp-for="SubDialogue" value="SubDialogue"/>    
-    
+    <input type="hidden" asp-for="SubDialogueId"/>
+    <input type="hidden" asp-for="SubDialogue.Id"/>
 
     <div class="row">
         <div class="col-3 text-center">
@@ -70,7 +69,7 @@
                         {                            
                             <div class="row">
                                 <div class="col-11 mb-2"><textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)" 
-                                asp-for="SubDialogue.Content[i]">@Model.SubDialogue.Content[i]</textarea></div>
+                                asp-for="SubDialogue.Content[i]"></textarea></div>
                                 <div class="col-1 pl-0 d-flex align-items-center"><button class="btn btn-danger" data-tooltip="Usuń akapit" asp-page-handler="DeleteParagraph" asp-route-paragraphIndex="@i">-</button></div>
                             </div>
                         }
@@ -118,12 +117,12 @@
                     @for (int i = 0; i < Model.SubDialogue.Options.Count(); i++)
                     {                        
                         <div class="row mb-1">
-                            <div class="col-11 mb-2"><textarea name="optionTextarea" class="form-control bg-secondary text-light" oninput="resizeTextarea(this)"
-                            asp-for="SubDialogue.Options[i].Content">@Model.SubDialogue.Options[i].Content.ToString()</textarea></div>                            
+                            <div class="col-11 mb-2" data-name="optionTextarea"><textarea class="form-control bg-secondary text-light" oninput="resizeTextarea(this)"
+                            asp-for="SubDialogue.Options[i].Content"></textarea></div>                            
 
                             <div class="col-1 align-self-center">
                                 <div class="row mb-1" data-tooltip="Nr subdialogu">
-                                    <input type="text" class="form-control bg-secondary text-light text-center p-1" asp-for="SubDialogue.Options[i].OptionDestinationId" value="@Model.SubDialogue.Options[i].OptionDestinationId" />
+                                    <input type="text" class="form-control bg-secondary text-light text-center p-1" asp-for="SubDialogue.Options[i].OptionDestinationId"/>
                                 </div>
 
                                 <div class="row">
@@ -170,8 +169,7 @@
     function resizeTextarea(element) {    
         element.style.height = 'auto';
 
-        if (element.name == "optionTextarea") {
-
+        if (element.parentElement.dataset.name == "optionTextarea") {           
             if (element.parentElement.parentElement.offsetHeight > element.scrollHeight) {
                 element.style.height = element.parentElement.parentElement.offsetHeight + 'px';                
             }

@@ -8,7 +8,6 @@ namespace LastTemple.Engine
 {
 	public static class DialogueSystem
 	{
-
 		public static int DialogueId { get; set; } = -1;
 		public static int SubDialogueId { get; set; } = -1;
 		public static List<Dialogue> Dialogues { get; set; }
@@ -125,6 +124,9 @@ namespace LastTemple.Engine
 			});
 
 			Dialogues.Add(dialogue);
+
+			DialogueId = dialogue.Id;
+			SubDialogueId = 0;
 		} // CreateDialogue()
 
 		public static void CreateSubDialogue(int dialogueId)
