@@ -3,11 +3,47 @@
 @{
 }
 
-<div class="text-center">
-    
-    <span><b>Zapasy: 153</b><img class="icon" src="~/img/supplies.svg"/></span>         
-    <img src="~/img/map.jpg" class="map mt-2"/>           
-        
-        
-    
+<span><b>Zapasy: 153</b><img class="icon ml-1" src="~/img/supplies.svg"/></span>
+  
+<div id="mainDiv" class="mapContainer">    
+    <img id="map" src="~/img/map.jpg" class="mt-2"/>           
+    <button id="temple" class="btn btn-info">Świątynia</button>    
+    <button id="cript" class="btn btn-dark">Krypta</button>  
+    <button id="xxx" class="btn btn-dark">xxx</button>    
 </div>
+
+<script type="text/javascript">
+
+    let mainDiv = document.getElementById("mainDiv");
+    setButtons();
+    
+    function setButtons() {
+        let mapH = document.getElementById("map").clientHeight;
+        let mapW = document.getElementById("map").clientWidth;
+        let mapLeft = document.getElementById("map").offsetLeft;
+        let mapTop = document.getElementById("map").offsetTop;
+
+        let buttons = mainDiv.getElementsByTagName('button');
+
+        for (i = 0; i < buttons.length; i++) {
+            if (buttons[i].id == "temple") {               
+               buttons[i].style.top = mapH / 4 + 'px';
+               buttons[i].style.left = mapW / 4 + 'px';
+
+            }
+
+            else if (buttons[i].id == "cript") {
+                buttons[i].style.top = mapH / 2 + 'px';
+                buttons[i].style.left = mapW / 4 + 'px';
+            }
+
+            else if (buttons[i].id == "xxx") {
+                buttons[i].style.top = mapH / 4 * 3 + 'px';
+                buttons[i].style.left = mapW / 4 + 'px';
+            }
+            
+        }
+
+    }
+
+</script>
