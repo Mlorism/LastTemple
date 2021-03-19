@@ -150,9 +150,17 @@ input[type=range]::-webkit-slider-thumb {
     height: auto;    
 }
 
-    .mapContainer .btn {
+.location {
+    position: absolute;        
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+    font-weight: bold;
+
+}
+
+    .location:hover {
         position: absolute;
-        /* top: 50%;
-    left: 50%; */
         transform: translate(-50%, -50%);
+        opacity: 1;
+        font-weight: bold;
     }

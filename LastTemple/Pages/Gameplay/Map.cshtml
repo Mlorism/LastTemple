@@ -3,13 +3,26 @@
 @{
 }
 
-<span><b>Zapasy: 153</b><img class="icon ml-1" src="~/img/supplies.svg"/></span>
+<div class="text-center">
+    <span><b>Zapasy: 153</b><img class="icon ml-1" src="~/img/supplies.svg"/></span>
+</div>
   
 <div id="mainDiv" class="mapContainer">    
     <img id="map" src="~/img/map.jpg" class="mt-2"/>           
-    <button id="temple" class="btn btn-info">Świątynia</button>    
-    <button id="cript" class="btn btn-dark">Krypta</button>  
-    <button id="xxx" class="btn btn-dark">xxx</button>    
+    <button id="temple" class="btn btn-light location" data-tooltip="koszt podróży: ">Świątynia</button>    
+    <button id="troy" class="btn btn-light  location" data-tooltip="koszt podróży: ">Troja</button>
+
+    <button id="thebes" class="btn btn-light location" data-tooltip="koszt podróży: ">Teby</button>
+
+    <button id="outpost" class="btn btn-light location" data-tooltip="koszt podróży: ">Posterunek</button> @*żołnierze/rycerze zakon, albo się przez nich przebić do bilbioteki lub pomóc rozbić bandytów*@
+    <button id="bandits" class="btn btn-light location" data-tooltip="koszt podróży: ">Obóz bandytów</button> @*opcjonalna lokalizacja gdy się współpracuje z żołnierzami*@
+    <button id="oracle" class="btn btn-light location" data-tooltip="koszt podróży: ">Wyrocznia</button> @*cień podejrzeń*@
+
+    <button id="library" class="btn btn-light location" data-tooltip="koszt podróży: ">Biblioteka</button> @*maski*@
+
+    <button id="tomb" class="btn btn-light location" data-tooltip="koszt podróży: ">Grobowiec</button> @*nieumarli*@
+    
+    <button id="cathedral" class="btn btn-light location" data-tooltip="koszt podróży: ">Katedra</button> @*król masek*@
 </div>
 
 <script type="text/javascript">
@@ -27,21 +40,50 @@
 
         for (i = 0; i < buttons.length; i++) {
             if (buttons[i].id == "temple") {               
-               buttons[i].style.top = mapH / 4 + 'px';
-               buttons[i].style.left = mapW / 4 + 'px';
+               buttons[i].style.top = mapH * 0.77 + 'px';
+               buttons[i].style.left = mapW * 0.15 + 'px';
 
             }
 
-            else if (buttons[i].id == "cript") {
-                buttons[i].style.top = mapH / 2 + 'px';
-                buttons[i].style.left = mapW / 4 + 'px';
+            else if (buttons[i].id == "troy") {
+                buttons[i].style.top = mapH * 0.55 + 'px';
+                buttons[i].style.left = mapW * 0.22 + 'px';
             }
 
-            else if (buttons[i].id == "xxx") {
-                buttons[i].style.top = mapH / 4 * 3 + 'px';
-                buttons[i].style.left = mapW / 4 + 'px';
+            else if (buttons[i].id == "thebes") {
+                buttons[i].style.top = mapH * 0.83 + 'px';
+                buttons[i].style.left = mapW * 0.48 + 'px';
             }
-            
+
+            else if (buttons[i].id == "outpost") {
+                buttons[i].style.top = mapH * 0.625 + 'px';
+                buttons[i].style.left = mapW * 0.63 + 'px';
+            }
+
+            else if (buttons[i].id == "bandits") {
+                buttons[i].style.top = mapH * 0.97 + 'px';
+                buttons[i].style.left = mapW * 0.60 + 'px';
+            }
+
+            else if (buttons[i].id == "oracle") {
+                buttons[i].style.top = mapH * 0.55 + 'px';
+                buttons[i].style.left = mapW * 0.63 + 'px';
+            }
+
+            else if (buttons[i].id == "library") {
+                buttons[i].style.top = mapH * 0.42 + 'px';
+                buttons[i].style.left = mapW * 0.42 + 'px';
+            }
+
+            else if (buttons[i].id == "tomb") {
+                buttons[i].style.top = mapH * 0.5 + 'px';
+                buttons[i].style.left = mapW * 0.85 + 'px';
+            }
+
+            else if (buttons[i].id == "cathedral") {
+                buttons[i].style.top = mapH * 0.12 + 'px';
+                buttons[i].style.left = mapW * 0.63 + 'px';
+            }
         }
 
     }
