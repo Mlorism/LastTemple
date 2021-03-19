@@ -26,8 +26,7 @@ namespace LastTemple.CRUD
 			target.Name = creature.Name;
 			target.Type = creature.Type;
 			target.Level = creature.Level;
-			target.Experience = creature.Experience;
-			target.Supplies = creature.Supplies;
+			target.Experience = creature.Experience;			
 
 			target.Strength = creature.Strength;
 			target.Endurance = creature.Endurance;
@@ -90,8 +89,7 @@ namespace LastTemple.CRUD
 			target.Name = creature.Name;
 			target.Type = creature.Type;
 			target.Level = creature.Level;
-			target.Experience = creature.Experience;
-			target.Supplies = creature.Supplies;
+			target.Experience = creature.Experience;			
 
 			target.Strength = creature.Strength;
 			target.Endurance = creature.Endurance;

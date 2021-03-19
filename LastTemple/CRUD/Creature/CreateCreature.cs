@@ -23,8 +23,7 @@ namespace LastTemple.CRUD
 				Name = creature.Name,
 				Type = creature.Type,
 				Level = creature.Level,
-				Experience = creature.Experience,
-				Supplies = creature.Supplies,
+				Experience = creature.Experience,				
 				Alive = true,
 
 				Strength = creature.Strength,

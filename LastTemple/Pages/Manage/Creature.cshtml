@@ -27,8 +27,7 @@
                         <th>Nazwa</th>
                         <th>Typ</th>
                         <th>Poziom</th>
-                        <th>Doś.</th>
-                        <th>Zapasy</th>
+                        <th>Doś.</th>                        
                         <th>Szczegóły</th>
                         <th>Uzbrojenie</th>
                         <th>Edytuj</th>
@@ -46,8 +45,7 @@
                                 <td>@item.Name</td>
                                 <td>@Converters.EnumConverter.Result(item.Type)</td>
                                 <td>@item.Level</td>
-                                <td>@item.Experience</td>
-                                <td>@item.Supplies</td>
+                                <td>@item.Experience</td>                               
                                 <td>
                                     <form method="get">
                                         <input type="hidden" name="handler" value="Details" />
@@ -359,14 +357,7 @@
                     <input id="experience" type="range" class="mySlider" min="0" max="100" step="10" asp-for="Creature.Experience" />
                     <output>0</output><br />
                     <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Zapasy</label>
-                    <input id="supplies" type="range" class="mySlider" min="0" max="100" step="10" asp-for="Creature.Supplies" />
-                    <output>0</output><br />
-                    <small>Ile ma bohater/ile można zdobyć za pokonane przeciwnika</small>
-                </div>
+                </div>              
 
                 <div class="form-group">
                     <label>Siła</label>
@@ -428,8 +419,7 @@
 
     loadSettings();
 
-    document.getElementById("experience").oninput = function () { setSlider("experience"); }
-    document.getElementById("supplies").oninput = function () { setSlider("supplies"); }
+    document.getElementById("experience").oninput = function () { setSlider("experience"); }    
     document.getElementById("strength").oninput = function () { setSlider("strength"); }
     document.getElementById("endurance").oninput = function () { setSlider("endurance"); }
     document.getElementById("willpower").oninput = function () { setSlider("willpower"); }
@@ -438,8 +428,7 @@
 
     function resetSliders() {
         window.requestAnimationFrame(function (timestamp) {
-            setSlider("experience");
-            setSlider("supplies");
+            setSlider("experience");            
             setSlider("strength");
             setSlider("endurance");
             setSlider("willpower");
@@ -453,8 +442,7 @@
             ToggleColumn(toggleValue.value);
         }  
 
-        setSlider("experience");
-        setSlider("supplies");
+        setSlider("experience");        
         setSlider("strength");
         setSlider("endurance");
         setSlider("willpower");

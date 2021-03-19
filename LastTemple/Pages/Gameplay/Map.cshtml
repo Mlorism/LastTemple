@@ -3,10 +3,8 @@
 @{
 }
 
-<div class="text-center">
-    <span><b>Zapasy: 153</b><img class="icon ml-1" src="~/img/supplies.svg"/></span>
-</div>
-  
+<div class="text-center"><h3>Świat po Ciszy</h3></div>
+
 <div id="mainDiv" class="mapContainer">    
     <img id="map" src="~/img/map.jpg" class="mt-2"/>           
     <button id="temple" class="btn btn-light location" data-tooltip="koszt podróży: ">Świątynia</button>    
@@ -20,7 +18,7 @@
 
     <button id="library" class="btn btn-light location" data-tooltip="koszt podróży: ">Biblioteka</button> @*maski*@
 
-    <button id="tomb" class="btn btn-light location" data-tooltip="koszt podróży: ">Grobowiec</button> @*nieumarli*@
+    <button id="tomb" class="btn btn-light location" data-tooltip="koszt podróży: ">Grobowiec</button> @*na zewnątrz zmienieni w środku nieumarli*@
     
     <button id="cathedral" class="btn btn-light location" data-tooltip="koszt podróży: ">Katedra</button> @*król masek*@
 </div>
@@ -42,7 +40,6 @@
             if (buttons[i].id == "temple") {               
                buttons[i].style.top = mapH * 0.77 + 'px';
                buttons[i].style.left = mapW * 0.15 + 'px';
-
             }
 
             else if (buttons[i].id == "troy") {
