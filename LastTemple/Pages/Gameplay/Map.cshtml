@@ -6,21 +6,16 @@
 <div class="text-center"><h3>Świat po Ciszy</h3></div>
 
 <div id="mainDiv" class="mapContainer">    
-    <img id="map" src="~/img/map.jpg" class="mt-2"/>           
-    <button id="temple" class="btn btn-light location" data-tooltip="koszt podróży: ">Świątynia</button>    
-    <button id="troy" class="btn btn-light  location" data-tooltip="koszt podróży: ">Troja</button>
-
-    <button id="thebes" class="btn btn-light location" data-tooltip="koszt podróży: ">Teby</button>
-
-    <button id="outpost" class="btn btn-light location" data-tooltip="koszt podróży: ">Posterunek</button> @*żołnierze/rycerze zakon, albo się przez nich przebić do bilbioteki lub pomóc rozbić bandytów*@
-    <button id="bandits" class="btn btn-light location" data-tooltip="koszt podróży: ">Obóz bandytów</button> @*opcjonalna lokalizacja gdy się współpracuje z żołnierzami*@
-    <button id="oracle" class="btn btn-light location" data-tooltip="koszt podróży: ">Wyrocznia</button> @*cień podejrzeń*@
-
-    <button id="library" class="btn btn-light location" data-tooltip="koszt podróży: ">Biblioteka</button> @*maski*@
-
-    <button id="tomb" class="btn btn-light location" data-tooltip="koszt podróży: ">Grobowiec</button> @*na zewnątrz zmienieni w środku nieumarli*@
+    <img id="map" src="~/img/map.jpg" class="mt-2"/>  
     
-    <button id="cathedral" class="btn btn-light location" data-tooltip="koszt podróży: ">Katedra</button> @*król masek*@
+    @foreach (var location in Model.Locations)
+    {
+        if(location.Discovered == true)
+        {
+            <button name="mapMark" class="btn btn-light location" data-Width="@location.Width" data-Height="@location.Height">@location.Name</button>
+        }
+    }
+       
 </div>
 
 <script type="text/javascript">
@@ -31,56 +26,12 @@
     function setButtons() {
         let mapH = document.getElementById("map").clientHeight;
         let mapW = document.getElementById("map").clientWidth;
-        let mapLeft = document.getElementById("map").offsetLeft;
-        let mapTop = document.getElementById("map").offsetTop;
+        
+        let buttons = document.getElementsByName('mapMark');
 
-        let buttons = mainDiv.getElementsByTagName('button');
-
-        for (i = 0; i < buttons.length; i++) {
-            if (buttons[i].id == "temple") {               
-               buttons[i].style.top = mapH * 0.77 + 'px';
-               buttons[i].style.left = mapW * 0.15 + 'px';
-            }
-
-            else if (buttons[i].id == "troy") {
-                buttons[i].style.top = mapH * 0.55 + 'px';
-                buttons[i].style.left = mapW * 0.22 + 'px';
-            }
-
-            else if (buttons[i].id == "thebes") {
-                buttons[i].style.top = mapH * 0.83 + 'px';
-                buttons[i].style.left = mapW * 0.48 + 'px';
-            }
-
-            else if (buttons[i].id == "outpost") {
-                buttons[i].style.top = mapH * 0.625 + 'px';
-                buttons[i].style.left = mapW * 0.63 + 'px';
-            }
-
-            else if (buttons[i].id == "bandits") {
-                buttons[i].style.top = mapH * 0.97 + 'px';
-                buttons[i].style.left = mapW * 0.60 + 'px';
-            }
-
-            else if (buttons[i].id == "oracle") {
-                buttons[i].style.top = mapH * 0.55 + 'px';
-                buttons[i].style.left = mapW * 0.63 + 'px';
-            }
-
-            else if (buttons[i].id == "library") {
-                buttons[i].style.top = mapH * 0.42 + 'px';
-                buttons[i].style.left = mapW * 0.42 + 'px';
-            }
-
-            else if (buttons[i].id == "tomb") {
-                buttons[i].style.top = mapH * 0.5 + 'px';
-                buttons[i].style.left = mapW * 0.85 + 'px';
-            }
-
-            else if (buttons[i].id == "cathedral") {
-                buttons[i].style.top = mapH * 0.12 + 'px';
-                buttons[i].style.left = mapW * 0.63 + 'px';
-            }
+        for (i = 0; i < buttons.length; i++) {            
+            buttons[i].style.top = mapH * buttons[i].dataset.height.replace(',', '.') + 'px';
+            buttons[i].style.left = mapW * buttons[i].dataset.width.replace(',', '.') + 'px';             
         }
 
     }
