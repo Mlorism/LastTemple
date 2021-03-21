@@ -103,7 +103,7 @@ namespace LastTemple.Engine
 			{
 				Name = "Krypta",
 				Width = 0.85,
-				Height = 0.5,
+				Height = 0.50,
 				Discovered = true,
 				Destination = 0
 			};

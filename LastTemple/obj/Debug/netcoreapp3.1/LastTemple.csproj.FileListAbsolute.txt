@@ -393,3 +393,5 @@ E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Game.cshtml.g
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\BattleManager.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Map.cshtml.g.cs
 E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\World.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\HeroScreen.cshtml.g.cs
+E:\Repos\LastTemple\LastTemple\obj\Debug\netcoreapp3.1\Razor\Pages\Gameplay\Introduction.cshtml.g.cs
