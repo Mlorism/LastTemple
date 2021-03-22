@@ -33,27 +33,27 @@
                         <label><b>Co jest twoją mocną stroną:</b></label>
                     </div>
 
-                    <div class="text-center @*btn-group-toggle*@">
+                    <div class="text-center btn-group-toggle">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" checked/> Siła
+                            <input type="radio" name="selectedStrength" checked onchange="radioSelection(this)"/> Siła
                         </label>
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" /> Wytrzymałość
-                        </label>
-                    </div>
-
-                    <div class="text-center  @*btn-group-toggle*@">
-                        <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" /> Siła Woli
-                        </label>
-                        <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" /> Szybkość
+                            <input type="radio" name="selectedStrength" onchange="radioSelection(this)"/> Wytrzymałość
                         </label>
                     </div>
 
-                    <div class="text-center  @*btn-group-toggle*@">
+                    <div class="text-center  btn-group-toggle mt-2 mb-2">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" /> Zręczność
+                            <input type="radio" name="selectedStrength" onchange="radioSelection(this)"/> Siła Woli
+                        </label>
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedStrength" onchange="radioSelection(this)"/> Szybkość
+                        </label>
+                    </div>
+
+                    <div class="text-center  btn-group-toggle">
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedStrength" onchange="radioSelection(this)"/> Zręczność
                         </label>                        
                     </div>
                 </div>
@@ -63,27 +63,27 @@
                         <label><b>Co jest twoją słabą stroną:</b></label>
                     </div>
 
-                    <div class="text-center @*btn-group-toggle*@">
+                    <div class="text-center btn-group-toggle">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" /> Siła
+                            <input type="radio" name="selectedWeakness" onchange="radioSelection(this)"/> Siła
                         </label>
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" /> Wytrzymałość
-                        </label>
-                    </div>
-
-                    <div class="text-center  @*btn-group-toggle*@">
-                        <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" checked/> Siła Woli
-                        </label>
-                        <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" /> Szybkość
+                            <input type="radio" name="selectedWeakness" onchange="radioSelection(this)"/> Wytrzymałość
                         </label>
                     </div>
 
-                    <div class="text-center  @*btn-group-toggle*@">
+                    <div class="text-center  btn-group-toggle  mt-2 mb-2">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" /> Zręczność
+                            <input type="radio" name="selectedWeakness" checked onchange="radioSelection(this)"/> Siła Woli
+                        </label>
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeakness" onchange="radioSelection(this)"/> Szybkość
+                        </label>
+                    </div>
+
+                    <div class="text-center  btn-group-toggle">
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeakness" onchange="radioSelection(this)"/> Zręczność
                         </label>
                     </div>
                 </div>
@@ -96,15 +96,15 @@
                         <label><b>Jaką broń preferujesz:</b></label>
                     </div>
 
-                    <div class="text-center @*btn-group-toggle*@">
+                    <div class="text-center btn-group-toggle">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeapon" data-tooltip="Częściej atakuje i łatwiej trafić, ale mniejsze obrażenia"/> Lekką
+                            <input type="radio" name="selectedWeapon" data-tooltip="Częściej atakuje i łatwiej trafić, ale mniejsze obrażenia" onchange="radioSelection(this)"/> Lekką
                         </label>
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeapon" checked data-tooltip="Przeciętna szansa na trafienie i obrażenia"/> Zbalansowaną
+                            <input type="radio" name="selectedWeapon" checked data-tooltip="Przeciętna szansa na trafienie i obrażenia" onchange="radioSelection(this)"/> Zbalansowaną
                         </label>
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeapon" data-tooltip="Rzadziej atakuje i trudniej trafić, ale większe obrażenia"/> Ciężką
+                            <input type="radio" name="selectedWeapon" data-tooltip="Rzadziej atakuje i trudniej trafić, ale większe obrażenia" onchange="radioSelection(this)"/> Ciężką
                         </label>                       
                     </div>
                 </div>
@@ -123,9 +123,12 @@
 <script type="text/javascript">
 
     let heroName = document.getElementById("heroName");
+    
+
     heroName.oninput = function () { saveBtnActive(); }
 
     setElements();
+    setSelectedButtons();
     
     function setElements(){
         $("#saveBtn").attr("disabled", true);
@@ -144,5 +147,77 @@
         }
     } // saveBtnActive()
 
+    function setSelectedButtons() {
+        let selectedStrength = document.getElementsByName("selectedStrength");
+        let selectedWeakness = document.getElementsByName("selectedWeakness");
+        let selectedWeapon = document.getElementsByName("selectedWeapon");
+
+        for (i = 0; i < selectedStrength.length; i++) {
+            if (selectedStrength[i].checked) {
+                if (selectedStrength[i].parentElement.classList.contains("btn-outline-info")) {
+                    selectedStrength[i].parentElement.classList.remove("btn-outline-info");
+                    selectedStrength[i].parentElement.classList.add("btn-info");
+                }
+            }
+            else {
+                if (selectedStrength[i].parentElement.classList.contains("btn-info")) {
+                    selectedStrength[i].parentElement.classList.remove("btn-info");
+                    selectedStrength[i].parentElement.classList.add("btn-outline-info");
+                }
+            }
+        } // for selectedStrength
+
+        for (i = 0; i < selectedWeakness.length; i++) {
+            if (selectedWeakness[i].checked) {
+                if (selectedWeakness[i].parentElement.classList.contains("btn-outline-info")) {
+                    selectedWeakness[i].parentElement.classList.remove("btn-outline-info");
+                    selectedWeakness[i].parentElement.classList.add("btn-info");
+                }
+            }
+            else {
+                if (selectedWeakness[i].parentElement.classList.contains("btn-info")) {
+                    selectedWeakness[i].parentElement.classList.remove("btn-info");
+                    selectedWeakness[i].parentElement.classList.add("btn-outline-info");
+                }
+            }
+        } // for selectedWeakness
+
+        for (i = 0; i < selectedWeapon.length; i++) {
+            if (selectedWeapon[i].checked) {
+                if (selectedWeapon[i].parentElement.classList.contains("btn-outline-info")) {
+                    selectedWeapon[i].parentElement.classList.remove("btn-outline-info");
+                    selectedWeapon[i].parentElement.classList.add("btn-info");
+                }
+            }
+            else {
+                if (selectedWeapon[i].parentElement.classList.contains("btn-info")) {
+                    selectedWeapon[i].parentElement.classList.remove("btn-info");
+                    selectedWeapon[i].parentElement.classList.add("btn-outline-info");
+                }
+            }
+        } // for selectedWeapon
+    } // setSelectedButtons()
+
+    function radioSelection(element) {
+        let buttons = document.getElementsByName(element.name);
+
+        for (i = 0; i < buttons.length; i++) {
+            if (buttons[i].checked) {
+                if (buttons[i].parentElement.classList.contains("btn-outline-info")) {
+                    buttons[i].parentElement.classList.remove("btn-outline-info");
+                    buttons[i].parentElement.classList.add("btn-info");
+                }   
+            }       
+            else {  
+                if (buttons[i].parentElement.classList.contains("btn-info")) {
+                    buttons[i].parentElement.classList.remove("btn-info");
+                    buttons[i].parentElement.classList.add("btn-outline-info");
+                }
+            }
+        } // for
+    } // radioSelection()
+    
+
+    
 
 </script>
