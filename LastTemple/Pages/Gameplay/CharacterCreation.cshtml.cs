@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LastTemple.Pages.Gameplay
 {
-	public class IntroductionModel : PageModel
+	public class CharacterCreation : PageModel
 	{
 		public string Name { get; set; }
 		public void OnGet()
@@ -16,7 +16,7 @@ namespace LastTemple.Pages.Gameplay
 
 		public IActionResult OnPostName()
 		{
-			return RedirectToPage("Introduction");
+			return RedirectToPage("CharacterCreation");
 		}
 	}
 }

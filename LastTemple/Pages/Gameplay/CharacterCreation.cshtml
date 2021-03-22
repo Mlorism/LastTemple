@@ -1,0 +1,148 @@
+﻿@page
+@model LastTemple.Pages.Gameplay.CharacterCreation
+@{
+}
+
+
+<form>
+    <div class="text-center">
+    <h3>Tworzenie bohatera</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-3 offset-2 mt-4">
+            <div class="fixedContainer">
+                <img src="~/img/hero.jpg" class="img-thumbnail-dark" style="padding: 0" />
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="text-center">
+                
+                <label><b>Podaj imię:</b></label>
+                <div class="row">
+                    <div class="col-6 offset-3" data-tooltip="Od 3 do 15 liter" >
+                        <input id="heroName" type="text" pattern="[A-Za-z]{3,15}" class="form-control bg-secondary text-light"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3 p-2">
+                <div class="col-6">
+                    <div class="text-center">
+                        <label><b>Co jest twoją mocną stroną:</b></label>
+                    </div>
+
+                    <div class="text-center @*btn-group-toggle*@">
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedStrength" checked/> Siła
+                        </label>
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedStrength" /> Wytrzymałość
+                        </label>
+                    </div>
+
+                    <div class="text-center  @*btn-group-toggle*@">
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedStrength" /> Siła Woli
+                        </label>
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedStrength" /> Szybkość
+                        </label>
+                    </div>
+
+                    <div class="text-center  @*btn-group-toggle*@">
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedStrength" /> Zręczność
+                        </label>                        
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="text-center">
+                        <label><b>Co jest twoją słabą stroną:</b></label>
+                    </div>
+
+                    <div class="text-center @*btn-group-toggle*@">
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeakness" /> Siła
+                        </label>
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeakness" /> Wytrzymałość
+                        </label>
+                    </div>
+
+                    <div class="text-center  @*btn-group-toggle*@">
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeakness" checked/> Siła Woli
+                        </label>
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeakness" /> Szybkość
+                        </label>
+                    </div>
+
+                    <div class="text-center  @*btn-group-toggle*@">
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeakness" /> Zręczność
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3 p-2">
+                <div class="col">
+
+                    <div class="text-center">
+                        <label><b>Jaką broń preferujesz:</b></label>
+                    </div>
+
+                    <div class="text-center @*btn-group-toggle*@">
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeapon" data-tooltip="Częściej atakuje i łatwiej trafić, ale mniejsze obrażenia"/> Lekką
+                        </label>
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeapon" checked data-tooltip="Przeciętna szansa na trafienie i obrażenia"/> Zbalansowaną
+                        </label>
+                        <label class="btn btn-outline-info">
+                            <input type="radio" name="selectedWeapon" data-tooltip="Rzadziej atakuje i trudniej trafić, ale większe obrażenia"/> Ciężką
+                        </label>                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button id="saveBtn" class="btn btn-outline-success m-2"><b>Zapisz</b></button>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+<script type="text/javascript">
+
+    let heroName = document.getElementById("heroName");
+    heroName.oninput = function () { saveBtnActive(); }
+
+    setElements();
+    
+    function setElements(){
+        $("#saveBtn").attr("disabled", true);
+    }
+
+    function saveBtnActive() {
+        if (heroName.value == "") {
+            $("#saveBtn").attr("disabled", true);           
+        }
+
+        else if (heroName.checkValidity()) {
+            $("#saveBtn").attr("disabled", false);            
+        }
+        else {
+            $("#saveBtn").attr("disabled", true);
+        }
+    } // saveBtnActive()
+
+
+</script>
