@@ -34,25 +34,25 @@
                     </div>
 
                     <div class="text-center btn-group-toggle">
-                        <label class="btn btn-outline-info">
+                        <label class="btn btn-outline-info" data-tooltip="Wpływa na zadawane obrażenia i punkty życia">
                             <input type="radio" name="selectedStrength" data-attribute="strength" checked onclick="radioSelection(this)"/> Siła
                         </label>
-                        <label class="btn btn-outline-info">
+                        <label class="btn btn-outline-info" data-tooltip="Wpływa na punkty życia i odporność na obrażenia fizyczne">
                             <input type="radio" name="selectedStrength" data-attribute="endurance" onclick="radioSelection(this)"/> Wytrzymałość
                         </label>
                     </div>
 
                     <div class="text-center  btn-group-toggle mt-2 mb-2">
-                        <label class="btn btn-outline-info">
+                        <label class="btn btn-outline-info" data-tooltip="Wpływa na ilość many i odporność na obrażenia magiczne">
                             <input type="radio" name="selectedStrength" data-attribute="willpower" onclick="radioSelection(this)"/> Siła Woli
                         </label>
-                        <label class="btn btn-outline-info">
+                        <label class="btn btn-outline-info" data-tooltip="Wpływa na punkty akcji i inicjatywy">
                             <input type="radio" name="selectedStrength" data-attribute="speed" onclick="radioSelection(this)"/> Szybkość
                         </label>
                     </div>
 
                     <div class="text-center  btn-group-toggle">
-                        <label class="btn btn-outline-info">
+                        <label class="btn btn-outline-info" data-tooltip="Wpływa na szansę uniku i inicjatywę">
                             <input type="radio" name="selectedStrength" data-attribute="agility" onclick="radioSelection(this)"/> Zręczność
                         </label>                        
                     </div>
@@ -64,24 +64,24 @@
                     </div>
 
                     <div class="text-center btn-group-toggle">
-                        <label class="btn btn-outline-info">
+                        <label class="btn btn-outline-info" data-tooltip="Wpływa na zadawane obrażenia i punkty życia">
                             <input type="radio" name="selectedWeakness" data-attribute="strength" onclick="radioSelection(this)"/> Siła
                         </label>
-                        <label class="btn btn-outline-info">
+                        <label class="btn btn-outline-info"  data-tooltip="Wpływa na punkty życia i odporność na obrażenia fizyczne">
                             <input type="radio" name="selectedWeakness" data-attribute="endurance" onclick="radioSelection(this)"/> Wytrzymałość
                         </label>
                     </div>
 
                     <div class="text-center  btn-group-toggle  mt-2 mb-2">
-                        <label class="btn btn-outline-info">
+                        <label class="btn btn-outline-info" data-tooltip="Wpływa na ilość many i odporność na obrażenia magiczne">
                             <input type="radio" name="selectedWeakness" data-attribute="willpower" checked onclick="radioSelection(this)"/> Siła Woli
                         </label>
-                        <label class="btn btn-outline-info">
+                        <label class="btn btn-outline-info" data-tooltip="Wpływa na punkty akcji i inicjatywy">
                             <input type="radio" name="selectedWeakness" data-attribute="speed" onclick="radioSelection(this)"/> Szybkość
                         </label>
                     </div>
 
-                    <div class="text-center  btn-group-toggle">
+                    <div class="text-center  btn-group-toggle" data-tooltip="Wpływa na szansę uniku i inicjatywę">
                         <label class="btn btn-outline-info">
                             <input type="radio" name="selectedWeakness" data-attribute="agility" onclick="radioSelection(this)"/> Zręczność
                         </label>
@@ -97,14 +97,14 @@
                     </div>
 
                     <div class="text-center btn-group-toggle">
-                        <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeapon" data-tooltip="Częściej atakuje i łatwiej trafić, ale mniejsze obrażenia" onchange="radioSelection(this)"/> Lekką
+                        <label class="btn btn-outline-info" data-tooltip="Częściej atakuje i łatwiej trafić, ale mniejsze obrażenia" >
+                            <input type="radio" name="selectedWeapon" onchange="radioSelection(this)"/> Lekką
                         </label>
-                        <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeapon" checked data-tooltip="Przeciętna szansa na trafienie i obrażenia" onchange="radioSelection(this)"/> Zbalansowaną
+                        <label class="btn btn-outline-info" data-tooltip="Przeciętna szansa na trafienie i obrażenia" >
+                            <input type="radio" name="selectedWeapon" checked onchange="radioSelection(this)"/> Zbalansowaną
                         </label>
-                        <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeapon" data-tooltip="Rzadziej atakuje i trudniej trafić, ale większe obrażenia" onchange="radioSelection(this)"/> Ciężką
+                        <label class="btn btn-outline-info" data-tooltip="Rzadziej atakuje i trudniej trafić, ale większe obrażenia" >
+                            <input type="radio" name="selectedWeapon" onchange="radioSelection(this)"/> Ciężką
                         </label>                       
                     </div>
                 </div>
