@@ -7,6 +7,6 @@ namespace LastTemple.Engine
 {
 	public class GameplayManager
 	{
-		
+		 
 	}
 }
