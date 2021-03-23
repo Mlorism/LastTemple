@@ -35,25 +35,25 @@
 
                     <div class="text-center btn-group-toggle">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" checked onchange="radioSelection(this)"/> Siła
+                            <input type="radio" name="selectedStrength" data-attribute="strength" checked onclick="radioSelection(this)"/> Siła
                         </label>
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" onchange="radioSelection(this)"/> Wytrzymałość
+                            <input type="radio" name="selectedStrength" data-attribute="endurance" onclick="radioSelection(this)"/> Wytrzymałość
                         </label>
                     </div>
 
                     <div class="text-center  btn-group-toggle mt-2 mb-2">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" onchange="radioSelection(this)"/> Siła Woli
+                            <input type="radio" name="selectedStrength" data-attribute="willpower" onclick="radioSelection(this)"/> Siła Woli
                         </label>
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" onchange="radioSelection(this)"/> Szybkość
+                            <input type="radio" name="selectedStrength" data-attribute="speed" onclick="radioSelection(this)"/> Szybkość
                         </label>
                     </div>
 
                     <div class="text-center  btn-group-toggle">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedStrength" onchange="radioSelection(this)"/> Zręczność
+                            <input type="radio" name="selectedStrength" data-attribute="agility" onclick="radioSelection(this)"/> Zręczność
                         </label>                        
                     </div>
                 </div>
@@ -65,25 +65,25 @@
 
                     <div class="text-center btn-group-toggle">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" onchange="radioSelection(this)"/> Siła
+                            <input type="radio" name="selectedWeakness" data-attribute="strength" onclick="radioSelection(this)"/> Siła
                         </label>
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" onchange="radioSelection(this)"/> Wytrzymałość
+                            <input type="radio" name="selectedWeakness" data-attribute="endurance" onclick="radioSelection(this)"/> Wytrzymałość
                         </label>
                     </div>
 
                     <div class="text-center  btn-group-toggle  mt-2 mb-2">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" checked onchange="radioSelection(this)"/> Siła Woli
+                            <input type="radio" name="selectedWeakness" data-attribute="willpower" checked onclick="radioSelection(this)"/> Siła Woli
                         </label>
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" onchange="radioSelection(this)"/> Szybkość
+                            <input type="radio" name="selectedWeakness" data-attribute="speed" onclick="radioSelection(this)"/> Szybkość
                         </label>
                     </div>
 
                     <div class="text-center  btn-group-toggle">
                         <label class="btn btn-outline-info">
-                            <input type="radio" name="selectedWeakness" onchange="radioSelection(this)"/> Zręczność
+                            <input type="radio" name="selectedWeakness" data-attribute="agility" onclick="radioSelection(this)"/> Zręczność
                         </label>
                     </div>
                 </div>
@@ -122,8 +122,7 @@
 
 <script type="text/javascript">
 
-    let heroName = document.getElementById("heroName");
-    
+    let heroName = document.getElementById("heroName");    
 
     heroName.oninput = function () { saveBtnActive(); }
 
@@ -144,7 +143,7 @@
         }
         else {
             $("#saveBtn").attr("disabled", true);
-        }
+        }        
     } // saveBtnActive()
 
     function setSelectedButtons() {
@@ -200,6 +199,28 @@
 
     function radioSelection(element) {
         let buttons = document.getElementsByName(element.name);
+       
+        let elementGroupName = element.name;
+        let secondGroupName; 
+        let secondGroup; 
+
+        if (elementGroupName == "selectedStrength") {
+            secondGroupName = "selectedWeakness";
+        }
+
+        else {
+            secondGroupName = "selectedStrength";
+        }
+        
+        secondGroup = document.getElementsByName(secondGroupName);
+        
+        for (i = 0; i < secondGroup.length; i++) {
+            
+            if (secondGroup[i].dataset.attribute == element.dataset.attribute) {                
+                if (secondGroup[i].checked == true)                    
+                    return false;
+            }
+        }
 
         for (i = 0; i < buttons.length; i++) {
             if (buttons[i].checked) {
