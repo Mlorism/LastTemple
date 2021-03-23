@@ -9,12 +9,20 @@ namespace LastTemple.Pages.Gameplay
 {
 	public class CharacterCreation : PageModel
 	{
+		[BindProperty]		
 		public string Name { get; set; }
+		[BindProperty]
+		public int selectedStrength { get; set; }
+		[BindProperty]
+		public int selectedWeakness { get; set; }
+		[BindProperty]
+		public int selectedWeapon { get; set; }
 		public void OnGet()
 		{
+
 		}
 
-		public IActionResult OnPostName()
+		public IActionResult OnPostCreateHero()
 		{
 			return RedirectToPage("CharacterCreation");
 		}
