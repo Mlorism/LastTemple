@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LastTemple.Engine;
+using LastTemple.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,6 +11,12 @@ namespace LastTemple.Pages.Gameplay
 {
 	public class CharacterCreation : PageModel
 	{
+		private readonly ApplicationDbContext _ctx;
+		public CharacterCreation(ApplicationDbContext ctx)
+		{
+			_ctx = ctx;
+		}
+
 		[BindProperty]		
 		public string Name { get; set; }
 		[BindProperty]
@@ -24,6 +32,7 @@ namespace LastTemple.Pages.Gameplay
 
 		public IActionResult OnPostCreateHero()
 		{
+			HeroCreation.Create(Name, selectedStrength, selectedWeakness, selectedWeapon, _ctx);
 			return RedirectToPage("CharacterCreation");
 		}
 	}
