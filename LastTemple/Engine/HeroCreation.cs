@@ -1,4 +1,6 @@
-﻿using LastTemple.Models;
+﻿using LastTemple.CRUD;
+using LastTemple.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,8 @@ namespace LastTemple.Engine
 		private static ApplicationDbContext _ctx;
 		public static void Create(string name, int strenght, int weakness, int weapon, ApplicationDbContext ctx)
 		{
+			_ctx = ctx;
+
 			Creature Hero = new Creature
 			{
 				Name = name,
@@ -24,7 +28,7 @@ namespace LastTemple.Engine
 				Speed = 8,
 				Agility = 8,
 				Weapon = new Weapon(),
-				Armor = new Armor(),
+				Armor = _ctx.Armors.FirstOrDefault(x => x.Id == 29),
 				MagicBook = new List<Spell>(),
 				Items = new List<CreatureItem>()
 			};
@@ -70,24 +74,42 @@ namespace LastTemple.Engine
 			switch (weapon)
 			{
 				case 0:
-					Hero.Weapon = _ctx.Weapons.FirstOrDefault(x => x.Id == 0); // ??
+					Hero.Weapon = _ctx.Weapons.FirstOrDefault(x => x.Id == 5); 
 					break;
 				case 1:
-					Hero.Weapon = _ctx.Weapons.FirstOrDefault(x => x.Id == 0); // ??
+					Hero.Weapon = _ctx.Weapons.FirstOrDefault(x => x.Id == 39);
 					break;
 				case 2:
-					Hero.Weapon = _ctx.Weapons.FirstOrDefault(x => x.Id == 0); // ??
+					Hero.Weapon = _ctx.Weapons.FirstOrDefault(x => x.Id == 12);
 					break;
 			}
+						
 
+			Hero.MagicBook.Add(_ctx.Spells.First(x => x.Id == 1));
+			Hero.MagicBook.Add(_ctx.Spells.First(x => x.Id == 2));
 
-			// add spells
-			// add items
-			// calculateCreature 
-			// add to database
+			_ctx.Creatures.Add(Hero);
+			_ctx.SaveChanges();
+
+			Hero = _ctx.Creatures.Include(x => x.Items).OrderBy(x => x.Id).LastOrDefault();
+			Item item = _ctx.Items.FirstOrDefault(x => x.Id == 1);
+
+			Hero.Items.Add(new CreatureItem
+			{
+				CreatureId = Hero.Id,
+				ItemId = item.Id,
+				Qty = 3,
+
+				Creature = Hero,
+				Item = item
+			}); 
+
+			_ctx.SaveChanges();
+
+			CalculateCreature.DerivedStatistics(Hero, _ctx);		
 
 			BattleStatus.AssignHero(Hero.Id, _ctx);
 
-		} // Create
+		} // Create()
 	}
 }

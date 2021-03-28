@@ -35,8 +35,7 @@ namespace LastTemple.Pages.Create
 		public IEnumerable<Armor> Armors { get; set; }
 		public IEnumerable<Item> Items { get; set; }
 		public IEnumerable<Spell> Spells { get; set; }
-
-		
+				
 		public void OnGet()
 		{
 			Creature = new Creature{
