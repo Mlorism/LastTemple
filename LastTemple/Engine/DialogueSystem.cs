@@ -1,6 +1,8 @@
 ﻿using LastTemple.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,11 +47,20 @@ namespace LastTemple.Engine
 		} // GetSubDialogue()
 
 		public static List<Dialogue> GetDialogues()
-		{
+		{		
+
 			if (Dialogues == null)
-			{
-				Dialogues = new List<Dialogue>();
-				CreateSampleDialog();
+			{			
+				if (File.Exists(@".\wwwroot\data\dialogues.json"))
+				{
+					Dialogues = JsonConvert.DeserializeObject<List<Dialogue>>(File.ReadAllText(@".\wwwroot\data\dialogues.json"));
+				}
+
+				else
+				{
+					Dialogues = new List<Dialogue>();
+					CreateSampleDialog();
+				}
 			}
 
 			return Dialogues;
@@ -386,14 +397,9 @@ namespace LastTemple.Engine
 				}
 			}
 
+			File.WriteAllText(@".\wwwroot\data\dialogues.json", JsonConvert.SerializeObject(Dialogues));
+
 		} // SaveChanges()
-
-
-
-
-
-
-
 
 		public static void CreateSampleDialog()
 		{
