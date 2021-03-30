@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace LastTemple.Engine
 {
-	public class GameplayManager
+	public static class GameplayManager
 	{
 		 
+
+
+
 	}
 }
