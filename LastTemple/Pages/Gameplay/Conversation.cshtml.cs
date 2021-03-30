@@ -11,26 +11,26 @@ namespace LastTemple.Pages.Gameplay
 {
 	public class ConversationModel : PageModel
 	{
+		private readonly ApplicationDbContext _ctx;
+		public ConversationModel(ApplicationDbContext ctx)
+		{
+			_ctx = ctx;
+		}
 		public Dialogue Dialogue { get; set; }		
 		public int SubDialogueId { get; set; }
 
 		public void OnGet()
-		{
-			//DialogueSystem.DialogueId();
-			//Dialogue = DialogueSystem.GetDialogue();
-			//SubDialogueId = DialogueSystem.SubDialogueId;
+		{			
+			Dialogue = DialogueSystem.GetDialogue(DialogueSystem.DialogueId);
+			SubDialogueId = DialogueSystem.SubDialogueId;
 		}
 
 		public IActionResult OnPostOption(int id)
 		{
-			//DialogueSystem.SetSubDialogue(id);
+			DialogueSystem.SetSubDialogue(id, _ctx);
 
-			return RedirectToPage("Conversation");
+			return RedirectToPage(GameplayManager.GetPhase());
 		}
 		
-
-
-
-
 	}
 }

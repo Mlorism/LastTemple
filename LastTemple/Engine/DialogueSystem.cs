@@ -14,14 +14,27 @@ namespace LastTemple.Engine
 		public static int SubDialogueId { get; set; } = -1;
 		public static List<Dialogue> Dialogues { get; set; }
 
-		public static Dialogue GetDialogue(int dialogueId)
+		public static void PrepareDialogues()
 		{
 			if (Dialogues == null)
 			{
-				Dialogues = new List<Dialogue>();
-				CreateSampleDialog();
+				if (File.Exists(@".\wwwroot\data\dialogues.json"))
+				{
+					Dialogues = JsonConvert.DeserializeObject<List<Dialogue>>(File.ReadAllText(@".\wwwroot\data\dialogues.json"));
+				}
+
+				else
+				{
+					Dialogues = new List<Dialogue>();
+					CreateSampleDialog();
+				}
 			}
-			
+		} // PrepareDialogues()
+
+		public static Dialogue GetDialogue(int dialogueId)
+		{
+			PrepareDialogues();
+
 			Dialogue selectedDialogue = Dialogues.FirstOrDefault(x => x.Id == dialogueId);
 
 			if (selectedDialogue != null)
@@ -47,25 +60,32 @@ namespace LastTemple.Engine
 		} // GetSubDialogue()
 
 		public static List<Dialogue> GetDialogues()
-		{		
-
-			if (Dialogues == null)
-			{			
-				if (File.Exists(@".\wwwroot\data\dialogues.json"))
-				{
-					Dialogues = JsonConvert.DeserializeObject<List<Dialogue>>(File.ReadAllText(@".\wwwroot\data\dialogues.json"));
-				}
-
-				else
-				{
-					Dialogues = new List<Dialogue>();
-					CreateSampleDialog();
-				}
-			}
+		{
+			PrepareDialogues();
 
 			return Dialogues;
 		}
 
+		public static void SetSubDialogue(int id, ApplicationDbContext ctx)
+		{
+			Dialogue selectedDialogue = Dialogues.SingleOrDefault(x => x.Id == DialogueId);
+
+			if (selectedDialogue != null)
+			{
+				if (selectedDialogue.SubDialogues.Count <= id)
+				{
+					GameplayManager.NextStep();
+					GameplayManager.UpdateStatus(ctx);
+				}
+
+				else
+				{
+					SubDialogueId = id;
+				}
+			}
+
+			
+		} // SetSubDialogue()
 		public static void ChooseDialogue(int id)
 		{
 			DialogueId = id;
@@ -159,7 +179,9 @@ namespace LastTemple.Engine
 					OptionDestinationId = 0
 				});
 
-				selectedDialogue.SubDialogues.Add(createdSubDialogue);			
+				selectedDialogue.SubDialogues.Add(createdSubDialogue);
+
+				SubDialogueId = (selectedDialogue.SubDialogues.Count() - 1);
 			}
 		} // CreateSubDialogue()
 

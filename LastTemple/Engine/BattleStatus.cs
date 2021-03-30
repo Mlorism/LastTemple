@@ -79,14 +79,15 @@ namespace LastTemple.Engine
 		{
 			if (Status == false)
 			{
-				random = new Random();
+				random = new Random();				
 				OrderOfBattle();
-				BattleLog = new List<string>();
-				Status = true;
+				BattleLog = new List<string>();				
 				combatantsCount = Combatants.Count();
 				combatantTurn = 0;
 				var first = Combatants.First();
 				AddToLog(new string($"Walka rozpoczęta, jako pierwszy uderza {first.Name}"));
+
+				Status = true;
 			}
 
 			BattleTurn();	 

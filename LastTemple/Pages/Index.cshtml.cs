@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LastTemple.Engine;
+using LastTemple.Enumerators;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,16 +12,11 @@ namespace LastTemple.Pages
 {
 	public class IndexModel : PageModel
 	{
-		private readonly ILogger<IndexModel> _logger;
-
-		public IndexModel(ILogger<IndexModel> logger)
-		{
-			_logger = logger;
-		}
-
+		public GamePhase Phase { get; set; }
+		
 		public void OnGet()
 		{
-
+			Phase = GameplayManager.Phase;
 		}
 	}
 }

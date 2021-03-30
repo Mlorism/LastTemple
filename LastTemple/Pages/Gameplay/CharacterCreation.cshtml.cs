@@ -33,7 +33,10 @@ namespace LastTemple.Pages.Gameplay
 		public IActionResult OnPostCreateHero()
 		{
 			HeroCreation.Create(Name, selectedStrength, selectedWeakness, selectedWeapon, _ctx);
-			return RedirectToPage("CharacterCreation");
+
+			GameplayManager.UpdateStatus(_ctx);
+
+			return RedirectToPage(GameplayManager.GetPhase());
 		}
 	}
 }

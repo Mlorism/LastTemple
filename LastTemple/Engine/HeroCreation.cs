@@ -82,8 +82,8 @@ namespace LastTemple.Engine
 				case 2:
 					Hero.Weapon = _ctx.Weapons.FirstOrDefault(x => x.Id == 12);
 					break;
-			}
-						
+			} // switch (weapon)
+
 
 			Hero.MagicBook.Add(_ctx.Spells.First(x => x.Id == 1));
 			Hero.MagicBook.Add(_ctx.Spells.First(x => x.Id == 2));
