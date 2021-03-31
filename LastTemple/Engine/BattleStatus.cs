@@ -451,55 +451,104 @@ namespace LastTemple.Engine
 					AddToLog(new string($"{Hero.Name} rozgromił wszystkich przeciwników, których resztki leżą rozrzucone na ziemii. Walka skończona."));
 					AddToLog(new string($"{Hero.Name} Zyskuje {experience} punktów doświadczenia."));
 
-					CheckLevel();										
+					CheckLevel(ctx);										
 				}
 				
 			}
 		} // VerifyStatus()
 
-		public static void CheckLevel()
+		public static void CheckLevel(ApplicationDbContext ctx)
 		{
 			switch (Hero.Experience)
 			{
 				case int n when (n >= 50 && n < 150):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 1."));
-				Hero.Level = 1;
+					if (Hero.Level != 1)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 1."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 1;
+					}				
 				break;
+
 				case int n when (n >= 150 && n < 350):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 2."));
-				Hero.Level = 2;
+					if (Hero.Level != 2)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 2."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 2;
+					}	
 				break;
+
 				case int n when (n >= 350 && n < 750):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 3."));
-				Hero.Level = 3;
+					if (Hero.Level != 3)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 3."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 3;
+					}	
 				break;
+
 				case int n when (n >= 750 && n < 1550):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 4."));
-				Hero.Level = 4;
+					if (Hero.Level != 4)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 4."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 4;
+					}	
 				break;
+
 				case int n when (n >= 1550 && n < 3150):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 5."));
-				Hero.Level = 5;
+					if (Hero.Level != 5)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 5."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 5;
+					}	
 				break;
+
 				case int n when (n >= 3150 && n < 6350):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 6."));
-				Hero.Level = 6;
+					if (Hero.Level != 6)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 6."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 6;
+					}
 				break;
+
 				case int n when (n >= 6350 && n < 12750):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 7."));
-				Hero.Level = 7;
+					if (Hero.Level != 7)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 7."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 7;
+					}
 				break;
+
 				case int n when (n >= 12750 && n < 25500):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 8."));
-				Hero.Level = 8;
+					if (Hero.Level != 8)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 8."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 8;
+					}	
 				break;
+
 				case int n when (n >= 25500 && n < 51150):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 9."));
-				Hero.Level = 9;
+					if (Hero.Level != 9)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 9."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 9;
+					}
 				break;
+
 				case int n when (n >= 51150):
-				AddToLog(new string($"{Hero.Name} osiąga poziom 10"));
-				Hero.Level = 10;
+					if (Hero.Level != 10)
+					{
+						AddToLog(new string($"{Hero.Name} osiąga poziom 10."));
+						CalculateCreature.DerivedStatistics(Hero, ctx);
+						Hero.Level = 10;
+					}
 				break;				
 			}
 		} // CheckLevel()
