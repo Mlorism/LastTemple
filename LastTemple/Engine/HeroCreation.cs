@@ -20,7 +20,7 @@ namespace LastTemple.Engine
 				Name = name,
 				Type = Enumerators.CreatureTypeEnum.Hero,
 				Level = 0,
-				Experience = 0,
+				Experience = 10,
 				Alive = true,
 				Strength = 8,
 				Endurance = 8,

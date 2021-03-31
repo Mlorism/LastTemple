@@ -72,11 +72,20 @@ namespace LastTemple.Engine
 
 			Combatants.Add(Hero);
 			Combatants.AddRange(Enemies);
+
+			foreach (var fighter in Combatants)
+			{
+				if (fighter.Alive == false)
+				{
+					Combatants.Remove(fighter);
+				}
+			}
+
 			Combatants.OrderBy(x => x.Initiative);
 
 			for (int i = 0; i < Combatants.Count; i++)
-			{
-				Combatants[i].Id = i;				
+			{				
+				Combatants[i].Id = i;
 			}
 		} // OrderOfBattle()
 
@@ -420,7 +429,9 @@ namespace LastTemple.Engine
 
 			if (Hero.Alive == false)
 			{
-				AddToLog(new string($"To koniec podróży. Oczy {Hero.Name} już na zawsze pozostaną zamknięte. Inni zostaną wysłani, ale czy ktokolwiek odniesie sukces?"));				
+				AddToLog(new string($"To koniec podróży. Oczy {Hero.Name} już na zawsze pozostaną zamknięte. Inni zostaną wysłani, ale czy ktokolwiek odniesie sukces?"));
+				GameplayManager.Phase = Enumerators.GamePhase.CharacterCreation;
+				GameplayManager.Step = 0;
 			}
 
 			else
@@ -435,13 +446,66 @@ namespace LastTemple.Engine
 					}
 				}
 
-				if(Enemies.Count == deadCount)
+				if (Enemies.Count == deadCount)
 				{
+					int experience = 0;
+
+					foreach(var creature in Enemies)
+					{
+						experience += creature.Experience;
+					}
+
+					Hero.Experience += experience;
+
+					CheckLevel();
+
 					AddToLog(new string($"{Hero.Name} rozgromił wszystkich przeciwników, których resztki leżą rozrzucone na ziemii. Walka skończona."));
+					AddToLog(new string($"{Hero.Name} Zyskuje {experience} punktów doświadczenia."));
 				}
 				
 			}
 		} // VerifyStatus()
+
+		public static void CheckLevel()
+		{
+			switch (Hero.Experience)
+			{
+				case int n when (n >= 50 && n < 150):
+				Hero.Level = 1;
+				break;
+				case int n when (n >= 150 && n < 350):
+				Hero.Level = 2;
+				break;
+				case int n when (n >= 350 && n < 750):
+				Hero.Level = 3;
+				break;
+				case int n when (n >= 750 && n < 1550):
+				Hero.Level = 4;
+				break;
+				case int n when (n >= 1550 && n < 3150):
+				Hero.Level = 5;
+				break;
+				case int n when (n >= 3150 && n < 6350):
+				Hero.Level = 6;
+				break;
+				case int n when (n >= 6350 && n < 12750):
+				Hero.Level = 7;
+				break;
+				case int n when (n >= 12750 && n < 25500):
+				Hero.Level = 8;
+				break;
+				case int n when (n >= 25500 && n < 51150):
+				Hero.Level = 9;
+				break;
+				case int n when (n >= 51150):
+				Hero.Level = 10;
+				break;
+				default:
+				Hero.Level = 0;
+				break;
+			}
+		} // CheckLevel()
+
 
 		public static void BattleTurn()
 		{	

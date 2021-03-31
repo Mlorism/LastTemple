@@ -76,7 +76,7 @@ namespace LastTemple.Pages.Gameplay
 		public IActionResult OnPostEndTurn()
 		{
 			BattleStatus.EndTurn();
-			return RedirectToPage("BattleField");
+			return RedirectToPage(GameplayManager.GetPhase());
 		}
 
 		public IActionResult OnPostEscape()

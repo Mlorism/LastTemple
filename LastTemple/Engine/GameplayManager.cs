@@ -28,24 +28,31 @@ namespace LastTemple.Engine
 				case 0:
 					DialogueSystem.PrepareDialogues();
 					DialogueSystem.ChooseDialogue(0);
+
 					Phase = GamePhase.Conversation;
 					break;
 
 				case 1:
 					BattleStatus.AddEnemy(1039, ctx);
-					BattleStatus.AddEnemy(1039, ctx);					
-
+					BattleStatus.AddEnemy(1039, ctx);
 					BattleStatus.PrepareBattle();
+
 					Phase = GamePhase.BattleField;
 					break;
 
 				case 2:
+					BattleStatus.AddEnemy(1039, ctx);
+					BattleStatus.AddEnemy(1039, ctx);
+					BattleStatus.AddEnemy(1039, ctx);
+					BattleStatus.PrepareBattle();
 
 					Phase = GamePhase.BattleField;
 					break;
 
 				case 3:
+					DialogueSystem.ChooseDialogue(1);
 
+					Phase = GamePhase.Conversation;
 					break;
 
 				case 4:
@@ -57,6 +64,42 @@ namespace LastTemple.Engine
 					break;
 
 				case 6:
+
+					break;
+
+				case 7:
+
+					break;
+
+				case 8:
+
+					break;
+
+				case 9:
+
+					break;
+
+				case 10:
+
+					break;
+
+				case 11:
+
+					break;
+
+				case 12:
+
+					break;
+
+				case 13:
+
+					break;
+
+				case 14:
+
+					break;
+
+				case 15:
 
 					break;
 			} // switch()
