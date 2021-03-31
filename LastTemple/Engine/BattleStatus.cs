@@ -1,6 +1,7 @@
 ﻿using LastTemple.CRUD;
 using LastTemple.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,10 @@ namespace LastTemple.Engine
 			if (enemy == null) return false;
 
 			if (Enemies == null) Enemies = new List<Creature>();
+
+			var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
+
+			enemy = JsonConvert.DeserializeObject<Creature>(JsonConvert.SerializeObject(enemy), deserializeSettings);
 
 			Enemies.Add(enemy);
 
