@@ -31,14 +31,14 @@ namespace LastTemple.Pages.Gameplay
 
 		public void OnGet()
 		{
-			BattleStatus.PrepareBattle(); 
+			BattleStatus.PrepareBattle(_ctx); 
 			Hero = BattleStatus.Hero;
 			Enemies = BattleStatus.Enemies;
 			BattleLog = BattleStatus.BattleLog;
 		}
 		public IActionResult OnPostAttack(int attackerId, int attackType)
 		{
-			BattleStatus.Attack(attackerId, attackType, SelectedEnemy);			
+			BattleStatus.Attack(attackerId, attackType, SelectedEnemy, _ctx);			
 
 			return RedirectToPage("BattleField");
 		}
@@ -75,7 +75,7 @@ namespace LastTemple.Pages.Gameplay
 
 		public IActionResult OnPostEndTurn()
 		{
-			BattleStatus.EndTurn();
+			BattleStatus.EndTurn(_ctx);
 			return RedirectToPage(GameplayManager.GetPhase());
 		}
 

@@ -35,32 +35,34 @@ namespace LastTemple.Engine
 				case 1:
 					BattleStatus.AddEnemy(1039, ctx);
 					BattleStatus.AddEnemy(1039, ctx);
-					BattleStatus.PrepareBattle();
+					BattleStatus.PrepareBattle(ctx);
 
 					Phase = GamePhase.BattleField;
 					break;
 
 				case 2:
-					BattleStatus.AddEnemy(1039, ctx);
-					BattleStatus.AddEnemy(1039, ctx);
-					BattleStatus.AddEnemy(1039, ctx);
-					BattleStatus.PrepareBattle();
-
-					Phase = GamePhase.BattleField;
-					break;
-
-				case 3:
 					DialogueSystem.ChooseDialogue(1);
 
 					Phase = GamePhase.Conversation;
 					break;
 
-				case 4:
+				case 3:
+					BattleStatus.AddEnemy(1039, ctx);
+					BattleStatus.AddEnemy(1039, ctx); // zmiana na grubego szczura?
+					BattleStatus.AddEnemy(1039, ctx);
+					BattleStatus.PrepareBattle(ctx);
 
+					Phase = GamePhase.BattleField;
+					break;
+
+				case 4:
+					DialogueSystem.ChooseDialogue(2);
+
+					Phase = GamePhase.Conversation;
 					break;
 
 				case 5:
-
+					Phase = GamePhase.Map;
 					break;
 
 				case 6:

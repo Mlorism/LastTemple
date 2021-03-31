@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 namespace LastTemple.Engine
 {
 	public static class BattleStatus
-	{
-		private static ApplicationDbContext _ctx; 
+	{		
 		public static Creature Hero { get; set; }
 		public static List<Creature> Enemies { get; set; }
 		public static List<Creature> Combatants { get; set; }
@@ -19,15 +18,14 @@ namespace LastTemple.Engine
 
 		static int combatantsCount;
 		static int combatantTurn;
+		static int deadCount;
 
 		static Random random;		
 		public static bool Status { get; set; } // after the battle should be set to false
 
 		public static bool AssignHero(int heroId, ApplicationDbContext ctx)
-		{
-			_ctx = ctx;
-
-			Hero = new GetCreature(_ctx).Get(heroId);
+		{		
+			Hero = new GetCreature(ctx).Get(heroId);
 
 			if (Hero == null) return false;			
 
@@ -35,10 +33,8 @@ namespace LastTemple.Engine
 		}
 
 		public static bool AddEnemy(int enemyId, ApplicationDbContext ctx)
-		{
-			_ctx = ctx;
-
-			Creature enemy = new GetCreature(_ctx).Get(enemyId);
+		{			
+			Creature enemy = new GetCreature(ctx).Get(enemyId);
 
 			if (enemy == null) return false;
 
@@ -55,8 +51,6 @@ namespace LastTemple.Engine
 
 		public static bool DeleteEnemy(int enemyId, ApplicationDbContext ctx)
 		{
-			_ctx = ctx;
-
 			Creature enemy = Enemies.FirstOrDefault(x => x.Id == enemyId);		
 
 			if (enemy == null) return false;			
@@ -71,15 +65,7 @@ namespace LastTemple.Engine
 			Combatants = new List<Creature>();
 
 			Combatants.Add(Hero);
-			Combatants.AddRange(Enemies);
-
-			foreach (var fighter in Combatants)
-			{
-				if (fighter.Alive == false)
-				{
-					Combatants.Remove(fighter);
-				}
-			}
+			Combatants.AddRange(Enemies);			
 
 			Combatants.OrderBy(x => x.Initiative);
 
@@ -89,7 +75,7 @@ namespace LastTemple.Engine
 			}
 		} // OrderOfBattle()
 
-		public static void PrepareBattle()
+		public static void PrepareBattle(ApplicationDbContext ctx)
 		{
 			if (Status == false)
 			{
@@ -100,11 +86,11 @@ namespace LastTemple.Engine
 				combatantTurn = 0;
 				var first = Combatants.First();
 				AddToLog(new string($"Walka rozpoczęta, jako pierwszy uderza {first.Name}"));
-
+				deadCount = 0;
 				Status = true;
 			}
 
-			BattleTurn();	 
+			BattleTurn(ctx);	 
 		} // PrepareBattle()
 
 		public static void AddToLog(string text)
@@ -112,7 +98,7 @@ namespace LastTemple.Engine
 			BattleLog.Add(text);
 		} // AddToLog()
 
-		public static void Attack(int attackerId, int attackType, int targetId)
+		public static void Attack(int attackerId, int attackType, int targetId, ApplicationDbContext ctx)
 		{
 			//attackType 0 - fast, 1 - normal, 2 - strong
 
@@ -272,7 +258,7 @@ namespace LastTemple.Engine
 					AddToLog(new string($"{attacker.Name} trafia {target.Name} zadając {realMDMG} magicznych puntków obrażeń."));
 				}	
 								
-				VerifyStatus(targetId);
+				VerifyStatus(targetId, ctx);
 			} // HitSucces true
 			#endregion 
 		} // Attack()
@@ -322,11 +308,9 @@ namespace LastTemple.Engine
 
 		public static void CastSpell(int userId, int targetId, int spellId, ApplicationDbContext ctx)
 		{
-			_ctx = ctx;
-
 			Creature user = Combatants.SingleOrDefault(x => x.Id == userId);
 			Creature target;
-			Spell spell = new GetSpell(_ctx).Get(spellId);
+			Spell spell = new GetSpell(ctx).Get(spellId);
 
 			user.Mana -= spell.ManaCost;
 			user.ActionPoints -= spell.ActionCost;
@@ -393,14 +377,20 @@ namespace LastTemple.Engine
 					}
 				}				
 
-				VerifyStatus(targetId);
-			}			
-
-
+				VerifyStatus(targetId, ctx);
+			}
 		} // CastSpell()
 
-		public static void EndTurn()
+		public static void EndTurn(ApplicationDbContext ctx)
 		{
+			if (Enemies.Count == deadCount)
+			{
+				GameplayManager.NextStep();
+				GameplayManager.UpdateStatus(ctx);
+				Status = false;
+				Enemies = new List<Creature>();
+			}
+
 			foreach (var item in Combatants)
 			{
 				item.ActionPoints = item.MaxAP;
@@ -411,7 +401,7 @@ namespace LastTemple.Engine
 			AddToLog("---");
 		} // EndTurn()
 
-		public static void VerifyStatus(int targetId)
+		public static void VerifyStatus(int targetId, ApplicationDbContext ctx)
 		{
 			Creature target = Combatants.FirstOrDefault(x => x.Id == targetId);
 
@@ -432,11 +422,12 @@ namespace LastTemple.Engine
 				AddToLog(new string($"To koniec podróży. Oczy {Hero.Name} już na zawsze pozostaną zamknięte. Inni zostaną wysłani, ale czy ktokolwiek odniesie sukces?"));
 				GameplayManager.Phase = Enumerators.GamePhase.CharacterCreation;
 				GameplayManager.Step = 0;
+				Status = false;
 			}
 
 			else
 			{
-				int deadCount = 0;
+				deadCount = 0;
 
 				foreach (var creature in Enemies)
 				{
@@ -455,12 +446,12 @@ namespace LastTemple.Engine
 						experience += creature.Experience;
 					}
 
-					Hero.Experience += experience;
-
-					CheckLevel();
+					Hero.Experience += experience;					
 
 					AddToLog(new string($"{Hero.Name} rozgromił wszystkich przeciwników, których resztki leżą rozrzucone na ziemii. Walka skończona."));
 					AddToLog(new string($"{Hero.Name} Zyskuje {experience} punktów doświadczenia."));
+
+					CheckLevel();										
 				}
 				
 			}
@@ -471,43 +462,49 @@ namespace LastTemple.Engine
 			switch (Hero.Experience)
 			{
 				case int n when (n >= 50 && n < 150):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 1."));
 				Hero.Level = 1;
 				break;
 				case int n when (n >= 150 && n < 350):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 2."));
 				Hero.Level = 2;
 				break;
 				case int n when (n >= 350 && n < 750):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 3."));
 				Hero.Level = 3;
 				break;
 				case int n when (n >= 750 && n < 1550):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 4."));
 				Hero.Level = 4;
 				break;
 				case int n when (n >= 1550 && n < 3150):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 5."));
 				Hero.Level = 5;
 				break;
 				case int n when (n >= 3150 && n < 6350):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 6."));
 				Hero.Level = 6;
 				break;
 				case int n when (n >= 6350 && n < 12750):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 7."));
 				Hero.Level = 7;
 				break;
 				case int n when (n >= 12750 && n < 25500):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 8."));
 				Hero.Level = 8;
 				break;
 				case int n when (n >= 25500 && n < 51150):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 9."));
 				Hero.Level = 9;
 				break;
 				case int n when (n >= 51150):
+				AddToLog(new string($"{Hero.Name} osiąga poziom 10"));
 				Hero.Level = 10;
-				break;
-				default:
-				Hero.Level = 0;
-				break;
+				break;				
 			}
 		} // CheckLevel()
 
-
-		public static void BattleTurn()
+		public static void BattleTurn(ApplicationDbContext ctx)
 		{	
 			while (combatantTurn != Hero.Id)
 			{
@@ -515,17 +512,15 @@ namespace LastTemple.Engine
 
 				if (fighter.Alive == true && Hero.Alive == true)
 				{					
-					EnemyLogic(fighter);
+					EnemyLogic(fighter, ctx);
 					AddToLog("---");
 				}
 				
 				combatantTurn = (combatantTurn + 1) % combatantsCount;
-			}
-
-			
+			}			
 		} // BattleTurn()
 
-		public static void EnemyLogic(Creature fighter)
+		public static void EnemyLogic(Creature fighter, ApplicationDbContext ctx)
 		{
 			double healthRemaining = (fighter.HitPoints / fighter.MaxHP);
 
@@ -583,7 +578,7 @@ namespace LastTemple.Engine
 					if (attackType > -1)
 					{
 						attackType = random.Next((attackType+1));						
-						Attack(fighter.Id, attackType, Hero.Id);
+						Attack(fighter.Id, attackType, Hero.Id, ctx);
 					}
 					#endregion
 
